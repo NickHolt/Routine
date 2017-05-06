@@ -6,6 +6,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12088"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -29,23 +30,71 @@
             <point key="canvasLocation" x="526" y="-179"/>
         </scene>
         <!--Daily-->
-        <scene sceneID="BUn-DX-F79">
+        <scene sceneID="mt9-Xd-mEW">
             <objects>
-                <viewController title="Daily" id="8QS-My-bba" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="jtm-Ok-SJS"/>
-                        <viewControllerLayoutGuide type="bottom" id="NvO-Er-JdN"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="Aib-cE-NFr">
+                <tableViewController title="Daily" id="ozH-R1-RF1" customClass="DailyActivitiesViewController" customModule="Routine" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="62" sectionHeaderHeight="28" sectionFooterHeight="28" id="q1T-ro-iE1">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    </view>
-                    <tabBarItem key="tabBarItem" title="Daily" id="Jkz-hC-Fj7"/>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="J8f-cr-12M" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="DailyActivitiesViewCell" rowHeight="65" id="5IT-iG-4XY" customClass="DailyActivitiesViewCell" customModule="Routine" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="28" width="375" height="65"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="5IT-iG-4XY" id="09c-3f-Y7d">
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="64.5"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Activity Title" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GBc-mM-ITf">
+                                            <rect key="frame" x="8" y="8" width="94.5" height="20.5"/>
+                                            <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="252" text="Current Streak" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OoY-k3-ZWO">
+                                            <rect key="frame" x="284" y="41" width="83" height="15"/>
+                                            <fontDescription key="fontDescription" style="UICTFontTextStyleCaption1"/>
+                                            <color key="textColor" red="0.40000000600000002" green="0.40000000600000002" blue="0.40000000600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="252" text="Days of Week" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fAR-C9-Tsc">
+                                            <rect key="frame" x="8" y="41" width="78" height="15"/>
+                                            <fontDescription key="fontDescription" style="UICTFontTextStyleCaption1"/>
+                                            <color key="textColor" red="0.40000000600000002" green="0.40000000600000002" blue="0.40000000600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstAttribute="leadingMargin" secondItem="GBc-mM-ITf" secondAttribute="leading" id="6Sc-Xe-BtQ"/>
+                                        <constraint firstAttribute="leadingMargin" secondItem="fAR-C9-Tsc" secondAttribute="leading" id="VHN-pX-86I"/>
+                                        <constraint firstItem="fAR-C9-Tsc" firstAttribute="top" secondItem="GBc-mM-ITf" secondAttribute="bottom" constant="12.5" id="VSB-ik-tbT"/>
+                                        <constraint firstAttribute="trailingMargin" secondItem="OoY-k3-ZWO" secondAttribute="trailing" id="isN-Cc-j4U"/>
+                                        <constraint firstAttribute="topMargin" secondItem="GBc-mM-ITf" secondAttribute="top" id="oci-vF-fNb"/>
+                                        <constraint firstAttribute="bottomMargin" secondItem="OoY-k3-ZWO" secondAttribute="bottom" constant="0.5" id="qPb-y5-iUC"/>
+                                        <constraint firstAttribute="bottomMargin" secondItem="fAR-C9-Tsc" secondAttribute="bottom" constant="0.5" id="yHP-q0-Bva"/>
+                                    </constraints>
+                                </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="activityTitle" destination="GBc-mM-ITf" id="stK-2T-7Fi"/>
+                                    <outlet property="currentStreak" destination="OoY-k3-ZWO" id="BL4-r0-LHh"/>
+                                    <outlet property="daysOfWeek" destination="fAR-C9-Tsc" id="BSH-WW-FfR"/>
+                                </connections>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="ozH-R1-RF1" id="y5e-oW-Z3W"/>
+                            <outlet property="delegate" destination="ozH-R1-RF1" id="xEE-AE-4g9"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" title="Date" id="4uA-Gt-t1R">
+                        <barButtonItem key="leftBarButtonItem" title="Yesterday" id="Sk7-jX-DnH"/>
+                        <barButtonItem key="rightBarButtonItem" title="Tomorrow" id="VJe-g7-YJV"/>
+                    </navigationItem>
+                    <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="8tb-ht-sM7" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="526" y="-848"/>
+            <point key="canvasLocation" x="1464.8" y="-854.1229385307347"/>
         </scene>
         <!--Settings-->
         <scene sceneID="grk-N7-Hik">
@@ -67,17 +116,17 @@
             </objects>
             <point key="canvasLocation" x="526" y="1158"/>
         </scene>
-        <!--Tab Bar Controller-->
+        <!--Routine Tab Bar Controller-->
         <scene sceneID="Q4d-Yo-bMo">
             <objects>
-                <tabBarController id="KH1-SA-Sl7" sceneMemberID="viewController">
+                <tabBarController id="KH1-SA-Sl7" customClass="RoutineTabBarController" customModule="Routine" customModuleProvider="target" sceneMemberID="viewController">
                     <tabBar key="tabBar" contentMode="scaleToFill" id="ieE-jn-nVz">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="49"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     </tabBar>
                     <connections>
-                        <segue destination="8QS-My-bba" kind="relationship" relationship="viewControllers" id="fTl-Ul-OaS"/>
+                        <segue destination="J25-Jx-Zdk" kind="relationship" relationship="viewControllers" id="wHH-9y-Z8o"/>
                         <segue destination="ayU-pU-UQB" kind="relationship" relationship="viewControllers" id="kE6-Wi-JLE"/>
                         <segue destination="eDh-Jt-mxx" kind="relationship" relationship="viewControllers" id="y4E-uc-rDy"/>
                         <segue destination="ORS-ga-aeM" kind="relationship" relationship="viewControllers" id="cET-w2-ZNW"/>
@@ -106,6 +155,25 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="3Pg-Ti-N1x" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="526" y="491"/>
+        </scene>
+        <!--Daily-->
+        <scene sceneID="ZFo-b1-ddO">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="J25-Jx-Zdk" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Daily" id="OZO-Ty-E3M"/>
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="KwE-Xk-r7b">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="ozH-R1-RF1" kind="relationship" relationship="rootViewController" id="ciZ-Cb-EJb"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="7ac-la-jmb" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="525.60000000000002" y="-854.1229385307347"/>
         </scene>
     </scenes>
 </document>
