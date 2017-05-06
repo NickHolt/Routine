@@ -16,7 +16,8 @@ class RoutineTabBarController: UITabBarController {
         super.viewDidLoad()
         
         // Configure tabbed view controllers
-        let dailyActivitiesViewController = self.viewControllers?.first! as! DailyActivitiesViewController
+        let dailyActivitiesNavigationController = self.viewControllers?.first! as! UINavigationController
+        let dailyActivitiesViewController = dailyActivitiesNavigationController.topViewController as! DailyActivitiesViewController
         dailyActivitiesViewController.activityStore = activityStore
     }
     

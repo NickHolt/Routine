@@ -41,7 +41,7 @@
 
 /* Begin PBXFileReference section */
 		372000831EBE528B00895527 /* DailyActivitiesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DailyActivitiesViewController.swift; sourceTree = "<group>"; };
-		378BD1D31EBE586E00DD0B42 /* ActivityStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ActivityStore.swift; path = ../ActivityStore.swift; sourceTree = "<group>"; };
+		378BD1D31EBE586E00DD0B42 /* ActivityStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActivityStore.swift; sourceTree = "<group>"; };
 		378BD1D51EBE66BE00DD0B42 /* DailyActivitiesViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DailyActivitiesViewCell.swift; sourceTree = "<group>"; };
 		378BD1D71EBE6CC000DD0B42 /* DayOfWeek.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DayOfWeek.swift; sourceTree = "<group>"; };
 		379157DF1EBE4EA500CD445A /* RoutineTabBarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RoutineTabBarController.swift; sourceTree = "<group>"; };
