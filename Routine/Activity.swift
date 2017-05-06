@@ -21,15 +21,17 @@ enum DayOfWeek: UInt8 {
 class Activity: NSObject {
     var name: String
     var daysOfWeek: [DayOfWeek]
+    var uuid: UUID
     
-    init(name: String, daysOfWeek: [DayOfWeek]) {
+    init(name: String, daysOfWeek: [DayOfWeek], uuid: UUID) {
         self.name = name
         self.daysOfWeek = daysOfWeek
+        self.uuid = uuid
     }
     
     convenience init(random: Bool = false) {
         if !random {
-            self.init(name: "", daysOfWeek: [])
+            self.init(name: "", daysOfWeek: [], uuid: UUID())
             return
         }
         
@@ -44,6 +46,10 @@ class Activity: NSObject {
             DayOfWeek(rawValue: UInt8(1 << arc4random_uniform(7))),
         ]
         
-        self.init(name: "\(randomVerb) \(randomPlace)", daysOfWeek: randomDaysOfWeek as! [DayOfWeek])
+        self.init(
+            name: "\(randomVerb) \(randomPlace)",
+            daysOfWeek: randomDaysOfWeek as! [DayOfWeek],
+            uuid: UUID()
+        )
     }
 }
