@@ -32,7 +32,7 @@
         <!--Daily-->
         <scene sceneID="mt9-Xd-mEW">
             <objects>
-                <tableViewController title="Daily" id="ozH-R1-RF1" sceneMemberID="viewController">
+                <tableViewController title="Daily" id="ozH-R1-RF1" customClass="DailyActivitiesViewController" customModule="Routine" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="62" sectionHeaderHeight="28" sectionFooterHeight="28" id="q1T-ro-iE1">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
