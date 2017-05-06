@@ -67,10 +67,10 @@
             </objects>
             <point key="canvasLocation" x="1465" y="-179"/>
         </scene>
-        <!--Activity Detail View Controller-->
+        <!--Activity Detail-->
         <scene sceneID="ZJA-c8-Irc">
             <objects>
-                <viewController id="SjH-LL-4sQ" customClass="ActivityDetailViewController" customModule="Routine" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController title="Activity Detail" id="SjH-LL-4sQ" customClass="ActivityDetailViewController" customModule="Routine" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="1ed-eB-Kgo"/>
                         <viewControllerLayoutGuide type="bottom" id="unw-sy-8EE"/>
@@ -78,12 +78,29 @@
                     <view key="view" contentMode="scaleToFill" id="1DX-Tb-0AE">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <subviews>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Title" textAlignment="natural" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="G3h-Aj-hew">
+                                <rect key="frame" x="0.0" y="92" width="375" height="30"/>
+                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="textColor"/>
+                                <fontDescription key="fontDescription" style="UICTFontTextStyleTitle3"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                        </subviews>
+                        <color key="backgroundColor" red="0.90196079019999997" green="0.90196079019999997" blue="0.90196079019999997" alpha="1" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="G3h-Aj-hew" secondAttribute="trailing" id="ZtW-AP-jRO"/>
+                            <constraint firstItem="G3h-Aj-hew" firstAttribute="top" secondItem="1ed-eB-Kgo" secondAttribute="bottom" constant="28" id="hU4-8A-sjR"/>
+                            <constraint firstItem="G3h-Aj-hew" firstAttribute="leading" secondItem="1DX-Tb-0AE" secondAttribute="leading" id="zOP-S3-CEz"/>
+                        </constraints>
                     </view>
+                    <connections>
+                        <outlet property="activityTitle" destination="G3h-Aj-hew" id="FRe-Ks-6Jx"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="F6K-vz-pzl" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2393" y="-179"/>
+            <point key="canvasLocation" x="2392.8000000000002" y="-179.46026986506749"/>
         </scene>
         <!--Daily-->
         <scene sceneID="mt9-Xd-mEW">
