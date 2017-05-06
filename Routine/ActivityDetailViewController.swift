@@ -11,6 +11,14 @@ import UIKit
 class ActivityDetailViewController: UIViewController {
     @IBOutlet var activityTitle: UITextField!
     
+    @IBOutlet var mondayButton: UIButton!
+    @IBOutlet var tuesdayButton: UIButton!
+    @IBOutlet var wednesdayButton: UIButton!
+    @IBOutlet var thursdayButton: UIButton!
+    @IBOutlet var fridayButton: UIButton!
+    @IBOutlet var saturdayButton: UIButton!
+    @IBOutlet var sundayButton: UIButton!
+    
     var activity: Activity!
     
     override func viewWillAppear(_ animated: Bool) {
@@ -27,5 +35,9 @@ class ActivityDetailViewController: UIViewController {
         if let newActivityTitle = activityTitle.text {
             activity.title = newActivityTitle
         }
+    }
+    
+    @IBAction func toggleDayButton(_ sender: DayOfWeekButton) {
+        sender.isSelected = !sender.isSelected
     }
 }

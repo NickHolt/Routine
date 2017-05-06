@@ -86,16 +86,187 @@
                                 <fontDescription key="fontDescription" style="UICTFontTextStyleTitle3"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
+                            <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="FII-B3-Ys5">
+                                <rect key="frame" x="0.0" y="150" width="375" height="34"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wH2-sH-Gcf" customClass="DayOfWeekButton" customModule="Routine" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="0.0" width="54" height="34"/>
+                                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                        <state key="normal" title="Mon">
+                                            <color key="titleColor" red="0.0" green="0.50196081400000003" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                        </state>
+                                        <state key="selected">
+                                            <color key="titleShadowColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                        </state>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
+                                                <color key="value" red="0.90196079019999997" green="0.90196079019999997" blue="0.90196079019999997" alpha="1" colorSpace="calibratedRGB"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
+                                                <real key="value" value="0.5"/>
+                                            </userDefinedRuntimeAttribute>
+                                        </userDefinedRuntimeAttributes>
+                                        <connections>
+                                            <action selector="toggleDayButton:" destination="SjH-LL-4sQ" eventType="touchUpInside" id="15u-8v-yiz"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yZ7-oc-xJo" customClass="DayOfWeekButton" customModule="Routine" customModuleProvider="target">
+                                        <rect key="frame" x="54" y="0.0" width="53.5" height="34"/>
+                                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                        <state key="normal" title="Tue">
+                                            <color key="titleColor" red="0.0" green="0.50196081400000003" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                        </state>
+                                        <state key="selected">
+                                            <color key="titleShadowColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                        </state>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
+                                                <color key="value" red="0.90196079019999997" green="0.90196079019999997" blue="0.90196079019999997" alpha="1" colorSpace="calibratedRGB"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
+                                                <real key="value" value="0.5"/>
+                                            </userDefinedRuntimeAttribute>
+                                        </userDefinedRuntimeAttributes>
+                                        <connections>
+                                            <action selector="toggleDayButton:" destination="SjH-LL-4sQ" eventType="touchUpInside" id="lVe-sJ-F1e"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XBG-88-dWz" customClass="DayOfWeekButton" customModule="Routine" customModuleProvider="target">
+                                        <rect key="frame" x="107.5" y="0.0" width="53.5" height="34"/>
+                                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                        <state key="normal" title="Wed">
+                                            <color key="titleColor" red="0.0" green="0.50196081400000003" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                        </state>
+                                        <state key="selected">
+                                            <color key="titleShadowColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                        </state>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
+                                                <color key="value" red="0.90196079019999997" green="0.90196079019999997" blue="0.90196079019999997" alpha="1" colorSpace="calibratedRGB"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
+                                                <real key="value" value="0.5"/>
+                                            </userDefinedRuntimeAttribute>
+                                        </userDefinedRuntimeAttributes>
+                                        <connections>
+                                            <action selector="toggleDayButton:" destination="SjH-LL-4sQ" eventType="touchUpInside" id="vng-Rh-mRy"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1AT-9L-jQK" customClass="DayOfWeekButton" customModule="Routine" customModuleProvider="target">
+                                        <rect key="frame" x="161" y="0.0" width="53.5" height="34"/>
+                                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                        <state key="normal" title="Thu">
+                                            <color key="titleColor" red="0.0" green="0.50196081400000003" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                        </state>
+                                        <state key="selected">
+                                            <color key="titleShadowColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                        </state>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
+                                                <color key="value" red="0.90196079019999997" green="0.90196079019999997" blue="0.90196079019999997" alpha="1" colorSpace="calibratedRGB"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
+                                                <real key="value" value="0.5"/>
+                                            </userDefinedRuntimeAttribute>
+                                        </userDefinedRuntimeAttributes>
+                                        <connections>
+                                            <action selector="toggleDayButton:" destination="SjH-LL-4sQ" eventType="touchUpInside" id="uzw-YL-PFo"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="76L-mu-1OB" customClass="DayOfWeekButton" customModule="Routine" customModuleProvider="target">
+                                        <rect key="frame" x="214.5" y="0.0" width="53.5" height="34"/>
+                                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                        <state key="normal" title="Fri">
+                                            <color key="titleColor" red="0.0" green="0.50196081400000003" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                        </state>
+                                        <state key="selected">
+                                            <color key="titleShadowColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                        </state>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
+                                                <color key="value" red="0.90196079019999997" green="0.90196079019999997" blue="0.90196079019999997" alpha="1" colorSpace="calibratedRGB"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
+                                                <real key="value" value="0.5"/>
+                                            </userDefinedRuntimeAttribute>
+                                        </userDefinedRuntimeAttributes>
+                                        <connections>
+                                            <action selector="toggleDayButton:" destination="SjH-LL-4sQ" eventType="touchUpInside" id="fkC-un-QzX"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5O6-i5-Sbv" customClass="DayOfWeekButton" customModule="Routine" customModuleProvider="target">
+                                        <rect key="frame" x="268" y="0.0" width="53.5" height="34"/>
+                                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                        <state key="normal" title="Sat">
+                                            <color key="titleColor" red="0.0" green="0.50196081400000003" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                        </state>
+                                        <state key="selected">
+                                            <color key="titleShadowColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                        </state>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
+                                                <color key="value" red="0.90196079019999997" green="0.90196079019999997" blue="0.90196079019999997" alpha="1" colorSpace="calibratedRGB"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
+                                                <real key="value" value="0.5"/>
+                                            </userDefinedRuntimeAttribute>
+                                        </userDefinedRuntimeAttributes>
+                                        <connections>
+                                            <action selector="toggleDayButton:" destination="SjH-LL-4sQ" eventType="touchUpInside" id="Lu1-E3-IB3"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WeB-q5-eta" customClass="DayOfWeekButton" customModule="Routine" customModuleProvider="target">
+                                        <rect key="frame" x="321.5" y="0.0" width="53.5" height="34"/>
+                                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                        <state key="normal" title="Sun">
+                                            <color key="titleColor" red="0.0" green="0.50196081400000003" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                        </state>
+                                        <state key="selected">
+                                            <color key="titleShadowColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                        </state>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
+                                                <color key="value" red="0.90196079019999997" green="0.90196079019999997" blue="0.90196079019999997" alpha="1" colorSpace="calibratedRGB"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
+                                                <real key="value" value="0.5"/>
+                                            </userDefinedRuntimeAttribute>
+                                        </userDefinedRuntimeAttributes>
+                                        <connections>
+                                            <action selector="toggleDayButton:" destination="SjH-LL-4sQ" eventType="touchUpInside" id="wfH-9A-kuP"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstItem="yZ7-oc-xJo" firstAttribute="width" secondItem="XBG-88-dWz" secondAttribute="width" id="4m2-HC-2KQ"/>
+                                    <constraint firstItem="5O6-i5-Sbv" firstAttribute="width" secondItem="WeB-q5-eta" secondAttribute="width" id="A46-pf-274"/>
+                                    <constraint firstItem="1AT-9L-jQK" firstAttribute="width" secondItem="76L-mu-1OB" secondAttribute="width" id="EX9-l5-ebe"/>
+                                    <constraint firstItem="76L-mu-1OB" firstAttribute="width" secondItem="5O6-i5-Sbv" secondAttribute="width" id="R9g-8A-imC"/>
+                                    <constraint firstItem="XBG-88-dWz" firstAttribute="width" secondItem="1AT-9L-jQK" secondAttribute="width" id="YFr-HP-nkZ"/>
+                                    <constraint firstItem="wH2-sH-Gcf" firstAttribute="width" secondItem="yZ7-oc-xJo" secondAttribute="width" id="ist-BQ-84Q"/>
+                                </constraints>
+                            </stackView>
                         </subviews>
                         <color key="backgroundColor" red="0.90196079019999997" green="0.90196079019999997" blue="0.90196079019999997" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
+                            <constraint firstItem="FII-B3-Ys5" firstAttribute="top" secondItem="G3h-Aj-hew" secondAttribute="bottom" constant="28" id="7bX-qt-5AH"/>
+                            <constraint firstItem="FII-B3-Ys5" firstAttribute="leading" secondItem="1DX-Tb-0AE" secondAttribute="leading" id="LAT-w1-fiQ"/>
                             <constraint firstAttribute="trailing" secondItem="G3h-Aj-hew" secondAttribute="trailing" id="ZtW-AP-jRO"/>
                             <constraint firstItem="G3h-Aj-hew" firstAttribute="top" secondItem="1ed-eB-Kgo" secondAttribute="bottom" constant="28" id="hU4-8A-sjR"/>
+                            <constraint firstAttribute="trailing" secondItem="FII-B3-Ys5" secondAttribute="trailing" id="sX5-iP-HiE"/>
                             <constraint firstItem="G3h-Aj-hew" firstAttribute="leading" secondItem="1DX-Tb-0AE" secondAttribute="leading" id="zOP-S3-CEz"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="activityTitle" destination="G3h-Aj-hew" id="FRe-Ks-6Jx"/>
+                        <outlet property="fridayButton" destination="76L-mu-1OB" id="rO3-wY-1ka"/>
+                        <outlet property="mondayButton" destination="wH2-sH-Gcf" id="tw5-MT-zcx"/>
+                        <outlet property="saturdayButton" destination="5O6-i5-Sbv" id="gbE-AA-nmh"/>
+                        <outlet property="sundayButton" destination="WeB-q5-eta" id="KDN-kH-6Ic"/>
+                        <outlet property="thursdayButton" destination="1AT-9L-jQK" id="6Et-IS-oh1"/>
+                        <outlet property="tuesdayButton" destination="yZ7-oc-xJo" id="q9a-0a-qbh"/>
+                        <outlet property="wednesdayButton" destination="XBG-88-dWz" id="DLh-R9-roc"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="F6K-vz-pzl" userLabel="First Responder" sceneMemberID="firstResponder"/>
