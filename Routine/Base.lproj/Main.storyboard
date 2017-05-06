@@ -38,7 +38,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="65" id="5IT-iG-4XY" customClass="DailyActivitiesViewCell" customModule="Routine" customModuleProvider="target">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="DailyActivitiesViewCell" rowHeight="65" id="5IT-iG-4XY" customClass="DailyActivitiesViewCell" customModule="Routine" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="28" width="375" height="65"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="5IT-iG-4XY" id="09c-3f-Y7d">
@@ -113,10 +113,10 @@
             </objects>
             <point key="canvasLocation" x="526" y="1158"/>
         </scene>
-        <!--Tab Bar Controller-->
+        <!--Routine Tab Bar Controller-->
         <scene sceneID="Q4d-Yo-bMo">
             <objects>
-                <tabBarController id="KH1-SA-Sl7" sceneMemberID="viewController">
+                <tabBarController id="KH1-SA-Sl7" customClass="RoutineTabBarController" customModule="Routine" customModuleProvider="target" sceneMemberID="viewController">
                     <tabBar key="tabBar" contentMode="scaleToFill" id="ieE-jn-nVz">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="49"/>
                         <autoresizingMask key="autoresizingMask"/>

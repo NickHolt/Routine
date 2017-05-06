@@ -9,19 +9,19 @@
 import Foundation
 
 class Activity: NSObject {
-    var name: String
+    var title: String
     var daysOfWeek: [DayOfWeek]
     var uuid: UUID
     
-    init(name: String, daysOfWeek: [DayOfWeek], uuid: UUID) {
-        self.name = name
+    init(title: String, daysOfWeek: [DayOfWeek], uuid: UUID) {
+        self.title = title
         self.daysOfWeek = daysOfWeek
         self.uuid = uuid
     }
     
     convenience init(random: Bool = false) {
         if !random {
-            self.init(name: "", daysOfWeek: [], uuid: UUID())
+            self.init(title: "", daysOfWeek: [], uuid: UUID())
             return
         }
         
@@ -37,7 +37,7 @@ class Activity: NSObject {
         ]
         
         self.init(
-            name: "\(randomVerb) \(randomPlace)",
+            title: "\(randomVerb) \(randomPlace)",
             daysOfWeek: randomDaysOfWeek as! [DayOfWeek],
             uuid: UUID()
         )
