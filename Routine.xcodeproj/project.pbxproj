@@ -88,6 +88,34 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		37AF86521EBE821300691872 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				37AF86501EBE7F7700691872 /* ActivitiesViewController.swift */,
+				372000831EBE528B00895527 /* DailyActivitiesViewController.swift */,
+				379157DF1EBE4EA500CD445A /* RoutineTabBarController.swift */,
+			);
+			name = Controllers;
+			sourceTree = "<group>";
+		};
+		37AF86531EBE823100691872 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				379157E11EBE4F4200CD445A /* Activity.swift */,
+				378BD1D31EBE586E00DD0B42 /* ActivityStore.swift */,
+				378BD1D71EBE6CC000DD0B42 /* DayOfWeek.swift */,
+			);
+			name = Models;
+			sourceTree = "<group>";
+		};
+		37AF86541EBE823E00691872 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				378BD1D51EBE66BE00DD0B42 /* DailyActivitiesViewCell.swift */,
+			);
+			name = Views;
+			sourceTree = "<group>";
+		};
 		37F2B9511EBA91BA00A6AB9D = {
 			isa = PBXGroup;
 			children = (
@@ -111,14 +139,10 @@
 		37F2B95C1EBA91BA00A6AB9D /* Routine */ = {
 			isa = PBXGroup;
 			children = (
-				379157E11EBE4F4200CD445A /* Activity.swift */,
-				378BD1D31EBE586E00DD0B42 /* ActivityStore.swift */,
-				37AF86501EBE7F7700691872 /* ActivitiesViewController.swift */,
+				37AF86531EBE823100691872 /* Models */,
+				37AF86541EBE823E00691872 /* Views */,
+				37AF86521EBE821300691872 /* Controllers */,
 				37F2B95D1EBA91BA00A6AB9D /* AppDelegate.swift */,
-				378BD1D51EBE66BE00DD0B42 /* DailyActivitiesViewCell.swift */,
-				372000831EBE528B00895527 /* DailyActivitiesViewController.swift */,
-				378BD1D71EBE6CC000DD0B42 /* DayOfWeek.swift */,
-				379157DF1EBE4EA500CD445A /* RoutineTabBarController.swift */,
 				37F2B9611EBA91BA00A6AB9D /* Main.storyboard */,
 				37F2B9671EBA91BA00A6AB9D /* Assets.xcassets */,
 				37F2B9691EBA91BA00A6AB9D /* LaunchScreen.storyboard */,
