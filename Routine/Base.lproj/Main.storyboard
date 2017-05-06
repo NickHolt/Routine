@@ -49,6 +49,7 @@
                                 <connections>
                                     <outlet property="activityTitle" destination="bJx-pT-sx6" id="tq3-To-ale"/>
                                     <outlet property="daysOfWeek" destination="Vfm-As-jnv" id="zxj-ax-E5z"/>
+                                    <segue destination="SjH-LL-4sQ" kind="show" identifier="showActivityDetail" id="MZP-wG-hQm"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>

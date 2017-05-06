@@ -16,6 +16,10 @@ class ActivitiesViewController: UITableViewController {
         return activityStore.allActivities[indexPath.row]
     }
     
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 65
+    }
+
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return activityStore.allActivities.count
     }
@@ -33,7 +37,18 @@ class ActivitiesViewController: UITableViewController {
         return cell
     }
     
-    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 65
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        switch segue.identifier {
+        case "showActivityDetail"?:
+            if let indexPath  = tableView.indexPathForSelectedRow {
+                let activity = self.activity(for: indexPath)
+                let detailViewController = segue.destination as! ActivityDetailViewController
+                
+                detailViewController.activity = activity
+            }
+        default:
+            preconditionFailure("Unexpected segue identifier")
+        }
+
     }
 }
