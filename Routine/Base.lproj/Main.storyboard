@@ -52,13 +52,7 @@
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="252" text="Current Streak" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OoY-k3-ZWO">
-                                            <rect key="frame" x="284" y="41" width="83" height="15"/>
-                                            <fontDescription key="fontDescription" style="UICTFontTextStyleCaption1"/>
-                                            <color key="textColor" red="0.40000000600000002" green="0.40000000600000002" blue="0.40000000600000002" alpha="1" colorSpace="calibratedRGB"/>
-                                            <nil key="highlightedColor"/>
-                                        </label>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="252" text="Days of Week" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fAR-C9-Tsc">
-                                            <rect key="frame" x="8" y="41" width="78" height="15"/>
+                                            <rect key="frame" x="8" y="41" width="83" height="15"/>
                                             <fontDescription key="fontDescription" style="UICTFontTextStyleCaption1"/>
                                             <color key="textColor" red="0.40000000600000002" green="0.40000000600000002" blue="0.40000000600000002" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
@@ -66,18 +60,14 @@
                                     </subviews>
                                     <constraints>
                                         <constraint firstAttribute="leadingMargin" secondItem="GBc-mM-ITf" secondAttribute="leading" id="6Sc-Xe-BtQ"/>
-                                        <constraint firstAttribute="leadingMargin" secondItem="fAR-C9-Tsc" secondAttribute="leading" id="VHN-pX-86I"/>
-                                        <constraint firstItem="fAR-C9-Tsc" firstAttribute="top" secondItem="GBc-mM-ITf" secondAttribute="bottom" constant="12.5" id="VSB-ik-tbT"/>
-                                        <constraint firstAttribute="trailingMargin" secondItem="OoY-k3-ZWO" secondAttribute="trailing" id="isN-Cc-j4U"/>
                                         <constraint firstAttribute="topMargin" secondItem="GBc-mM-ITf" secondAttribute="top" id="oci-vF-fNb"/>
                                         <constraint firstAttribute="bottomMargin" secondItem="OoY-k3-ZWO" secondAttribute="bottom" constant="0.5" id="qPb-y5-iUC"/>
-                                        <constraint firstAttribute="bottomMargin" secondItem="fAR-C9-Tsc" secondAttribute="bottom" constant="0.5" id="yHP-q0-Bva"/>
+                                        <constraint firstAttribute="leadingMargin" secondItem="OoY-k3-ZWO" secondAttribute="leading" id="xGA-x3-wdl"/>
                                     </constraints>
                                 </tableViewCellContentView>
                                 <connections>
                                     <outlet property="activityTitle" destination="GBc-mM-ITf" id="stK-2T-7Fi"/>
                                     <outlet property="currentStreak" destination="OoY-k3-ZWO" id="BL4-r0-LHh"/>
-                                    <outlet property="daysOfWeek" destination="fAR-C9-Tsc" id="BSH-WW-FfR"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>

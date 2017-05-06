@@ -10,14 +10,12 @@ import UIKit
 
 class DailyActivitiesViewCell: UITableViewCell {
     @IBOutlet var activityTitle: UILabel!
-    @IBOutlet var daysOfWeek: UILabel!
     @IBOutlet var currentStreak: UILabel!
 
     override func awakeFromNib() {
         super.awakeFromNib()
         
         activityTitle.adjustsFontForContentSizeCategory = true
-        daysOfWeek.adjustsFontForContentSizeCategory = true
         currentStreak.adjustsFontForContentSizeCategory = true
     }
 }
