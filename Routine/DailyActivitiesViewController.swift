@@ -36,7 +36,12 @@ class DailyActivitiesViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let activity = self.activity(for: indexPath)
-        completedActivities.append(activity)
+        
+        if let activityIndex = completedActivities.index(of: activity) {
+            completedActivities.remove(at: activityIndex)
+        } else {
+            completedActivities.append(activity)
+        }
         
         tableView.reloadRows(at: [indexPath], with: .automatic)
     }
