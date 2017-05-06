@@ -11,6 +11,11 @@ import UIKit
 class DailyActivitiesViewController: UITableViewController {
     
     var activityStore: ActivityStore!
+    var completedActivities = [Activity]()
+    
+    private func activity(for indexPath: IndexPath) -> Activity {
+        return activityStore.allActivities[indexPath.row]
+    }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return activityStore.allActivities.count
@@ -21,11 +26,33 @@ class DailyActivitiesViewController: UITableViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: "DailyActivitiesViewCell", for: indexPath) as! DailyActivitiesViewCell
         
         // Populate cell
-        let activity = activityStore.allActivities[indexPath.row]
+        let activity = self.activity(for: indexPath)
         
         cell.activityTitle.text = activity.title
         cell.daysOfWeek.text = string(for: activity.daysOfWeek)
         
         return cell
+    }
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let activity = self.activity(for: indexPath)
+        
+        if let activityIndex = completedActivities.index(of: activity) {
+            completedActivities.remove(at: activityIndex)
+        } else {
+            completedActivities.append(activity)
+        }
+        
+        tableView.reloadRows(at: [indexPath], with: .automatic)
+    }
+    
+    override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        let activity = self.activity(for: indexPath)
+        
+        if completedActivities.index(of: activity) != nil {
+            cell.accessoryType = .checkmark
+        } else {
+            cell.accessoryType = .none
+        }
     }
 }
