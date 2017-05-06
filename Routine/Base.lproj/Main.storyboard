@@ -33,7 +33,7 @@
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Days of Week" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Vfm-As-jnv">
-                                            <rect key="frame" x="8" y="37" width="78" height="21"/>
+                                            <rect key="frame" x="8" y="42" width="78" height="14.5"/>
                                             <fontDescription key="fontDescription" style="UICTFontTextStyleCaption1"/>
                                             <color key="textColor" red="0.40000000600000002" green="0.40000000600000002" blue="0.40000000600000002" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
@@ -41,10 +41,9 @@
                                     </subviews>
                                     <constraints>
                                         <constraint firstAttribute="leadingMargin" secondItem="bJx-pT-sx6" secondAttribute="leading" id="8tY-uX-1rZ"/>
-                                        <constraint firstAttribute="bottomMargin" secondItem="Vfm-As-jnv" secondAttribute="bottom" constant="-1.5" id="LMm-lW-W4O"/>
-                                        <constraint firstItem="Vfm-As-jnv" firstAttribute="top" secondItem="B1q-m6-jKM" secondAttribute="topMargin" constant="29" id="Q02-Kh-v47"/>
-                                        <constraint firstAttribute="leadingMargin" secondItem="Vfm-As-jnv" secondAttribute="leading" id="VkF-nN-DMR"/>
+                                        <constraint firstAttribute="leadingMargin" secondItem="Vfm-As-jnv" secondAttribute="leading" id="VYI-mi-0O2"/>
                                         <constraint firstAttribute="topMargin" secondItem="bJx-pT-sx6" secondAttribute="top" id="ejf-bw-U0a"/>
+                                        <constraint firstAttribute="bottomMargin" secondItem="Vfm-As-jnv" secondAttribute="bottom" id="gkL-H2-xhO"/>
                                     </constraints>
                                 </tableViewCellContentView>
                                 <connections>
@@ -96,7 +95,7 @@
                                     <constraints>
                                         <constraint firstAttribute="leadingMargin" secondItem="GBc-mM-ITf" secondAttribute="leading" id="6Sc-Xe-BtQ"/>
                                         <constraint firstAttribute="topMargin" secondItem="GBc-mM-ITf" secondAttribute="top" id="oci-vF-fNb"/>
-                                        <constraint firstAttribute="bottomMargin" secondItem="OoY-k3-ZWO" secondAttribute="bottom" constant="0.5" id="qPb-y5-iUC"/>
+                                        <constraint firstAttribute="bottomMargin" secondItem="OoY-k3-ZWO" secondAttribute="bottom" id="vbY-Mf-inq"/>
                                         <constraint firstAttribute="leadingMargin" secondItem="OoY-k3-ZWO" secondAttribute="leading" id="xGA-x3-wdl"/>
                                     </constraints>
                                 </tableViewCellContentView>
