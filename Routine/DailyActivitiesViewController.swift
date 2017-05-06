@@ -12,4 +12,8 @@ class DailyActivitiesViewController: UITableViewController {
     
     var activityStore: ActivityStore!
     
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return activityStore.numTotalActivities
+    }
+    
 }

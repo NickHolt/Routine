@@ -10,6 +10,11 @@ import UIKit
 
 class ActivityStore {
     var allActivities = [Activity]()
+    var numTotalActivities: Int {
+        get {
+            return allActivities.count
+        }
+    }
     
     @discardableResult func createActivity() -> Activity {
         let newActivity = Activity(random: true)
