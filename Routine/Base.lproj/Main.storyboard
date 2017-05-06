@@ -38,7 +38,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="65" id="5IT-iG-4XY">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="65" id="5IT-iG-4XY" customClass="DailyActivitiesViewCell" customModule="Routine" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="28" width="375" height="65"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="5IT-iG-4XY" id="09c-3f-Y7d">
@@ -46,26 +46,39 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Activity Title" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GBc-mM-ITf">
-                                            <rect key="frame" x="8" y="8" width="94.5" height="27"/>
+                                            <rect key="frame" x="8" y="8" width="94.5" height="20.5"/>
                                             <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="252" text="N Day Streak" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OoY-k3-ZWO">
-                                            <rect key="frame" x="8" y="42.5" width="74" height="15"/>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="252" text="Current Streak" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OoY-k3-ZWO">
+                                            <rect key="frame" x="284" y="41" width="83" height="15"/>
                                             <fontDescription key="fontDescription" style="UICTFontTextStyleCaption1"/>
-                                            <nil key="textColor"/>
+                                            <color key="textColor" red="0.40000000600000002" green="0.40000000600000002" blue="0.40000000600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="252" text="Days of Week" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fAR-C9-Tsc">
+                                            <rect key="frame" x="8" y="41" width="78" height="15"/>
+                                            <fontDescription key="fontDescription" style="UICTFontTextStyleCaption1"/>
+                                            <color key="textColor" red="0.40000000600000002" green="0.40000000600000002" blue="0.40000000600000002" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                     </subviews>
                                     <constraints>
                                         <constraint firstAttribute="leadingMargin" secondItem="GBc-mM-ITf" secondAttribute="leading" id="6Sc-Xe-BtQ"/>
-                                        <constraint firstItem="OoY-k3-ZWO" firstAttribute="top" secondItem="GBc-mM-ITf" secondAttribute="bottom" constant="7.5" id="8eF-aD-VxI"/>
-                                        <constraint firstAttribute="leadingMargin" secondItem="OoY-k3-ZWO" secondAttribute="leading" id="cOB-gY-qWP"/>
-                                        <constraint firstAttribute="bottomMargin" secondItem="OoY-k3-ZWO" secondAttribute="bottom" constant="-0.5" id="ePI-nS-qz6"/>
+                                        <constraint firstAttribute="leadingMargin" secondItem="fAR-C9-Tsc" secondAttribute="leading" id="VHN-pX-86I"/>
+                                        <constraint firstItem="fAR-C9-Tsc" firstAttribute="top" secondItem="GBc-mM-ITf" secondAttribute="bottom" constant="12.5" id="VSB-ik-tbT"/>
+                                        <constraint firstAttribute="trailingMargin" secondItem="OoY-k3-ZWO" secondAttribute="trailing" id="isN-Cc-j4U"/>
                                         <constraint firstAttribute="topMargin" secondItem="GBc-mM-ITf" secondAttribute="top" id="oci-vF-fNb"/>
+                                        <constraint firstAttribute="bottomMargin" secondItem="OoY-k3-ZWO" secondAttribute="bottom" constant="0.5" id="qPb-y5-iUC"/>
+                                        <constraint firstAttribute="bottomMargin" secondItem="fAR-C9-Tsc" secondAttribute="bottom" constant="0.5" id="yHP-q0-Bva"/>
                                     </constraints>
                                 </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="activityTitle" destination="GBc-mM-ITf" id="stK-2T-7Fi"/>
+                                    <outlet property="currentStreak" destination="OoY-k3-ZWO" id="BL4-r0-LHh"/>
+                                    <outlet property="daysOfWeek" destination="fAR-C9-Tsc" id="BSH-WW-FfR"/>
+                                </connections>
                             </tableViewCell>
                         </prototypes>
                         <connections>
