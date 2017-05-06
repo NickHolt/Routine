@@ -10,9 +10,14 @@ import UIKit
 
 class RoutineTabBarController: UITabBarController {
     
+    var activityStore: ActivityStore!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
+        
+        // Configure tabbed view controllers
+        let dailyActivitiesViewController = self.viewControllers?.first! as! DailyActivitiesViewController
+        dailyActivitiesViewController.activityStore = activityStore
     }
     
     override func didReceiveMemoryWarning() {

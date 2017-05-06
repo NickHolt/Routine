@@ -16,7 +16,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-        // Override point for customization after application launch.
+
+        // Configure global state
+        let activityStore = ActivityStore()
+        
+        let routineTabBarController = window!.rootViewController as! RoutineTabBarController
+        routineTabBarController.activityStore = activityStore
+        
         return true
     }
 

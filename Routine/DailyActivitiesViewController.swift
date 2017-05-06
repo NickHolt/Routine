@@ -10,4 +10,6 @@ import UIKit
 
 class DailyActivitiesViewController: UITableViewController {
     
+    var activityStore: ActivityStore!
+    
 }
