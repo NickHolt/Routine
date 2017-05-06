@@ -26,4 +26,24 @@ class Activity: NSObject {
         self.name = name
         self.daysOfWeek = daysOfWeek
     }
+    
+    convenience init(random: Bool = false) {
+        if !random {
+            self.init(name: "", daysOfWeek: [])
+            return
+        }
+        
+        let verbs = ["Jump", "Read", "Exercise"]
+        let randomVerb = verbs[Int(arc4random_uniform(UInt32(verbs.count)))]
+
+        let places = ["In the sky", "At home", "En la playa"]
+        let randomPlace = places[Int(arc4random_uniform(UInt32(places.count)))]
+        
+        let randomDaysOfWeek = [
+            DayOfWeek(rawValue: UInt8(1 << arc4random_uniform(7))),
+            DayOfWeek(rawValue: UInt8(1 << arc4random_uniform(7))),
+        ]
+        
+        self.init(name: "\(randomVerb) \(randomPlace)", daysOfWeek: randomDaysOfWeek as! [DayOfWeek])
+    }
 }
