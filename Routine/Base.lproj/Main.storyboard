@@ -66,6 +66,24 @@
             </objects>
             <point key="canvasLocation" x="1465" y="-179"/>
         </scene>
+        <!--Activity Detail View Controller-->
+        <scene sceneID="ZJA-c8-Irc">
+            <objects>
+                <viewController id="SjH-LL-4sQ" customClass="ActivityDetailViewController" customModule="Routine" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="1ed-eB-Kgo"/>
+                        <viewControllerLayoutGuide type="bottom" id="unw-sy-8EE"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="1DX-Tb-0AE">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="F6K-vz-pzl" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2393" y="-179"/>
+        </scene>
         <!--Daily-->
         <scene sceneID="mt9-Xd-mEW">
             <objects>
