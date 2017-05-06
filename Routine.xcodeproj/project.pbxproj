@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		379157E01EBE4EA500CD445A /* RoutineTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 379157DF1EBE4EA500CD445A /* RoutineTabBarController.swift */; };
+		379157E21EBE4F4200CD445A /* Activity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 379157E11EBE4F4200CD445A /* Activity.swift */; };
 		37F2B95E1EBA91BA00A6AB9D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37F2B95D1EBA91BA00A6AB9D /* AppDelegate.swift */; };
 		37F2B9631EBA91BA00A6AB9D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 37F2B9611EBA91BA00A6AB9D /* Main.storyboard */; };
 		37F2B9661EBA91BA00A6AB9D /* Routine.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 37F2B9641EBA91BA00A6AB9D /* Routine.xcdatamodeld */; };
@@ -36,6 +37,7 @@
 
 /* Begin PBXFileReference section */
 		379157DF1EBE4EA500CD445A /* RoutineTabBarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RoutineTabBarController.swift; sourceTree = "<group>"; };
+		379157E11EBE4F4200CD445A /* Activity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Activity.swift; sourceTree = "<group>"; };
 		37F2B95A1EBA91BA00A6AB9D /* Routine.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Routine.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		37F2B95D1EBA91BA00A6AB9D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		37F2B9621EBA91BA00A6AB9D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -99,6 +101,7 @@
 		37F2B95C1EBA91BA00A6AB9D /* Routine */ = {
 			isa = PBXGroup;
 			children = (
+				379157E11EBE4F4200CD445A /* Activity.swift */,
 				37F2B95D1EBA91BA00A6AB9D /* AppDelegate.swift */,
 				379157DF1EBE4EA500CD445A /* RoutineTabBarController.swift */,
 				37F2B9611EBA91BA00A6AB9D /* Main.storyboard */,
@@ -267,6 +270,7 @@
 			files = (
 				37F2B9661EBA91BA00A6AB9D /* Routine.xcdatamodeld in Sources */,
 				379157E01EBE4EA500CD445A /* RoutineTabBarController.swift in Sources */,
+				379157E21EBE4F4200CD445A /* Activity.swift in Sources */,
 				37F2B95E1EBA91BA00A6AB9D /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -520,6 +524,7 @@
 				37F2B9871EBA91BA00A6AB9D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		37F2B9881EBA91BA00A6AB9D /* Build configuration list for PBXNativeTarget "RoutineTests" */ = {
 			isa = XCConfigurationList;
@@ -528,6 +533,7 @@
 				37F2B98A1EBA91BA00A6AB9D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		37F2B98B1EBA91BA00A6AB9D /* Build configuration list for PBXNativeTarget "RoutineUITests" */ = {
 			isa = XCConfigurationList;
@@ -536,6 +542,7 @@
 				37F2B98D1EBA91BA00A6AB9D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 
