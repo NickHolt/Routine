@@ -8,11 +8,15 @@
 
 /* Begin PBXBuildFile section */
 		372000841EBE528B00895527 /* DailyActivitiesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 372000831EBE528B00895527 /* DailyActivitiesViewController.swift */; };
+		373B69481EBE9C7B001DE015 /* DayOfWeekButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 373B69471EBE9C7B001DE015 /* DayOfWeekButton.swift */; };
 		378BD1D41EBE586E00DD0B42 /* ActivityStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 378BD1D31EBE586E00DD0B42 /* ActivityStore.swift */; };
 		378BD1D61EBE66BE00DD0B42 /* DailyActivitiesViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 378BD1D51EBE66BE00DD0B42 /* DailyActivitiesViewCell.swift */; };
 		378BD1D81EBE6CC000DD0B42 /* DayOfWeek.swift in Sources */ = {isa = PBXBuildFile; fileRef = 378BD1D71EBE6CC000DD0B42 /* DayOfWeek.swift */; };
 		379157E01EBE4EA500CD445A /* RoutineTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 379157DF1EBE4EA500CD445A /* RoutineTabBarController.swift */; };
 		379157E21EBE4F4200CD445A /* Activity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 379157E11EBE4F4200CD445A /* Activity.swift */; };
+		37AF86511EBE7F7700691872 /* ActivitiesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37AF86501EBE7F7700691872 /* ActivitiesViewController.swift */; };
+		37AF86561EBE83B200691872 /* ActivitiesViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37AF86551EBE83B200691872 /* ActivitiesViewCell.swift */; };
+		37B2D0101EBE8C5400613A18 /* ActivityDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37B2D00F1EBE8C5400613A18 /* ActivityDetailViewController.swift */; };
 		37F2B95E1EBA91BA00A6AB9D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37F2B95D1EBA91BA00A6AB9D /* AppDelegate.swift */; };
 		37F2B9631EBA91BA00A6AB9D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 37F2B9611EBA91BA00A6AB9D /* Main.storyboard */; };
 		37F2B9661EBA91BA00A6AB9D /* Routine.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 37F2B9641EBA91BA00A6AB9D /* Routine.xcdatamodeld */; };
@@ -41,11 +45,15 @@
 
 /* Begin PBXFileReference section */
 		372000831EBE528B00895527 /* DailyActivitiesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DailyActivitiesViewController.swift; sourceTree = "<group>"; };
+		373B69471EBE9C7B001DE015 /* DayOfWeekButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DayOfWeekButton.swift; sourceTree = "<group>"; };
 		378BD1D31EBE586E00DD0B42 /* ActivityStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActivityStore.swift; sourceTree = "<group>"; };
 		378BD1D51EBE66BE00DD0B42 /* DailyActivitiesViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DailyActivitiesViewCell.swift; sourceTree = "<group>"; };
 		378BD1D71EBE6CC000DD0B42 /* DayOfWeek.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DayOfWeek.swift; sourceTree = "<group>"; };
 		379157DF1EBE4EA500CD445A /* RoutineTabBarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RoutineTabBarController.swift; sourceTree = "<group>"; };
 		379157E11EBE4F4200CD445A /* Activity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Activity.swift; sourceTree = "<group>"; };
+		37AF86501EBE7F7700691872 /* ActivitiesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActivitiesViewController.swift; sourceTree = "<group>"; };
+		37AF86551EBE83B200691872 /* ActivitiesViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActivitiesViewCell.swift; sourceTree = "<group>"; };
+		37B2D00F1EBE8C5400613A18 /* ActivityDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActivityDetailViewController.swift; sourceTree = "<group>"; };
 		37F2B95A1EBA91BA00A6AB9D /* Routine.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Routine.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		37F2B95D1EBA91BA00A6AB9D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		37F2B9621EBA91BA00A6AB9D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -86,6 +94,37 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		37AF86521EBE821300691872 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				37B2D00F1EBE8C5400613A18 /* ActivityDetailViewController.swift */,
+				37AF86501EBE7F7700691872 /* ActivitiesViewController.swift */,
+				372000831EBE528B00895527 /* DailyActivitiesViewController.swift */,
+				379157DF1EBE4EA500CD445A /* RoutineTabBarController.swift */,
+			);
+			name = Controllers;
+			sourceTree = "<group>";
+		};
+		37AF86531EBE823100691872 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				379157E11EBE4F4200CD445A /* Activity.swift */,
+				378BD1D31EBE586E00DD0B42 /* ActivityStore.swift */,
+				378BD1D71EBE6CC000DD0B42 /* DayOfWeek.swift */,
+			);
+			name = Models;
+			sourceTree = "<group>";
+		};
+		37AF86541EBE823E00691872 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				37AF86551EBE83B200691872 /* ActivitiesViewCell.swift */,
+				378BD1D51EBE66BE00DD0B42 /* DailyActivitiesViewCell.swift */,
+				373B69471EBE9C7B001DE015 /* DayOfWeekButton.swift */,
+			);
+			name = Views;
+			sourceTree = "<group>";
+		};
 		37F2B9511EBA91BA00A6AB9D = {
 			isa = PBXGroup;
 			children = (
@@ -109,13 +148,10 @@
 		37F2B95C1EBA91BA00A6AB9D /* Routine */ = {
 			isa = PBXGroup;
 			children = (
-				379157E11EBE4F4200CD445A /* Activity.swift */,
-				378BD1D31EBE586E00DD0B42 /* ActivityStore.swift */,
+				37AF86531EBE823100691872 /* Models */,
+				37AF86541EBE823E00691872 /* Views */,
+				37AF86521EBE821300691872 /* Controllers */,
 				37F2B95D1EBA91BA00A6AB9D /* AppDelegate.swift */,
-				378BD1D51EBE66BE00DD0B42 /* DailyActivitiesViewCell.swift */,
-				372000831EBE528B00895527 /* DailyActivitiesViewController.swift */,
-				378BD1D71EBE6CC000DD0B42 /* DayOfWeek.swift */,
-				379157DF1EBE4EA500CD445A /* RoutineTabBarController.swift */,
 				37F2B9611EBA91BA00A6AB9D /* Main.storyboard */,
 				37F2B9671EBA91BA00A6AB9D /* Assets.xcassets */,
 				37F2B9691EBA91BA00A6AB9D /* LaunchScreen.storyboard */,
@@ -280,10 +316,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				37B2D0101EBE8C5400613A18 /* ActivityDetailViewController.swift in Sources */,
 				37F2B9661EBA91BA00A6AB9D /* Routine.xcdatamodeld in Sources */,
 				378BD1D81EBE6CC000DD0B42 /* DayOfWeek.swift in Sources */,
+				373B69481EBE9C7B001DE015 /* DayOfWeekButton.swift in Sources */,
 				379157E01EBE4EA500CD445A /* RoutineTabBarController.swift in Sources */,
+				37AF86561EBE83B200691872 /* ActivitiesViewCell.swift in Sources */,
 				378BD1D41EBE586E00DD0B42 /* ActivityStore.swift in Sources */,
+				37AF86511EBE7F7700691872 /* ActivitiesViewController.swift in Sources */,
 				372000841EBE528B00895527 /* DailyActivitiesViewController.swift in Sources */,
 				379157E21EBE4F4200CD445A /* Activity.swift in Sources */,
 				378BD1D61EBE66BE00DD0B42 /* DailyActivitiesViewCell.swift in Sources */,

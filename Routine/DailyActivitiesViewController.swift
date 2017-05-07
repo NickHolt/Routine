@@ -21,6 +21,12 @@ class DailyActivitiesViewController: UITableViewController {
         return activityStore.allActivities.count
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        tableView.reloadData()
+    }
+    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         // Grab cell for re-use
         let cell = tableView.dequeueReusableCell(withIdentifier: "DailyActivitiesViewCell", for: indexPath) as! DailyActivitiesViewCell
@@ -53,5 +59,9 @@ class DailyActivitiesViewController: UITableViewController {
         } else {
             cell.accessoryType = .none
         }
+    }
+    
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 65
     }
 }

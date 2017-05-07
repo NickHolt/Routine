@@ -19,6 +19,10 @@ class RoutineTabBarController: UITabBarController {
         let dailyActivitiesNavigationController = self.viewControllers?.first! as! UINavigationController
         let dailyActivitiesViewController = dailyActivitiesNavigationController.topViewController as! DailyActivitiesViewController
         dailyActivitiesViewController.activityStore = activityStore
+        
+        let activitiesNavigationController = self.viewControllers?[1] as! UINavigationController
+        let activitiesViewController = activitiesNavigationController.topViewController as! ActivitiesViewController
+        activitiesViewController.activityStore = activityStore
     }
     
     override func didReceiveMemoryWarning() {
