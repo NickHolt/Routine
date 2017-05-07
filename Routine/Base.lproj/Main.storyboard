@@ -85,6 +85,9 @@
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" style="UICTFontTextStyleTitle3"/>
                                 <textInputTraits key="textInputTraits"/>
+                                <connections>
+                                    <outlet property="delegate" destination="SjH-LL-4sQ" id="rjW-R3-NAk"/>
+                                </connections>
                             </textField>
                             <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="FII-B3-Ys5">
                                 <rect key="frame" x="0.0" y="150" width="375" height="34"/>
@@ -249,6 +252,7 @@
                             </stackView>
                         </subviews>
                         <color key="backgroundColor" red="0.90196079019999997" green="0.90196079019999997" blue="0.90196079019999997" alpha="1" colorSpace="calibratedRGB"/>
+                        <gestureRecognizers/>
                         <constraints>
                             <constraint firstItem="FII-B3-Ys5" firstAttribute="top" secondItem="G3h-Aj-hew" secondAttribute="bottom" constant="28" id="7bX-qt-5AH"/>
                             <constraint firstItem="FII-B3-Ys5" firstAttribute="leading" secondItem="1DX-Tb-0AE" secondAttribute="leading" id="LAT-w1-fiQ"/>
@@ -257,6 +261,9 @@
                             <constraint firstAttribute="trailing" secondItem="FII-B3-Ys5" secondAttribute="trailing" id="sX5-iP-HiE"/>
                             <constraint firstItem="G3h-Aj-hew" firstAttribute="leading" secondItem="1DX-Tb-0AE" secondAttribute="leading" id="zOP-S3-CEz"/>
                         </constraints>
+                        <connections>
+                            <outletCollection property="gestureRecognizers" destination="oqL-Kq-ZAc" appends="YES" id="KPP-Ce-oDE"/>
+                        </connections>
                     </view>
                     <connections>
                         <outlet property="activityTitle" destination="G3h-Aj-hew" id="FRe-Ks-6Jx"/>
@@ -270,6 +277,11 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="F6K-vz-pzl" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <tapGestureRecognizer id="oqL-Kq-ZAc">
+                    <connections>
+                        <action selector="backgroundTapped:" destination="SjH-LL-4sQ" id="WJb-OX-eNN"/>
+                    </connections>
+                </tapGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="2392.8000000000002" y="-179.46026986506749"/>
         </scene>

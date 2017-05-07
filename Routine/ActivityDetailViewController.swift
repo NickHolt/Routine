@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ActivityDetailViewController: UIViewController {
+class ActivityDetailViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet var activityTitle: UITextField!
     
     @IBOutlet var mondayButton: DayOfWeekButton!
@@ -26,6 +26,7 @@ class ActivityDetailViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
+        buttonMap = [DayOfWeek:DayOfWeekButton]()
         buttonMap[.Monday] = mondayButton
         buttonMap[.Tuesday] = tuesdayButton
         buttonMap[.Wednesday] = wednesdayButton
@@ -61,5 +62,14 @@ class ActivityDetailViewController: UIViewController {
     
     @IBAction func toggleDayButton(_ sender: DayOfWeekButton) {
         sender.isSelected = !sender.isSelected
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
+    }
+    
+    @IBAction func backgroundTapped(_ sender: UITapGestureRecognizer) {
+        view.endEditing(true)
     }
 }
