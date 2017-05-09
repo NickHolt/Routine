@@ -21,7 +21,8 @@ class ActivityDetailViewController: UIViewController, UITextFieldDelegate {
     
     var buttonMap: [DayOfWeek:DayOfWeekButton]!
     
-    var activity: Activity!
+    var activity: Activity?
+    var activityStore: ActivityStore!
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -36,28 +37,13 @@ class ActivityDetailViewController: UIViewController, UITextFieldDelegate {
         buttonMap[.Sunday] = sundayButton
         
         // Populate activity data
-        activityTitle.text = activity.title
-        
-        for day in activity.daysOfWeek {
-            buttonMap[day]!.isSelected = true
-        }
-    }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        
-        // Save activity data
-        if let newActivityTitle = activityTitle.text {
-            activity.title = newActivityTitle
-        }
-        
-        var newDaysOfWeek = [DayOfWeek]()
-        for (day, button) in buttonMap {
-            if button.isSelected {
-                newDaysOfWeek.append(day)
+        if let currentActivity = activity {
+            activityTitle.text = currentActivity.title
+            
+            for day in currentActivity.daysOfWeek {
+                buttonMap[day]!.isSelected = true
             }
         }
-        activity.daysOfWeek = newDaysOfWeek
     }
     
     @IBAction func toggleDayButton(_ sender: DayOfWeekButton) {
@@ -71,5 +57,27 @@ class ActivityDetailViewController: UIViewController, UITextFieldDelegate {
     
     @IBAction func backgroundTapped(_ sender: UITapGestureRecognizer) {
         view.endEditing(true)
+    }
+    
+    @IBAction func saveActivity(_ sender: UIButton) {
+        if activity == nil {
+            activity = activityStore.createActivity(random: false)
+        }
+        
+        // Save activity data
+        if let newActivityTitle = activityTitle.text, !newActivityTitle.isEmpty {
+            activity!.title = newActivityTitle
+        }
+        
+        var newDaysOfWeek = [DayOfWeek]()
+        for (day, button) in buttonMap {
+            if button.isSelected {
+                newDaysOfWeek.append(day)
+            }
+        }
+        activity!.daysOfWeek = newDaysOfWeek
+        
+        // Dismiss myself
+        navigationController?.popViewController(animated: true)
     }
 }

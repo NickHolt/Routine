@@ -255,15 +255,29 @@
                                     <constraint firstItem="wH2-sH-Gcf" firstAttribute="width" secondItem="yZ7-oc-xJo" secondAttribute="width" id="ist-BQ-84Q"/>
                                 </constraints>
                             </stackView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UBT-sC-mc0">
+                                <rect key="frame" x="0.0" y="212" width="375" height="33"/>
+                                <color key="backgroundColor" red="0.0" green="0.0" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
+                                <state key="normal" title="Save">
+                                    <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                </state>
+                                <connections>
+                                    <action selector="saveActivity:" destination="SjH-LL-4sQ" eventType="touchUpInside" id="VJn-8c-YpU"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" red="0.90196079019999997" green="0.90196079019999997" blue="0.90196079019999997" alpha="1" colorSpace="calibratedRGB"/>
                         <gestureRecognizers/>
                         <constraints>
                             <constraint firstItem="FII-B3-Ys5" firstAttribute="top" secondItem="G3h-Aj-hew" secondAttribute="bottom" constant="28" id="7bX-qt-5AH"/>
                             <constraint firstItem="FII-B3-Ys5" firstAttribute="leading" secondItem="1DX-Tb-0AE" secondAttribute="leading" id="LAT-w1-fiQ"/>
+                            <constraint firstAttribute="trailing" secondItem="UBT-sC-mc0" secondAttribute="trailing" id="MAP-pA-XGw"/>
                             <constraint firstAttribute="trailing" secondItem="G3h-Aj-hew" secondAttribute="trailing" id="ZtW-AP-jRO"/>
                             <constraint firstItem="G3h-Aj-hew" firstAttribute="top" secondItem="1ed-eB-Kgo" secondAttribute="bottom" constant="28" id="hU4-8A-sjR"/>
+                            <constraint firstItem="UBT-sC-mc0" firstAttribute="leading" secondItem="1DX-Tb-0AE" secondAttribute="leading" id="orE-qe-9A3"/>
                             <constraint firstAttribute="trailing" secondItem="FII-B3-Ys5" secondAttribute="trailing" id="sX5-iP-HiE"/>
+                            <constraint firstItem="UBT-sC-mc0" firstAttribute="top" secondItem="FII-B3-Ys5" secondAttribute="bottom" constant="28" id="yfU-cH-HVX"/>
                             <constraint firstItem="G3h-Aj-hew" firstAttribute="leading" secondItem="1DX-Tb-0AE" secondAttribute="leading" id="zOP-S3-CEz"/>
                         </constraints>
                         <connections>
@@ -288,7 +302,7 @@
                     </connections>
                 </tapGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="2369" y="-531"/>
+            <point key="canvasLocation" x="2368.8000000000002" y="-531.18440779610194"/>
         </scene>
         <!--Daily-->
         <scene sceneID="mt9-Xd-mEW">
@@ -454,6 +468,6 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="VE9-L4-uqq"/>
+        <segue reference="MZP-wG-hQm"/>
     </inferredMetricsTieBreakers>
 </document>
