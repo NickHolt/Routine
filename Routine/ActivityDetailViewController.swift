@@ -61,11 +61,11 @@ class ActivityDetailViewController: UIViewController, UITextFieldDelegate {
     
     @IBAction func saveActivity(_ sender: UIButton) {
         if activity == nil {
-            activity = activityStore.createActivity()
+            activity = activityStore.createActivity(random: false)
         }
         
         // Save activity data
-        if let newActivityTitle = activityTitle.text {
+        if let newActivityTitle = activityTitle.text, !newActivityTitle.isEmpty {
             activity!.title = newActivityTitle
         }
         
