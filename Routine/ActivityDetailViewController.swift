@@ -76,5 +76,8 @@ class ActivityDetailViewController: UIViewController, UITextFieldDelegate {
             }
         }
         activity!.daysOfWeek = newDaysOfWeek
+        
+        // Dismiss myself
+        navigationController?.popViewController(animated: true)
     }
 }
