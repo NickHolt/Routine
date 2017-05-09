@@ -64,4 +64,16 @@ class DailyActivitiesViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 65
     }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        switch segue.identifier {
+        case "addNewActivityShortcut"?:
+            let activity = activityStore.createActivity(random: false)
+            let detailViewController = segue.destination as! ActivityDetailViewController
+            detailViewController.activity = activity
+        default:
+            preconditionFailure("Unexpected segue identifier")
+        }
+        
+    }
 }

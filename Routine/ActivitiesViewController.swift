@@ -44,17 +44,21 @@ class ActivitiesViewController: UITableViewController {
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        var activity: Activity!
+        
         switch segue.identifier {
+        case "addNewActivity"?:
+            activity = activityStore.createActivity(random: false)
         case "showActivityDetail"?:
-            if let indexPath  = tableView.indexPathForSelectedRow {
-                let activity = self.activity(for: indexPath)
-                let detailViewController = segue.destination as! ActivityDetailViewController
-                
-                detailViewController.activity = activity
+            guard let indexPath = tableView.indexPathForSelectedRow else {
+                preconditionFailure("No index path available for selected row")
             }
+            activity = self.activity(for: indexPath)
         default:
             preconditionFailure("Unexpected segue identifier")
         }
 
+        let detailViewController = segue.destination as! ActivityDetailViewController
+        detailViewController.activity = activity
     }
 }

@@ -7,6 +7,7 @@
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12088"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <capability name="Navigation items with more than one left or right bar item" minToolsVersion="7.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -60,7 +61,11 @@
                     </tableView>
                     <navigationItem key="navigationItem" title="Activities" id="AVJ-Wc-eNa">
                         <barButtonItem key="leftBarButtonItem" systemItem="edit" id="fXU-Bq-gAu"/>
-                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="Q1j-ju-ZrX"/>
+                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="Q1j-ju-ZrX">
+                            <connections>
+                                <segue destination="SjH-LL-4sQ" kind="show" identifier="addNewActivity" id="AnS-Ef-IVU"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="coZ-RG-IeQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -283,7 +288,7 @@
                     </connections>
                 </tapGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="2392.8000000000002" y="-179.46026986506749"/>
+            <point key="canvasLocation" x="2369" y="-531"/>
         </scene>
         <!--Daily-->
         <scene sceneID="mt9-Xd-mEW">
@@ -334,7 +339,14 @@
                     </tableView>
                     <navigationItem key="navigationItem" title="Date" id="4uA-Gt-t1R">
                         <barButtonItem key="leftBarButtonItem" title="Yesterday" id="Sk7-jX-DnH"/>
-                        <barButtonItem key="rightBarButtonItem" title="Tomorrow" id="VJe-g7-YJV"/>
+                        <rightBarButtonItems>
+                            <barButtonItem systemItem="add" id="Pkl-BQ-G7n">
+                                <connections>
+                                    <segue destination="SjH-LL-4sQ" kind="show" identifier="addNewActivityShortcut" id="VE9-L4-uqq"/>
+                                </connections>
+                            </barButtonItem>
+                            <barButtonItem title="Tomorrow" id="VJe-g7-YJV"/>
+                        </rightBarButtonItems>
                     </navigationItem>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                 </tableViewController>
@@ -441,4 +453,7 @@
             <point key="canvasLocation" x="525.60000000000002" y="-179.46026986506749"/>
         </scene>
     </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="VE9-L4-uqq"/>
+    </inferredMetricsTieBreakers>
 </document>

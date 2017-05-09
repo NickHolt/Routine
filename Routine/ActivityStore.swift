@@ -11,8 +11,8 @@ import UIKit
 class ActivityStore {
     var allActivities = [Activity]()
 
-    @discardableResult func createActivity() -> Activity {
-        let newActivity = Activity(random: true)
+    @discardableResult func createActivity(random: Bool = true) -> Activity {
+        let newActivity = Activity(random: random)
 
         allActivities.append(newActivity)
 
