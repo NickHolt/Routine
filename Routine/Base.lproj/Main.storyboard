@@ -60,7 +60,11 @@
                     </tableView>
                     <navigationItem key="navigationItem" title="Activities" id="AVJ-Wc-eNa">
                         <barButtonItem key="leftBarButtonItem" systemItem="edit" id="fXU-Bq-gAu"/>
-                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="Q1j-ju-ZrX"/>
+                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="Q1j-ju-ZrX">
+                            <connections>
+                                <segue destination="SjH-LL-4sQ" kind="show" identifier="addNewActivity" id="AnS-Ef-IVU"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="coZ-RG-IeQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -441,4 +445,7 @@
             <point key="canvasLocation" x="525.60000000000002" y="-179.46026986506749"/>
         </scene>
     </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="AnS-Ef-IVU"/>
+    </inferredMetricsTieBreakers>
 </document>
