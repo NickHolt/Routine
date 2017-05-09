@@ -21,7 +21,7 @@ class ActivityDetailViewController: UIViewController, UITextFieldDelegate {
     
     var buttonMap: [DayOfWeek:DayOfWeekButton]!
     
-    var activity: Activity!
+    var activity: Activity?
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -36,10 +36,14 @@ class ActivityDetailViewController: UIViewController, UITextFieldDelegate {
         buttonMap[.Sunday] = sundayButton
         
         // Populate activity data
-        activityTitle.text = activity.title
-        
-        for day in activity.daysOfWeek {
-            buttonMap[day]!.isSelected = true
+        if let currentActivity = activity {
+            activityTitle.text = currentActivity.title
+            
+            for day in currentActivity.daysOfWeek {
+                buttonMap[day]!.isSelected = true
+            }
+        } else {
+            activity = Activity()
         }
     }
     
@@ -48,7 +52,7 @@ class ActivityDetailViewController: UIViewController, UITextFieldDelegate {
         
         // Save activity data
         if let newActivityTitle = activityTitle.text {
-            activity.title = newActivityTitle
+            activity!.title = newActivityTitle
         }
         
         var newDaysOfWeek = [DayOfWeek]()
@@ -57,7 +61,7 @@ class ActivityDetailViewController: UIViewController, UITextFieldDelegate {
                 newDaysOfWeek.append(day)
             }
         }
-        activity.daysOfWeek = newDaysOfWeek
+        activity!.daysOfWeek = newDaysOfWeek
     }
     
     @IBAction func toggleDayButton(_ sender: DayOfWeekButton) {
