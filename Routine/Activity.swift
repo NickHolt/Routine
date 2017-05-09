@@ -19,9 +19,14 @@ class Activity: NSObject {
         self.uuid = uuid
     }
     
-    convenience init(random: Bool = false) {
+    
+    convenience override init() {
+        self.init(title: "New Activity", daysOfWeek: [], uuid: UUID())
+    }
+    
+    convenience init(random: Bool) {
         if !random {
-            self.init(title: "", daysOfWeek: [], uuid: UUID())
+            self.init()
             return
         }
         
