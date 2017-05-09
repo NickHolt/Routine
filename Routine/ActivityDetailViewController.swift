@@ -22,6 +22,7 @@ class ActivityDetailViewController: UIViewController, UITextFieldDelegate {
     var buttonMap: [DayOfWeek:DayOfWeekButton]!
     
     var activity: Activity?
+    var activityStore: ActivityStore!
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)

@@ -71,6 +71,8 @@ class DailyActivitiesViewController: UITableViewController {
             let activity = activityStore.createActivity(random: false)
             let detailViewController = segue.destination as! ActivityDetailViewController
             detailViewController.activity = activity
+            
+            detailViewController.activityStore = activityStore
         default:
             preconditionFailure("Unexpected segue identifier")
         }

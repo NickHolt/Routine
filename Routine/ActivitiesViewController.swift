@@ -60,5 +60,7 @@ class ActivitiesViewController: UITableViewController {
 
         let detailViewController = segue.destination as! ActivityDetailViewController
         detailViewController.activity = activity
+        
+        detailViewController.activityStore = activityStore
     }
 }
