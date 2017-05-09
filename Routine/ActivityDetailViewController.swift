@@ -43,26 +43,7 @@ class ActivityDetailViewController: UIViewController, UITextFieldDelegate {
             for day in currentActivity.daysOfWeek {
                 buttonMap[day]!.isSelected = true
             }
-        } else {
-            activity = Activity()
         }
-    }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        
-        // Save activity data
-        if let newActivityTitle = activityTitle.text {
-            activity!.title = newActivityTitle
-        }
-        
-        var newDaysOfWeek = [DayOfWeek]()
-        for (day, button) in buttonMap {
-            if button.isSelected {
-                newDaysOfWeek.append(day)
-            }
-        }
-        activity!.daysOfWeek = newDaysOfWeek
     }
     
     @IBAction func toggleDayButton(_ sender: DayOfWeekButton) {
@@ -76,5 +57,24 @@ class ActivityDetailViewController: UIViewController, UITextFieldDelegate {
     
     @IBAction func backgroundTapped(_ sender: UITapGestureRecognizer) {
         view.endEditing(true)
+    }
+    
+    @IBAction func saveActivity(_ sender: UIButton) {
+        if activity == nil {
+            activity = activityStore.createActivity()
+        }
+        
+        // Save activity data
+        if let newActivityTitle = activityTitle.text {
+            activity!.title = newActivityTitle
+        }
+        
+        var newDaysOfWeek = [DayOfWeek]()
+        for (day, button) in buttonMap {
+            if button.isSelected {
+                newDaysOfWeek.append(day)
+            }
+        }
+        activity!.daysOfWeek = newDaysOfWeek
     }
 }
