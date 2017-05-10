@@ -64,16 +64,12 @@ class DailyActivitiesViewController: UITableViewController {
     }
     
     private func configureTitle() {
+        print(displayedDateIsToday)
         if displayedDateIsToday {
-            self.navigationController?.title = "Today"
+            self.navigationItem.title = "Today"
         } else {
-            self.navigationController?.title = titleDateFormatter.string(from: displayedDate)
+            self.navigationItem.title = titleDateFormatter.string(from: displayedDate)
         }
-    }
-    
-    private func configureView() {
-        configureBarButtonItems()
-        configureTitle()
     }
     
     private func load(with date: Date) {
@@ -82,7 +78,8 @@ class DailyActivitiesViewController: UITableViewController {
         let dayOfWeek = Calendar(identifier: .gregorian).dayOfWeek(from: date)
         currentActivities = activityStore.activities(for: dayOfWeek)
         
-        configureView()
+        configureBarButtonItems()
+        configureTitle()
         
         tableView.reloadData()
     }
