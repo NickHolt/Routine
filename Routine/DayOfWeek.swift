@@ -8,14 +8,22 @@
 
 import Foundation
 
-enum DayOfWeek: UInt8, CustomStringConvertible {
-    case Monday    = 1
-    case Tuesday   = 2
-    case Wednesday = 4
-    case Thursday  = 8
-    case Friday    = 16
-    case Saturday  = 32
-    case Sunday    = 64
+enum DayOfWeek: Int, CustomStringConvertible {
+    case Monday
+    case Tuesday
+    case Wednesday
+    case Thursday
+    case Friday
+    case Saturday
+    case Sunday
+    
+    static func forToday() -> DayOfWeek {
+        let todaysDate = Date()
+        let calendar = Calendar(identifier: .gregorian)
+        let todaysDay = calendar.component(.weekday, from: todaysDate)
+        
+        return DayOfWeek(rawValue: (todaysDay + Int(5)) % 7)!
+    }
     
     var description: String {
         switch self {

@@ -11,18 +11,21 @@ import UIKit
 class DailyActivitiesViewController: UITableViewController {
     
     var activityStore: ActivityStore!
+    var todaysActivities: [Activity]!
     var completedActivities = [Activity]()
     
     private func activity(for indexPath: IndexPath) -> Activity {
-        return activityStore.allActivities[indexPath.row]
+        return todaysActivities[indexPath.row]
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return activityStore.allActivities.count
+        return todaysActivities.count
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        
+        todaysActivities = activityStore.todaysActivities()
         
         tableView.reloadData()
     }
