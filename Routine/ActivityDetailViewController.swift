@@ -65,7 +65,7 @@ class ActivityDetailViewController: UIViewController, UITextFieldDelegate {
         }
         
         // Save activity data
-        if let newActivityTitle = activityTitle.text, !newActivityTitle.isEmpty {
+        if let newActivityTitle = activityTitle.text, !newActivityTitle.trimmingCharacters(in: .whitespaces).isEmpty {
             activity!.title = newActivityTitle
         }
         
