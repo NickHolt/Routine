@@ -28,7 +28,13 @@ class DailyActivitiesViewController: UITableViewController {
         
         return dateFormatter
     }()
-    
+    let buttonDateFormatter: DateFormatter = {
+        var dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "MM/dd"
+        
+        return dateFormatter
+    }()
+
     private func activity(for indexPath: IndexPath) -> Activity {
         return currentActivities[indexPath.row]
     }
@@ -42,6 +48,14 @@ class DailyActivitiesViewController: UITableViewController {
             self.navigationItem.rightBarButtonItems = [addActivityButton]
         } else {
             self.navigationItem.rightBarButtonItems = [tomorrowButton]
+        }
+        
+        let calendar = Calendar.current
+        if let dayBefore = calendar.date(byAdding: .day, value: -1, to: displayedDate) {
+            yesterdayButton.title = "< \(buttonDateFormatter.string(from: dayBefore))"
+        }
+        if let dayAfter = calendar.date(byAdding: .day, value: 1, to: displayedDate) {
+            tomorrowButton.title = "\(buttonDateFormatter.string(from: dayAfter)) >"
         }
     }
     
