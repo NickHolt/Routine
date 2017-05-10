@@ -10,9 +10,15 @@ import UIKit
 
 class DailyActivitiesViewController: UITableViewController {
     
+    @IBOutlet var yesterdayButton: UIBarButtonItem!
+    @IBOutlet var tomorrowButton: UIBarButtonItem!
+    @IBOutlet var addActivityButton: UIBarButtonItem!
+    
     var activityStore: ActivityStore!
     var todaysActivities: [Activity]!
     var completedActivities = [Activity]()
+    
+    var displayedDate: Date!
     
     private func activity(for indexPath: IndexPath) -> Activity {
         return todaysActivities[indexPath.row]
@@ -22,10 +28,21 @@ class DailyActivitiesViewController: UITableViewController {
         return todaysActivities.count
     }
     
+    private func configureBarButtonItems() {
+        if Calendar.current.isDate(displayedDate, inSameDayAs: Date()) {
+            self.navigationItem.rightBarButtonItems = [addActivityButton]
+        } else {
+            self.navigationItem.rightBarButtonItems = [tomorrowButton]
+        }
+    }
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
         todaysActivities = activityStore.todaysActivities()
+        displayedDate = Date()
+        
+        configureBarButtonItems()
         
         tableView.reloadData()
     }

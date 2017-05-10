@@ -363,6 +363,11 @@
                         </rightBarButtonItems>
                     </navigationItem>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
+                    <connections>
+                        <outlet property="addActivityButton" destination="Pkl-BQ-G7n" id="RMB-Tv-Et1"/>
+                        <outlet property="tomorrowButton" destination="VJe-g7-YJV" id="Afq-gR-uFT"/>
+                        <outlet property="yesterdayButton" destination="Sk7-jX-DnH" id="2vN-7T-uaj"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="8tb-ht-sM7" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
