@@ -25,11 +25,9 @@ class ActivityStore {
         }
     }
     
-    func todaysActivities() -> [Activity] {
-        let today = DayOfWeek.forToday()
-        
+    func activities(for day: DayOfWeek) -> [Activity] {
         return allActivities.filter { (activity: Activity) -> Bool in
-            activity.daysOfWeek.contains(today)
+            activity.daysOfWeek.contains(day)
         }
     }
 }

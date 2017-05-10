@@ -15,7 +15,7 @@ class DailyActivitiesViewController: UITableViewController {
     @IBOutlet var addActivityButton: UIBarButtonItem!
     
     var activityStore: ActivityStore!
-    var todaysActivities: [Activity]!
+    var currentActivities: [Activity]!
     var completedActivities = [Activity]()
     
     var displayedDate: Date!
@@ -30,11 +30,11 @@ class DailyActivitiesViewController: UITableViewController {
     }()
     
     private func activity(for indexPath: IndexPath) -> Activity {
-        return todaysActivities[indexPath.row]
+        return currentActivities[indexPath.row]
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return todaysActivities.count
+        return currentActivities.count
     }
     
     private func configureBarButtonItems() {
@@ -53,16 +53,26 @@ class DailyActivitiesViewController: UITableViewController {
         }
     }
     
+    private func configureView() {
+        configureBarButtonItems()
+        configureTitle()
+    }
+    
+    private func load(with date: Date) {
+        displayedDate = date
+
+        let dayOfWeek = Calendar(identifier: .gregorian).dayOfWeek(from: date)
+        currentActivities = activityStore.activities(for: dayOfWeek)
+        
+        configureView()
+        
+        tableView.reloadData()
+    }
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        todaysActivities = activityStore.todaysActivities()
-        displayedDate = Date()
-        
-        configureBarButtonItems()
-        configureTitle()
-        
-        tableView.reloadData()
+        load(with: Date())
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
