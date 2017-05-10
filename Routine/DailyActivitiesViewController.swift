@@ -11,7 +11,7 @@ import UIKit
 class DailyActivitiesViewController: UITableViewController {
     
     var activityStore: ActivityStore!
-    var todaysActivities = [Activity]()
+    var todaysActivities: [Activity]!
     var completedActivities = [Activity]()
     
     private func activity(for indexPath: IndexPath) -> Activity {
@@ -24,6 +24,8 @@ class DailyActivitiesViewController: UITableViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        
+        todaysActivities = activityStore.todaysActivities()
         
         tableView.reloadData()
     }
