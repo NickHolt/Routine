@@ -351,18 +351,31 @@
                             <outlet property="delegate" destination="ozH-R1-RF1" id="xEE-AE-4g9"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Date" id="4uA-Gt-t1R">
-                        <barButtonItem key="leftBarButtonItem" title="Yesterday" id="Sk7-jX-DnH"/>
+                    <navigationItem key="navigationItem" title="Today" id="4uA-Gt-t1R">
+                        <barButtonItem key="leftBarButtonItem" title="Yesterday" id="Sk7-jX-DnH">
+                            <connections>
+                                <action selector="viewDayBefore:" destination="ozH-R1-RF1" id="cIL-ZO-Gws"/>
+                            </connections>
+                        </barButtonItem>
                         <rightBarButtonItems>
                             <barButtonItem systemItem="add" id="Pkl-BQ-G7n">
                                 <connections>
                                     <segue destination="SjH-LL-4sQ" kind="show" identifier="addNewActivityShortcut" id="VE9-L4-uqq"/>
                                 </connections>
                             </barButtonItem>
-                            <barButtonItem title="Tomorrow" id="VJe-g7-YJV"/>
+                            <barButtonItem title="Tomorrow" id="VJe-g7-YJV">
+                                <connections>
+                                    <action selector="viewDayAfter:" destination="ozH-R1-RF1" id="aFC-pb-fvg"/>
+                                </connections>
+                            </barButtonItem>
                         </rightBarButtonItems>
                     </navigationItem>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
+                    <connections>
+                        <outlet property="addActivityButton" destination="Pkl-BQ-G7n" id="RMB-Tv-Et1"/>
+                        <outlet property="tomorrowButton" destination="VJe-g7-YJV" id="Afq-gR-uFT"/>
+                        <outlet property="yesterdayButton" destination="Sk7-jX-DnH" id="2vN-7T-uaj"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="8tb-ht-sM7" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -468,6 +481,6 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="MZP-wG-hQm"/>
+        <segue reference="VE9-L4-uqq"/>
     </inferredMetricsTieBreakers>
 </document>

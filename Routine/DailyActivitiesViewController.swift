@@ -10,24 +10,84 @@ import UIKit
 
 class DailyActivitiesViewController: UITableViewController {
     
+    @IBOutlet var yesterdayButton: UIBarButtonItem!
+    @IBOutlet var tomorrowButton: UIBarButtonItem!
+    @IBOutlet var addActivityButton: UIBarButtonItem!
+    
     var activityStore: ActivityStore!
-    var todaysActivities: [Activity]!
+    var currentActivities: [Activity]!
     var completedActivities = [Activity]()
     
+    var displayedDate: Date!
+    var displayedDateIsToday: Bool {
+        return Calendar.current.isDate(displayedDate, inSameDayAs: Date())
+    }
+    var dateDayBefore: Date! {
+        let calendar = Calendar.current
+        return calendar.date(byAdding: .day, value: -1, to: displayedDate)
+    }
+    var dateDayAfter: Date! {
+        let calendar = Calendar.current
+        return calendar.date(byAdding: .day, value: 1, to: displayedDate)
+    }
+    
+    let titleDateFormatter: DateFormatter = {
+        var dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "E, MMM d, yyyy"
+        
+        return dateFormatter
+    }()
+    let buttonDateFormatter: DateFormatter = {
+        var dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "MM/dd"
+        
+        return dateFormatter
+    }()
+
     private func activity(for indexPath: IndexPath) -> Activity {
-        return todaysActivities[indexPath.row]
+        return currentActivities[indexPath.row]
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return todaysActivities.count
+        return currentActivities.count
+    }
+    
+    private func configureBarButtonItems() {
+        if displayedDateIsToday {
+            self.navigationItem.rightBarButtonItems = [addActivityButton]
+        } else {
+            self.navigationItem.rightBarButtonItems = [tomorrowButton]
+        }
+        
+        yesterdayButton.title = "< \(buttonDateFormatter.string(from: dateDayBefore))"
+        tomorrowButton.title = "\(buttonDateFormatter.string(from: dateDayAfter)) >"
+    }
+    
+    private func configureTitle() {
+        print(displayedDateIsToday)
+        if displayedDateIsToday {
+            self.navigationItem.title = "Today"
+        } else {
+            self.navigationItem.title = titleDateFormatter.string(from: displayedDate)
+        }
+    }
+    
+    private func load(with date: Date) {
+        displayedDate = date
+
+        let dayOfWeek = Calendar(identifier: .gregorian).dayOfWeek(from: date)
+        currentActivities = activityStore.activities(for: dayOfWeek)
+        
+        configureBarButtonItems()
+        configureTitle()
+        
+        tableView.reloadData()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        todaysActivities = activityStore.todaysActivities()
-        
-        tableView.reloadData()
+        load(with: Date())
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -71,5 +131,13 @@ class DailyActivitiesViewController: UITableViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         let detailViewController = segue.destination as! ActivityDetailViewController
         detailViewController.activityStore = activityStore
+    }
+    
+    @IBAction func viewDayBefore(_ sender: UIBarButtonItem) {
+        load(with: dateDayBefore)
+    }
+    
+    @IBAction func viewDayAfter(_ sender: UIBarButtonItem) {
+        load(with: dateDayAfter)
     }
 }
