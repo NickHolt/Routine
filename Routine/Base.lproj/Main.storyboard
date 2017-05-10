@@ -351,7 +351,7 @@
                             <outlet property="delegate" destination="ozH-R1-RF1" id="xEE-AE-4g9"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Date" id="4uA-Gt-t1R">
+                    <navigationItem key="navigationItem" title="Today" id="4uA-Gt-t1R">
                         <barButtonItem key="leftBarButtonItem" title="Yesterday" id="Sk7-jX-DnH"/>
                         <rightBarButtonItems>
                             <barButtonItem systemItem="add" id="Pkl-BQ-G7n">
@@ -468,6 +468,6 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="MZP-wG-hQm"/>
+        <segue reference="VE9-L4-uqq"/>
     </inferredMetricsTieBreakers>
 </document>
