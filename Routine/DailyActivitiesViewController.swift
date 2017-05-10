@@ -22,6 +22,15 @@ class DailyActivitiesViewController: UITableViewController {
     var displayedDateIsToday: Bool {
         return Calendar.current.isDate(displayedDate, inSameDayAs: Date())
     }
+    var dateDayBefore: Date! {
+        let calendar = Calendar.current
+        return calendar.date(byAdding: .day, value: -1, to: displayedDate)
+    }
+    var dateDayAfter: Date! {
+        let calendar = Calendar.current
+        return calendar.date(byAdding: .day, value: 1, to: displayedDate)
+    }
+    
     let titleDateFormatter: DateFormatter = {
         var dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "E, MMM d, yyyy"
@@ -50,13 +59,8 @@ class DailyActivitiesViewController: UITableViewController {
             self.navigationItem.rightBarButtonItems = [tomorrowButton]
         }
         
-        let calendar = Calendar.current
-        if let dayBefore = calendar.date(byAdding: .day, value: -1, to: displayedDate) {
-            yesterdayButton.title = "< \(buttonDateFormatter.string(from: dayBefore))"
-        }
-        if let dayAfter = calendar.date(byAdding: .day, value: 1, to: displayedDate) {
-            tomorrowButton.title = "\(buttonDateFormatter.string(from: dayAfter)) >"
-        }
+        yesterdayButton.title = "< \(buttonDateFormatter.string(from: dateDayBefore))"
+        tomorrowButton.title = "\(buttonDateFormatter.string(from: dateDayAfter)) >"
     }
     
     private func configureTitle() {
@@ -130,5 +134,13 @@ class DailyActivitiesViewController: UITableViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         let detailViewController = segue.destination as! ActivityDetailViewController
         detailViewController.activityStore = activityStore
+    }
+    
+    @IBAction func viewDayBefore(_ sender: UIBarButtonItem) {
+        load(with: dateDayBefore)
+    }
+    
+    @IBAction func viewDayAfter(_ sender: UIBarButtonItem) {
+        load(with: dateDayAfter)
     }
 }

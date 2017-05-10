@@ -352,14 +352,22 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="Today" id="4uA-Gt-t1R">
-                        <barButtonItem key="leftBarButtonItem" title="Yesterday" id="Sk7-jX-DnH"/>
+                        <barButtonItem key="leftBarButtonItem" title="Yesterday" id="Sk7-jX-DnH">
+                            <connections>
+                                <action selector="viewDayBefore:" destination="ozH-R1-RF1" id="cIL-ZO-Gws"/>
+                            </connections>
+                        </barButtonItem>
                         <rightBarButtonItems>
                             <barButtonItem systemItem="add" id="Pkl-BQ-G7n">
                                 <connections>
                                     <segue destination="SjH-LL-4sQ" kind="show" identifier="addNewActivityShortcut" id="VE9-L4-uqq"/>
                                 </connections>
                             </barButtonItem>
-                            <barButtonItem title="Tomorrow" id="VJe-g7-YJV"/>
+                            <barButtonItem title="Tomorrow" id="VJe-g7-YJV">
+                                <connections>
+                                    <action selector="viewDayAfter:" destination="ozH-R1-RF1" id="aFC-pb-fvg"/>
+                                </connections>
+                            </barButtonItem>
                         </rightBarButtonItems>
                     </navigationItem>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
