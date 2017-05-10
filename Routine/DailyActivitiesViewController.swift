@@ -19,6 +19,15 @@ class DailyActivitiesViewController: UITableViewController {
     var completedActivities = [Activity]()
     
     var displayedDate: Date!
+    var displayedDateIsToday: Bool {
+        return Calendar.current.isDate(displayedDate, inSameDayAs: Date())
+    }
+    let titleDateFormatter: DateFormatter = {
+        var dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "E, MMM d, yyyy"
+        
+        return dateFormatter
+    }()
     
     private func activity(for indexPath: IndexPath) -> Activity {
         return todaysActivities[indexPath.row]
@@ -29,10 +38,18 @@ class DailyActivitiesViewController: UITableViewController {
     }
     
     private func configureBarButtonItems() {
-        if Calendar.current.isDate(displayedDate, inSameDayAs: Date()) {
+        if displayedDateIsToday {
             self.navigationItem.rightBarButtonItems = [addActivityButton]
         } else {
             self.navigationItem.rightBarButtonItems = [tomorrowButton]
+        }
+    }
+    
+    private func configureTitle() {
+        if displayedDateIsToday {
+            self.navigationController?.title = "Today"
+        } else {
+            self.navigationController?.title = titleDateFormatter.string(from: displayedDate)
         }
     }
     
@@ -43,6 +60,7 @@ class DailyActivitiesViewController: UITableViewController {
         displayedDate = Date()
         
         configureBarButtonItems()
+        configureTitle()
         
         tableView.reloadData()
     }
