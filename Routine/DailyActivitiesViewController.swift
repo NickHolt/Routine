@@ -11,6 +11,7 @@ import UIKit
 class DailyActivitiesViewController: UITableViewController {
     
     var activityStore: ActivityStore!
+    var todaysActivities = [Activity]()
     var completedActivities = [Activity]()
     
     private func activity(for indexPath: IndexPath) -> Activity {

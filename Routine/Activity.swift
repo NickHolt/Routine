@@ -37,8 +37,8 @@ class Activity: NSObject {
         let randomPlace = places[Int(arc4random_uniform(UInt32(places.count)))]
         
         let randomDaysOfWeek = [
-            DayOfWeek(rawValue: UInt8(1 << arc4random_uniform(7))),
-            DayOfWeek(rawValue: UInt8(1 << arc4random_uniform(7))),
+            DayOfWeek(rawValue: Int(arc4random_uniform(7))),
+            DayOfWeek(rawValue: Int(arc4random_uniform(7))),
         ]
         
         self.init(
