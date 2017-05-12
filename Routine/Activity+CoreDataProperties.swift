@@ -19,5 +19,4 @@ extension Activity {
     @NSManaged public var daysOfWeekBitField: Int32
     @NSManaged public var title: String?
     @NSManaged public var uuid: UUID?
-
 }

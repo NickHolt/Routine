@@ -67,7 +67,7 @@ class ActivityDetailViewController: UIViewController, UITextFieldDelegate {
     
     @IBAction func saveActivity(_ sender: UIButton) {
         if activity == nil {
-            activity = activityStore.createActivity(random: false)
+            activity = activityStore.fetchNewActivity()
         }
         
         // Save activity data
