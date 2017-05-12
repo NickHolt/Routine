@@ -27,7 +27,11 @@ class ActivityStore {
     
     func activities(for day: DayOfWeek) -> [Activity] {
         return allActivities.filter { (activity: Activity) -> Bool in
-            activity.daysOfWeek.contains(day)
+            guard let days = activity.daysOfWeek else {
+                return false
+            }
+            
+            return days.contains(day)
         }
     }
 }

@@ -37,12 +37,18 @@ class ActivityDetailViewController: UIViewController, UITextFieldDelegate {
         buttonMap[.Sunday] = sundayButton
         
         // Populate activity data
-        if let currentActivity = activity {
-            activityTitle.text = currentActivity.title
-            
-            for day in currentActivity.daysOfWeek {
-                buttonMap[day]!.isSelected = true
-            }
+        guard let currentActivity = activity else {
+            return
+        }
+
+        activityTitle.text = currentActivity.title
+        
+        guard let daysOfWeek = currentActivity.daysOfWeek else {
+            return
+        }
+        
+        for day in daysOfWeek {
+            buttonMap[day]!.isSelected = true
         }
     }
     
