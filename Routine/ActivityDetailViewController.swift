@@ -83,6 +83,13 @@ class ActivityDetailViewController: UIViewController, UITextFieldDelegate {
         }
         activity!.daysOfWeek = newDaysOfWeek
         
+        // Save to disk
+        do {
+            try activityStore.persistToDisk()
+        } catch {
+            print("Warning: could not persist ActivityStore to disk!")
+        }
+        
         // Dismiss myself
         navigationController?.popViewController(animated: true)
     }
