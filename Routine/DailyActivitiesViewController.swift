@@ -64,7 +64,6 @@ class DailyActivitiesViewController: UITableViewController {
     }
     
     private func configureTitle() {
-        print(displayedDateIsToday)
         if displayedDateIsToday {
             self.navigationItem.title = "Today"
         } else {
