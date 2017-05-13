@@ -43,11 +43,7 @@ class ActivityDetailViewController: UIViewController, UITextFieldDelegate {
 
         activityTitle.text = currentActivity.title
         
-        guard let daysOfWeek = currentActivity.daysOfWeek else {
-            return
-        }
-        
-        for day in daysOfWeek {
+        for day in currentActivity.daysOfWeek {
             buttonMap[day]!.isSelected = true
         }
     }

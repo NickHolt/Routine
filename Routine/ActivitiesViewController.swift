@@ -38,7 +38,7 @@ class ActivitiesViewController: UITableViewController {
         let activity = self.activity(for: indexPath)
         
         cell.activityTitle.text = activity.title
-        cell.daysOfWeek.text = string(for: activity.daysOfWeek ?? [])
+        cell.daysOfWeek.text = string(for: activity.daysOfWeek)
         
         return cell
     }

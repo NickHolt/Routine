@@ -8,7 +8,7 @@
 
 import Foundation
 
-enum DayOfWeek: Int, CustomStringConvertible {
+public enum DayOfWeek: Int, CustomStringConvertible {
     case Monday
     case Tuesday
     case Wednesday
@@ -17,7 +17,7 @@ enum DayOfWeek: Int, CustomStringConvertible {
     case Saturday
     case Sunday
     
-    var description: String {
+    public var description: String {
         switch self {
         case .Monday:
             return "Mon"
