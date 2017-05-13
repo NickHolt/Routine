@@ -13,12 +13,18 @@ import CoreData
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-
+    var activityStore: ActivityStore!
+    
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
 
         // Configure global state
-        let activityStore = ActivityStore()
+        activityStore = ActivityStore()
+        do {
+            try activityStore.loadFromDisk()
+        } catch {
+            assertionFailure("ActivityStore could not fetch Activities")
+        }
         
         let routineTabBarController = window!.rootViewController as! RoutineTabBarController
         routineTabBarController.activityStore = activityStore
@@ -48,6 +54,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
         // Saves changes in the application's managed object context before the application terminates.
         self.saveContext()
+        
+        do {
+            try activityStore.persistToDisk()
+        } catch {
+            assertionFailure("ActivityStore could not persist Activity data")
+        }
     }
 
     // MARK: - Core Data stack

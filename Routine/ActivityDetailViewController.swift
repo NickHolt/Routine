@@ -37,12 +37,18 @@ class ActivityDetailViewController: UIViewController, UITextFieldDelegate {
         buttonMap[.Sunday] = sundayButton
         
         // Populate activity data
-        if let currentActivity = activity {
-            activityTitle.text = currentActivity.title
-            
-            for day in currentActivity.daysOfWeek {
-                buttonMap[day]!.isSelected = true
-            }
+        guard let currentActivity = activity else {
+            return
+        }
+
+        activityTitle.text = currentActivity.title
+        
+        guard let daysOfWeek = currentActivity.daysOfWeek else {
+            return
+        }
+        
+        for day in daysOfWeek {
+            buttonMap[day]!.isSelected = true
         }
     }
     
@@ -61,7 +67,7 @@ class ActivityDetailViewController: UIViewController, UITextFieldDelegate {
     
     @IBAction func saveActivity(_ sender: UIButton) {
         if activity == nil {
-            activity = activityStore.createActivity(random: false)
+            activity = activityStore.fetchNewActivity()
         }
         
         // Save activity data
@@ -76,6 +82,13 @@ class ActivityDetailViewController: UIViewController, UITextFieldDelegate {
             }
         }
         activity!.daysOfWeek = newDaysOfWeek
+        
+        // Save to disk
+        do {
+            try activityStore.persistToDisk()
+        } catch {
+            print("Warning: could not persist ActivityStore to disk!")
+        }
         
         // Dismiss myself
         navigationController?.popViewController(animated: true)
