@@ -53,6 +53,8 @@ class ActivityStore {
     func loadFromDisk() throws {
         // Load all Activities from CoreData
         let activityFetchRequest: NSFetchRequest<Activity> = Activity.fetchRequest()
+        activityFetchRequest.returnsObjectsAsFaults = false
+        
         let sortByActivityTitle = NSSortDescriptor(key: #keyPath(Activity.title), ascending: true)
         activityFetchRequest.sortDescriptors = [sortByActivityTitle]
         
@@ -70,6 +72,8 @@ class ActivityStore {
         if fetchError != nil {
             print("Could not fetch Activities from CoreData: \(String(describing: fetchError))")
             throw Error.couldNotFetch
+        } else {
+            print("ActivityStore retrieved \(allActivities.count) activities from disk")
         }
     }
     
