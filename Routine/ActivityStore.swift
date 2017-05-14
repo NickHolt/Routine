@@ -26,7 +26,7 @@ class ActivityStore {
     }()
     
     var allActivities = [Activity]()
-    var allCompletions = [Completion]()
+    var allCompletions = [Activity: [Completion]]()
 
     func loadFromDisk() throws {
         try loadActivitiesFromDisk()
@@ -97,19 +97,26 @@ extension ActivityStore {
 extension ActivityStore {
     
     func getCompletion(for activity: Activity, on date: Date) -> Completion? {
-        let completions = allCompletions.filter { (completion: Completion) -> Bool in
+        
+        let completions = allCompletions[activity]?.filter { (completion: Completion) -> Bool in
             
-            guard let completionActivity = completion.activity,
-                let completionDate = completion.date else {
-                    
+            guard let completionDate = completion.date else {
                     return false
             }
             
-            return completionActivity == activity && Calendar.current.isDate(completionDate, inSameDayAs: date)
+            return Calendar.current.isDate(completionDate, inSameDayAs: date)
         }
-        assert(completions.count <= 1, "Multiple completions found for \(activity) on \(date)")
+        assert(completions!.count <= 1, "Multiple completions found for \(activity) on \(date)")
         
-        return completions.first ?? nil
+        return completions?.first ?? nil
+    }
+    
+    private func add(completion: Completion, for activity: Activity) {
+        if allCompletions[activity] == nil {
+            allCompletions[activity] = []
+        }
+        
+        allCompletions[activity]!.append(completion)
     }
     
     @discardableResult
@@ -127,7 +134,7 @@ extension ActivityStore {
             completion.wasCompleted = wasCompleted
         }
         
-        allCompletions.append(completion)
+        add(completion: completion, for: activity)
         
         do {
             try persistToDisk()
@@ -166,17 +173,23 @@ extension ActivityStore {
         context.performAndWait {
             do {
                 let completions = try context.fetch(completionFetchRequest)
-                self.allCompletions += completions
+                for completion in completions {
+                    guard let activity = completion.activity else {
+                        continue
+                    }
+                    
+                    self.add(completion: completion, for: activity)
+                }
+                
+                print("ActivityStore retrieved \(completions.count) completions from CoreData")
             } catch let error {
                 fetchError = error
+                print("Could not fetch Completions from CoreData: \(String(describing: error))")
             }
         }
         
         if fetchError != nil {
-            print("Could not fetch Completions from CoreData: \(String(describing: fetchError))")
             throw Error.couldNotFetch
-        } else {
-            print("ActivityStore retrieved \(allCompletions.count) completions from CoreData")
         }
     }
 }
