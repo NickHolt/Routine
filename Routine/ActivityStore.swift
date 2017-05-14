@@ -53,7 +53,7 @@ class ActivityStore: EntityStore {
             print("Could not fetch Activities from CoreData: \(String(describing: fetchError))")
             throw Error.couldNotFetch
         } else {
-            print("ActivityStore retrieved \(allActivities.count) activities from disk")
+            print("ActivityStore retrieved \(allActivities.count) activities from CoreData")
         }
     }
     

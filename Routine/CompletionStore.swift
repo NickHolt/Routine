@@ -33,10 +33,36 @@ class CompletionStore: EntityStore {
     }
     
     func loadFromDisk() throws {
-        // Stub
+        let completionFetchRequest: NSFetchRequest<Completion> = Completion.fetchRequest()
+        
+        let sortByDate = NSSortDescriptor(key: #keyPath(Completion.date), ascending: true)
+        completionFetchRequest.sortDescriptors = [sortByDate]
+        
+        let context = persistentContainer.viewContext
+        var fetchError: Swift.Error?
+        context.performAndWait {
+            do {
+                let completions = try context.fetch(completionFetchRequest)
+                self.allCompletions += completions
+            } catch let error {
+                fetchError = error
+            }
+        }
+        
+        if fetchError != nil {
+            print("Could not fetch Completions from CoreData: \(String(describing: fetchError))")
+            throw Error.couldNotFetch
+        } else {
+            print("CompletionStore retrieved \(allCompletions.count) activities from CoreData")
+        }
     }
     
     func persistToDisk() throws {
-        // Stub
+        do {
+            try persistentContainer.viewContext.save()
+        } catch let error {
+            print("Error persisting Completions to disk: \(error)")
+            throw Error.couldNotPersist
+        }
     }
 }

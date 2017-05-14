@@ -17,7 +17,7 @@ extension Completion {
     }
 
     @NSManaged public var wasCompleted: Bool
-    @NSManaged public var date: NSDate?
+    @NSManaged public var date: Date?
     @NSManaged public var activity: Activity?
 
 }
