@@ -16,7 +16,7 @@ class DailyActivitiesViewController: UITableViewController {
     
     var activityStore: ActivityStore!
     var currentActivities: [Activity]!
-    var completedActivities = [Activity]()
+    var completedActivities = Set<Activity>()
     
     var displayedDate: Date!
     var displayedDateIsToday: Bool {
@@ -106,10 +106,10 @@ class DailyActivitiesViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let activity = self.activity(for: indexPath)
         
-        if let activityIndex = completedActivities.index(of: activity) {
-            completedActivities.remove(at: activityIndex)
+        if completedActivities.contains(activity) {
+            completedActivities.remove(activity)
         } else {
-            completedActivities.append(activity)
+            completedActivities.insert(activity)
         }
         
         tableView.reloadRows(at: [indexPath], with: .automatic)
@@ -118,7 +118,7 @@ class DailyActivitiesViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         let activity = self.activity(for: indexPath)
         
-        if completedActivities.index(of: activity) != nil {
+        if completedActivities.contains(activity) {
             cell.accessoryType = .checkmark
             
             activityStore.registerCompletion(for: activity, on: displayedDate)
