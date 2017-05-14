@@ -176,7 +176,7 @@ extension ActivityStore {
             print("Could not fetch Completions from CoreData: \(String(describing: fetchError))")
             throw Error.couldNotFetch
         } else {
-            print("CompletionStore retrieved \(allCompletions.count) activities from CoreData")
+            print("ActivityStore retrieved \(allCompletions.count) completions from CoreData")
         }
     }
 }
