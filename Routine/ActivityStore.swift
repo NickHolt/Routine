@@ -6,27 +6,11 @@
 //  Copyright © 2017 Redox. All rights reserved.
 //
 
-import UIKit
 import CoreData
 
-class ActivityStore {
-    enum Error: Swift.Error {
-        case couldNotFetch
-        case couldNotPersist
-    }
-    
+class ActivityStore: EntityStore {
     var allActivities = [Activity]()
     
-    let persistentContainer: NSPersistentContainer = {
-        let container = NSPersistentContainer(name: "Routine")
-        container.loadPersistentStores { (description, error) in
-            if let error = error {
-                preconditionFailure("Error setting up Core Data (\(error)).")
-            }
-        }
-        return container
-    }()
-
     @discardableResult func fetchNewActivity() -> Activity {
         let context = persistentContainer.viewContext
         var activity: Activity!
