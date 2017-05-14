@@ -11,6 +11,7 @@ import UIKit
 class RoutineTabBarController: UITabBarController {
     
     var activityStore: ActivityStore!
+    var completionStore: CompletionStore!
     
     override func viewDidLoad() {
         super.viewDidLoad()
