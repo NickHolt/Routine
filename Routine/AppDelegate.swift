@@ -14,7 +14,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
     var activityStore: ActivityStore!
-    var completionStore: CompletionStore!
     
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
@@ -27,16 +26,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             assertionFailure("ActivityStore could not fetch Activities")
         }
         
-        completionStore = CompletionStore()
-        do {
-            try completionStore.loadFromDisk()
-        } catch {
-            assertionFailure("CompletionStore could not fetch Completions")
-        }
-        
         let routineTabBarController = window!.rootViewController as! RoutineTabBarController
         routineTabBarController.activityStore = activityStore
-        routineTabBarController.completionStore = completionStore
         
         return true
     }
