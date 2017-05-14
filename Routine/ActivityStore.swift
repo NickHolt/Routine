@@ -129,6 +129,12 @@ extension ActivityStore {
         
         allCompletions.append(completion)
         
+        do {
+            try persistToDisk()
+        } catch {
+            print("ActivityStore could not save on completion change")
+        }
+        
         return completion
     }
     

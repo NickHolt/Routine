@@ -77,6 +77,8 @@ class DailyActivitiesViewController: UITableViewController {
         let dayOfWeek = Calendar(identifier: .gregorian).dayOfWeek(from: date)
         currentActivities = activityStore.activities(for: dayOfWeek)
         
+        // TODO - populate completedActivities from ActivityStore
+        
         configureBarButtonItems()
         configureTitle()
         
@@ -118,8 +120,12 @@ class DailyActivitiesViewController: UITableViewController {
         
         if completedActivities.index(of: activity) != nil {
             cell.accessoryType = .checkmark
+            
+            activityStore.registerCompletion(for: activity, on: displayedDate)
         } else {
             cell.accessoryType = .none
+            
+            activityStore.registerNonCompletion(for: activity, on: displayedDate)
         }
     }
     
