@@ -76,8 +76,16 @@ class DailyActivitiesViewController: UITableViewController {
 
         let dayOfWeek = Calendar(identifier: .gregorian).dayOfWeek(from: date)
         currentActivities = activityStore.activities(for: dayOfWeek)
-        
-        // TODO - populate completedActivities from ActivityStore
+                
+        // Populate completedActivities from ActivityStore
+        completedActivities.removeAll()
+        for activity in currentActivities {
+            guard let isCompleted = activityStore.getCompletion(for: activity, on: displayedDate)?.wasCompleted, isCompleted else {
+                continue
+            }
+
+            completedActivities.insert(activity)
+        }
         
         configureBarButtonItems()
         configureTitle()
