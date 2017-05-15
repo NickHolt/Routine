@@ -11,7 +11,7 @@ import UIKit
 class RoutineTabBarController: UITabBarController {
     
     var activityStore: ActivityStore!
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         

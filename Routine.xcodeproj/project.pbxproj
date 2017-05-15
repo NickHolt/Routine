@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		370251591EC54ED20023364C /* Activity+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 370251571EC54ED20023364C /* Activity+CoreDataClass.swift */; };
 		3702515A1EC54ED20023364C /* Activity+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 370251581EC54ED20023364C /* Activity+CoreDataProperties.swift */; };
+		3716630A1EC90C8A00222FB2 /* Completion+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 371663081EC90C8A00222FB2 /* Completion+CoreDataClass.swift */; };
+		3716630B1EC90C8A00222FB2 /* Completion+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 371663091EC90C8A00222FB2 /* Completion+CoreDataProperties.swift */; };
 		372000841EBE528B00895527 /* DailyActivitiesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 372000831EBE528B00895527 /* DailyActivitiesViewController.swift */; };
 		373B69481EBE9C7B001DE015 /* DayOfWeekButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 373B69471EBE9C7B001DE015 /* DayOfWeekButton.swift */; };
 		378BD1D41EBE586E00DD0B42 /* ActivityStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 378BD1D31EBE586E00DD0B42 /* ActivityStore.swift */; };
@@ -47,6 +49,8 @@
 /* Begin PBXFileReference section */
 		370251571EC54ED20023364C /* Activity+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Activity+CoreDataClass.swift"; sourceTree = "<group>"; };
 		370251581EC54ED20023364C /* Activity+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Activity+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		371663081EC90C8A00222FB2 /* Completion+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Completion+CoreDataClass.swift"; sourceTree = "<group>"; };
+		371663091EC90C8A00222FB2 /* Completion+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Completion+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		372000831EBE528B00895527 /* DailyActivitiesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DailyActivitiesViewController.swift; sourceTree = "<group>"; };
 		373B69471EBE9C7B001DE015 /* DayOfWeekButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DayOfWeekButton.swift; sourceTree = "<group>"; };
 		378BD1D31EBE586E00DD0B42 /* ActivityStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActivityStore.swift; sourceTree = "<group>"; };
@@ -113,6 +117,8 @@
 				370251571EC54ED20023364C /* Activity+CoreDataClass.swift */,
 				370251581EC54ED20023364C /* Activity+CoreDataProperties.swift */,
 				378BD1D31EBE586E00DD0B42 /* ActivityStore.swift */,
+				371663081EC90C8A00222FB2 /* Completion+CoreDataClass.swift */,
+				371663091EC90C8A00222FB2 /* Completion+CoreDataProperties.swift */,
 				378BD1D71EBE6CC000DD0B42 /* DayOfWeek.swift */,
 			);
 			name = Models;
@@ -329,7 +335,9 @@
 				378BD1D41EBE586E00DD0B42 /* ActivityStore.swift in Sources */,
 				37AF86511EBE7F7700691872 /* ActivitiesViewController.swift in Sources */,
 				372000841EBE528B00895527 /* DailyActivitiesViewController.swift in Sources */,
+				3716630B1EC90C8A00222FB2 /* Completion+CoreDataProperties.swift in Sources */,
 				3702515A1EC54ED20023364C /* Activity+CoreDataProperties.swift in Sources */,
+				3716630A1EC90C8A00222FB2 /* Completion+CoreDataClass.swift in Sources */,
 				378BD1D61EBE66BE00DD0B42 /* DailyActivitiesViewCell.swift in Sources */,
 				37F2B95E1EBA91BA00A6AB9D /* AppDelegate.swift in Sources */,
 			);

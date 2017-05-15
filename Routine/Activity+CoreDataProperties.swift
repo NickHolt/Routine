@@ -48,4 +48,22 @@ extension Activity {
     }
     @NSManaged public var title: String?
     @NSManaged public var uuid: UUID?
+
+}
+
+// MARK: Generated accessors for completions
+extension Activity {
+
+    @objc(addCompletionsObject:)
+    @NSManaged public func addToCompletions(_ value: Completion)
+
+    @objc(removeCompletionsObject:)
+    @NSManaged public func removeFromCompletions(_ value: Completion)
+
+    @objc(addCompletions:)
+    @NSManaged public func addToCompletions(_ values: NSSet)
+
+    @objc(removeCompletions:)
+    @NSManaged public func removeFromCompletions(_ values: NSSet)
+
 }
