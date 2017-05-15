@@ -116,8 +116,10 @@ class DailyActivitiesViewController: UITableViewController {
         
         if completedActivities.contains(activity) {
             completedActivities.remove(activity)
+            activityStore.registerNonCompletion(for: activity, on: displayedDate)
         } else {
             completedActivities.insert(activity)
+            activityStore.registerCompletion(for: activity, on: displayedDate)
         }
         
         tableView.reloadRows(at: [indexPath], with: .automatic)
@@ -128,12 +130,8 @@ class DailyActivitiesViewController: UITableViewController {
         
         if completedActivities.contains(activity) {
             cell.accessoryType = .checkmark
-            
-            activityStore.registerCompletion(for: activity, on: displayedDate)
         } else {
             cell.accessoryType = .none
-            
-            activityStore.registerNonCompletion(for: activity, on: displayedDate)
         }
     }
     

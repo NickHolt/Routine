@@ -106,7 +106,7 @@ extension ActivityStore {
             
             return Calendar.current.isDate(completionDate, inSameDayAs: date)
         }
-        assert(completions!.count <= 1, "Multiple completions found for \(activity) on \(date)")
+        assert(completions?.count ?? 0 <= 1, "Multiple completions found for \(activity) on \(date)")
         
         return completions?.first ?? nil
     }
