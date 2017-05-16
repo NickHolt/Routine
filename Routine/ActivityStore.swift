@@ -26,15 +26,7 @@ class ActivityStore {
         return container
     }()
     
-    var allActivities = [Activity]() {
-        didSet {
-            allActivities.sort {
-                activityA, activityB -> Bool in
-                
-                return activityA.title ?? "" < activityB.title ?? ""
-            }
-        }
-    }
+    var allActivities = [Activity]()
     var allCompletions = [Activity: [Completion]]()
 
     func loadFromDisk() throws {

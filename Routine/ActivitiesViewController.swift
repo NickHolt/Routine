@@ -11,6 +11,7 @@ import UIKit
 class ActivitiesViewController: UITableViewController {
     
     var activityStore: ActivityStore!
+    var displayedActivities = [Activity]()
     
     private func activity(for indexPath: IndexPath) -> Activity {
         return activityStore.allActivities[indexPath.row]
@@ -26,6 +27,13 @@ class ActivitiesViewController: UITableViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        
+        displayedActivities = activityStore.allActivities
+        displayedActivities.sort {
+            activityA, activityB -> Bool in
+            
+            return activityA.title ?? "" < activityB.title ?? ""
+        }
         
         tableView.reloadData()
     }
@@ -76,6 +84,9 @@ class ActivitiesViewController: UITableViewController {
             let activity = self.activity(for: indexPath)
             
             try? activityStore.remove(activity: activity)
+            if let activityIndex = displayedActivities.index(of: activity) {
+                displayedActivities.remove(at: activityIndex)
+            }
             
             tableView.deleteRows(at: [indexPath], with: .automatic)
         }
