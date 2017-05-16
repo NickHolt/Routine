@@ -46,6 +46,8 @@ class ActivityDetailViewController: UIViewController, UITextFieldDelegate {
         for day in currentActivity.daysOfWeek {
             buttonMap[day]!.isSelected = true
         }
+        
+        activityTitle.becomeFirstResponder()
     }
     
     @IBAction func toggleDayButton(_ sender: DayOfWeekButton) {
