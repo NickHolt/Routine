@@ -60,4 +60,14 @@ class ActivitiesViewController: UITableViewController {
             preconditionFailure("Unexpected segue identifier")
         }        
     }
+    
+    @IBAction func toggleEditingMode(_ sender: UIBarButtonItem) {
+        if isEditing {
+            sender.title = "Edit"
+            setEditing(false, animated: true)
+        } else {
+            sender.title = "Done"
+            setEditing(true, animated: true)
+        }
+    }
 }
