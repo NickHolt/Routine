@@ -11,10 +11,12 @@ import UIKit
 class ActivitiesViewController: UITableViewController {
     
     var activityStore: ActivityStore!
-    var displayedActivities = [Activity]()
+    var displayedActivities: [Activity]!
+    
+    var searchController: UISearchController!
     
     private func activity(for indexPath: IndexPath) -> Activity {
-        return activityStore.allActivities[indexPath.row]
+        return displayedActivities[indexPath.row]
     }
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -22,18 +24,29 @@ class ActivitiesViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return activityStore.allActivities.count
+        return displayedActivities.count
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
+        // Sort displayed activities
         displayedActivities = activityStore.allActivities
         displayedActivities.sort {
             activityA, activityB -> Bool in
             
             return activityA.title ?? "" < activityB.title ?? ""
         }
+        
+        // Configure search
+        searchController = UISearchController(searchResultsController: nil)
+        searchController.searchResultsUpdater = self
+        searchController.dimsBackgroundDuringPresentation = false
+        
+        searchController.searchBar.sizeToFit()
+        tableView.tableHeaderView = searchController.searchBar
+        
+        definesPresentationContext = true
         
         tableView.reloadData()
     }
@@ -89,6 +102,20 @@ class ActivitiesViewController: UITableViewController {
             }
             
             tableView.deleteRows(at: [indexPath], with: .automatic)
+        }
+    }
+}
+
+extension ActivitiesViewController: UISearchResultsUpdating {
+    func updateSearchResults(for searchController: UISearchController) {
+        if let searchText = searchController.searchBar.text {
+            displayedActivities = searchText.isEmpty ? activityStore.allActivities : activityStore.allActivities.filter {
+                    activity -> Bool in
+                
+                return activity.title?.range(of: searchText, options: .caseInsensitive) != nil
+            }
+            
+            tableView.reloadData()
         }
     }
 }
