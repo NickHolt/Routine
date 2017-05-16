@@ -76,7 +76,12 @@ class DailyActivitiesViewController: UITableViewController {
 
         let dayOfWeek = Calendar(identifier: .gregorian).dayOfWeek(from: date)
         currentActivities = activityStore.activities(for: dayOfWeek)
-                
+        currentActivities.sort {
+            activityA, activityB -> Bool in
+            
+            return activityA.title ?? "" < activityB.title ?? ""
+        }
+        
         // Populate completedActivities from ActivityStore
         completedActivities.removeAll()
         for activity in currentActivities {

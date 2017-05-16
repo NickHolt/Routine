@@ -11,4 +11,7 @@ import CoreData
 
 @objc(Activity)
 public class Activity: NSManagedObject {
+    override public var description: String {
+        return "Activity<\(self.title ?? "?")>"
+    }
 }
