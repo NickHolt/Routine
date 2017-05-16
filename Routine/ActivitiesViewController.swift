@@ -60,4 +60,24 @@ class ActivitiesViewController: UITableViewController {
             preconditionFailure("Unexpected segue identifier")
         }        
     }
+    
+    @IBAction func toggleEditingMode(_ sender: UIBarButtonItem) {
+        if isEditing {
+            sender.title = "Edit"
+            setEditing(false, animated: true)
+        } else {
+            sender.title = "Done"
+            setEditing(true, animated: true)
+        }
+    }
+    
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            let activity = self.activity(for: indexPath)
+            
+            try? activityStore.remove(activity: activity)
+            
+            tableView.deleteRows(at: [indexPath], with: .automatic)
+        }
+    }
 }

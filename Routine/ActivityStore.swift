@@ -11,6 +11,7 @@ import CoreData
 class ActivityStore {
     
     enum Error: Swift.Error {
+        case activityNotFound(Activity)
         case couldNotFetch
         case couldNotPersist
     }
@@ -62,6 +63,21 @@ extension ActivityStore {
     func activities(for day: DayOfWeek) -> [Activity] {
         return allActivities.filter { (activity: Activity) -> Bool in
             return activity.daysOfWeek.contains(day)
+        }
+    }
+    
+    func remove(activity: Activity) throws {
+        guard let activityIndex = allActivities.index(of: activity) else {
+            throw Error.activityNotFound(activity)
+        }
+        
+        allActivities.remove(at: activityIndex)
+        persistentContainer.viewContext.delete(activity)
+        
+        do {
+            try persistToDisk()
+        } catch {
+            print("Failed to delete \(activity) from disk. Might work on next save.")
         }
     }
     
