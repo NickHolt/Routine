@@ -39,14 +39,19 @@ class ActivitiesViewController: UITableViewController {
         }
         
         // Configure search
-        searchController = UISearchController(searchResultsController: nil)
-        searchController.searchResultsUpdater = self
-        searchController.dimsBackgroundDuringPresentation = false
-        
-        searchController.searchBar.sizeToFit()
-        tableView.tableHeaderView = searchController.searchBar
-        
-        definesPresentationContext = true
+        if displayedActivities.count > 0 {
+            searchController = UISearchController(searchResultsController: nil)
+            searchController.searchResultsUpdater = self
+            searchController.dimsBackgroundDuringPresentation = false
+            
+            searchController.searchBar.sizeToFit()
+            tableView.tableHeaderView = searchController.searchBar
+            
+            definesPresentationContext = true
+            
+            // Hide search bar by default
+            tableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: false)
+        }
         
         tableView.reloadData()
     }
