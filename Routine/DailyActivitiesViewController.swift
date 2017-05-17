@@ -86,8 +86,12 @@ class DailyActivitiesViewController: UITableViewController {
         completedActivities.removeAll()
         for activity in currentActivities {
             guard let completionStatus = activityStore.getCompletion(for: activity, on: displayedDate)?.status, completionStatus == .completed else {
+                print("\(String(describing: activity.title)). \(String(describing: activityStore.getCompletion(for: activity, on: displayedDate)?.status))")
                 continue
             }
+            
+            print("\(String(describing: activity.title)). \(String(describing: activityStore.getCompletion(for: activity, on: displayedDate)?.status))")
+
 
             completedActivities.insert(activity)
         }
@@ -121,10 +125,10 @@ class DailyActivitiesViewController: UITableViewController {
         
         if completedActivities.contains(activity) {
             completedActivities.remove(activity)
-            activityStore.registerNonCompletion(for: activity, on: displayedDate)
+            activityStore.registerCompletion(for: activity, on: displayedDate, withStatus: .notCompleted)
         } else {
             completedActivities.insert(activity)
-            activityStore.registerCompletion(for: activity, on: displayedDate)
+            activityStore.registerCompletion(for: activity, on: displayedDate, withStatus: .completed)
         }
         
         tableView.reloadRows(at: [indexPath], with: .automatic)
