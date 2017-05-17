@@ -10,6 +10,8 @@ import UIKit
 
 class DailyActivitiesViewController: UITableViewController {
     
+    fileprivate let excusedCellBackgroundColor: UIColor = .lightGray
+    
     @IBOutlet var yesterdayButton: UIBarButtonItem!
     @IBOutlet var tomorrowButton: UIBarButtonItem!
     @IBOutlet var addActivityButton: UIBarButtonItem!
@@ -79,18 +81,22 @@ class DailyActivitiesViewController: UITableViewController {
             return activityA.title ?? "" < activityB.title ?? ""
         }
         
-        // Populate completedActivities from ActivityStore
+        // Populate from ActivityStore
         completedActivities.removeAll()
+        excusedActivities.removeAll()
         for activity in currentActivities {
-            guard let completionStatus = activityStore.getCompletion(for: activity, on: displayedDate)?.status, completionStatus == .completed else {
-                print("\(String(describing: activity.title)). \(String(describing: activityStore.getCompletion(for: activity, on: displayedDate)?.status))")
+            guard let completionStatus = activityStore.getCompletion(for: activity, on: displayedDate)?.status else {
                 continue
             }
             
-            print("\(String(describing: activity.title)). \(String(describing: activityStore.getCompletion(for: activity, on: displayedDate)?.status))")
-
-
-            completedActivities.insert(activity)
+            switch completionStatus {
+            case .completed:
+                completedActivities.insert(activity)
+            case .excused:
+                excusedActivities.insert(activity)
+            case .notCompleted:
+                break
+            }
         }
         
         configureBarButtonItems()
@@ -105,27 +111,6 @@ class DailyActivitiesViewController: UITableViewController {
     
     @IBAction func viewDayAfter(_ sender: UIBarButtonItem) {
         load(with: dateDayAfter)
-    }
-    
-    fileprivate func rowExcused(_ action: UITableViewRowAction, _ indexPath: IndexPath) {
-        let activity = self.activity(for: indexPath)
-        
-        let cell = tableView.cellForRow(at: indexPath)
-        cell?.accessoryType = .none
-        
-        if !excusedActivities.contains(activity) {
-            excusedActivities.insert(activity)
-            cell?.backgroundColor = .lightGray
-            
-            activityStore.registerCompletion(for: activity, on: displayedDate, withStatus: .excused)
-        } else {
-            excusedActivities.remove(activity)
-            cell?.backgroundColor = nil
-            
-            activityStore.registerCompletion(for: activity, on: displayedDate, withStatus: .notCompleted)
-        }
-        
-        tableView.setEditing(false, animated: true)
     }
 }
 
@@ -169,12 +154,14 @@ extension DailyActivitiesViewController {
     }
     
     override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        let activity = self.activity(for: indexPath)
+        cell.accessoryType = .none
+        cell.backgroundColor = nil
         
+        let activity = self.activity(for: indexPath)
         if completedActivities.contains(activity) {
             cell.accessoryType = .checkmark
-        } else {
-            cell.accessoryType = .none
+        } else if excusedActivities.contains(activity) {
+            cell.backgroundColor = excusedCellBackgroundColor
         }
     }
     
@@ -194,12 +181,29 @@ extension DailyActivitiesViewController {
     override func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
         let activity = self.activity(for: indexPath)
         
+        let cell = tableView.cellForRow(at: indexPath)
+        cell?.accessoryType = .none
+        
         var archiveAction: UITableViewRowAction
         if !excusedActivities.contains(activity) {
-            archiveAction = UITableViewRowAction(style: .normal, title: "Excuse", handler: rowExcused)
+            archiveAction = UITableViewRowAction(style: .normal, title: "Excuse") { action, index in
+                self.excusedActivities.insert(activity)
+                cell?.backgroundColor = self.excusedCellBackgroundColor
+                
+                self.activityStore.registerCompletion(for: activity, on: self.displayedDate, withStatus: .excused)
+                
+                tableView.setEditing(false, animated: true)
+            }
             archiveAction.backgroundColor = .lightGray
         } else {
-            archiveAction = UITableViewRowAction(style: .normal, title: "Revive", handler: rowExcused)
+            archiveAction = UITableViewRowAction(style: .normal, title: "Revive") { action, index in
+                self.excusedActivities.remove(activity)
+                cell?.backgroundColor = nil
+                
+                self.activityStore.registerCompletion(for: activity, on: self.displayedDate, withStatus: .notCompleted)
+                
+                tableView.setEditing(false, animated: true)
+            }
             archiveAction.backgroundColor = .green
         }
         
