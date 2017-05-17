@@ -147,7 +147,8 @@ extension ActivityStore {
             completion = Completion(context: context)
             completion.activity = activity
             completion.date = date
-            completion.wasCompleted = wasCompleted
+            
+            completion.status = wasCompleted ? .completed : .notCompleted
         }
         
         add(completion: completion, for: activity)

@@ -85,7 +85,7 @@ class DailyActivitiesViewController: UITableViewController {
         // Populate completedActivities from ActivityStore
         completedActivities.removeAll()
         for activity in currentActivities {
-            guard let isCompleted = activityStore.getCompletion(for: activity, on: displayedDate)?.wasCompleted, isCompleted else {
+            guard let completionStatus = activityStore.getCompletion(for: activity, on: displayedDate)?.status, completionStatus == .completed else {
                 continue
             }
 

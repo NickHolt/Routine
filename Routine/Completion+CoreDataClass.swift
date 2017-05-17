@@ -12,4 +12,24 @@ import CoreData
 @objc(Completion)
 public class Completion: NSManagedObject {
 
+    public enum Status: Int {
+        case completed
+        case notCompleted
+        case excused
+    }
+    
+    public var status: Status {
+        set {
+            self.willChangeValue(forKey: "status")
+            self.setPrimitiveValue(newValue.rawValue, forKey: "status")
+            self.didChangeValue(forKey: "status")
+        }
+        get {
+            self.willAccessValue(forKey: "status")
+            let rawValue = self.primitiveValue(forKey: "status") as! Int
+            self.didAccessValue(forKey: "status")
+            
+            return Status(rawValue: rawValue)!
+        }
+    }
 }

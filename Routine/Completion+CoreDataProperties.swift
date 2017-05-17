@@ -2,7 +2,7 @@
 //  Completion+CoreDataProperties.swift
 //  Routine
 //
-//  Created by Nick Holt on 5/14/17.
+//  Created by Nick Holt on 5/16/17.
 //  Copyright © 2017 Redox. All rights reserved.
 //
 
@@ -16,7 +16,6 @@ extension Completion {
         return NSFetchRequest<Completion>(entityName: "Completion")
     }
 
-    @NSManaged public var wasCompleted: Bool
     @NSManaged public var date: Date?
     @NSManaged public var activity: Activity?
 
