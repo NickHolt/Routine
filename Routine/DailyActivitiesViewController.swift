@@ -17,6 +17,7 @@ class DailyActivitiesViewController: UITableViewController {
     var activityStore: ActivityStore!
     var currentActivities: [Activity]!
     var completedActivities = Set<Activity>()
+    var excusedActivities = Set<Activity>()
     
     var displayedDate: Date!
     var displayedDateIsToday: Bool {
@@ -172,10 +173,23 @@ extension DailyActivitiesViewController {
     override func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
         let activity = self.activity(for: indexPath)
         
-        let archiveAction = UITableViewRowAction(style: .normal, title: "Excuse") { action, index in
-            print("Excusing \(activity)!")
+        var archiveAction: UITableViewRowAction
+        if !excusedActivities.contains(activity) {
+            excusedActivities.insert(activity)
+            
+            archiveAction = UITableViewRowAction(style: .normal, title: "Excuse") { action, index in
+                tableView.cellForRow(at: indexPath)?.backgroundColor = .lightGray
+
+            }
+            archiveAction.backgroundColor = .lightGray
+        } else {
+            excusedActivities.remove(activity)
+            
+            archiveAction = UITableViewRowAction(style: .normal, title: "Revive") { action, index in
+                tableView.cellForRow(at: indexPath)?.backgroundColor = nil
+            }
+            archiveAction.backgroundColor = .green
         }
-        archiveAction.backgroundColor = .lightGray
         
         return [archiveAction]
     }
