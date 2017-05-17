@@ -17,6 +17,7 @@ class DailyActivitiesViewController: UITableViewController {
     var activityStore: ActivityStore!
     var currentActivities: [Activity]!
     var completedActivities = Set<Activity>()
+    var excusedActivities = Set<Activity>()
     
     var displayedDate: Date!
     var displayedDateIsToday: Bool {
@@ -44,15 +45,11 @@ class DailyActivitiesViewController: UITableViewController {
         return dateFormatter
     }()
 
-    private func activity(for indexPath: IndexPath) -> Activity {
+    fileprivate func activity(for indexPath: IndexPath) -> Activity {
         return currentActivities[indexPath.row]
     }
     
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return currentActivities.count
-    }
-    
-    private func configureBarButtonItems() {
+    fileprivate func configureBarButtonItems() {
         if displayedDateIsToday {
             self.navigationItem.rightBarButtonItems = [addActivityButton]
         } else {
@@ -63,7 +60,7 @@ class DailyActivitiesViewController: UITableViewController {
         tomorrowButton.title = "\(buttonDateFormatter.string(from: dateDayAfter)) >"
     }
     
-    private func configureTitle() {
+    fileprivate func configureTitle() {
         if displayedDateIsToday {
             self.navigationItem.title = "Today"
         } else {
@@ -71,7 +68,7 @@ class DailyActivitiesViewController: UITableViewController {
         }
     }
     
-    private func load(with date: Date) {
+    fileprivate func load(with date: Date) {
         displayedDate = date
 
         let dayOfWeek = Calendar(identifier: .gregorian).dayOfWeek(from: date)
@@ -82,14 +79,22 @@ class DailyActivitiesViewController: UITableViewController {
             return activityA.title ?? "" < activityB.title ?? ""
         }
         
-        // Populate completedActivities from ActivityStore
+        // Populate from ActivityStore
         completedActivities.removeAll()
+        excusedActivities.removeAll()
         for activity in currentActivities {
-            guard let isCompleted = activityStore.getCompletion(for: activity, on: displayedDate)?.wasCompleted, isCompleted else {
+            guard let completionStatus = activityStore.getCompletion(for: activity, on: displayedDate)?.status else {
                 continue
             }
-
-            completedActivities.insert(activity)
+            
+            switch completionStatus {
+            case .completed:
+                completedActivities.insert(activity)
+            case .excused:
+                excusedActivities.insert(activity)
+            case .notCompleted:
+                break
+            }
         }
         
         configureBarButtonItems()
@@ -102,6 +107,69 @@ class DailyActivitiesViewController: UITableViewController {
         super.viewWillAppear(animated)
         
         load(with: Date())
+    }
+    
+    @IBAction func viewDayBefore(_ sender: UIBarButtonItem) {
+        load(with: dateDayBefore)
+    }
+    
+    @IBAction func viewDayAfter(_ sender: UIBarButtonItem) {
+        load(with: dateDayAfter)
+    }
+    
+    fileprivate func format(cell: UITableViewCell, forCompletionStatus status: Completion.Status) {
+        switch status {
+        case .completed:
+            cell.accessoryType = .checkmark
+            cell.backgroundColor = nil
+        case .excused:
+            cell.accessoryType = .none
+            cell.backgroundColor = .lightGray
+        case .notCompleted:
+            cell.accessoryType = .none
+            cell.backgroundColor = nil
+        }
+    }
+    
+    fileprivate func setCompletionStatus(forActivityAt indexPath: IndexPath, status: Completion.Status) {
+        let activity = self.activity(for: indexPath)
+
+        switch status {
+        case .completed:
+            completedActivities.insert(activity)
+            excusedActivities.remove(activity)
+
+            activityStore.registerCompletion(for: activity, on: displayedDate, withStatus: .completed)
+        case .excused:
+            completedActivities.remove(activity)
+            excusedActivities.insert(activity)
+            
+            activityStore.registerCompletion(for: activity, on: displayedDate, withStatus: .excused)
+        case .notCompleted:
+            completedActivities.remove(activity)
+            excusedActivities.remove(activity)
+
+            activityStore.registerCompletion(for: activity, on: displayedDate, withStatus: .notCompleted)
+        }
+        
+        guard let cell = tableView.cellForRow(at: indexPath) else {
+            return
+        }
+        
+        format(cell: cell, forCompletionStatus: status)
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        let detailViewController = segue.destination as! ActivityDetailViewController
+        detailViewController.activityStore = activityStore
+    }
+}
+
+// MARK: UITableViewController methods
+extension DailyActivitiesViewController {
+    
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return currentActivities.count
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -120,11 +188,9 @@ class DailyActivitiesViewController: UITableViewController {
         let activity = self.activity(for: indexPath)
         
         if completedActivities.contains(activity) {
-            completedActivities.remove(activity)
-            activityStore.registerNonCompletion(for: activity, on: displayedDate)
+            setCompletionStatus(forActivityAt: indexPath, status: .notCompleted)
         } else {
-            completedActivities.insert(activity)
-            activityStore.registerCompletion(for: activity, on: displayedDate)
+            setCompletionStatus(forActivityAt: indexPath, status: .completed)
         }
         
         tableView.reloadRows(at: [indexPath], with: .automatic)
@@ -132,11 +198,12 @@ class DailyActivitiesViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         let activity = self.activity(for: indexPath)
-        
         if completedActivities.contains(activity) {
-            cell.accessoryType = .checkmark
+            format(cell: cell, forCompletionStatus: .completed)
+        } else if excusedActivities.contains(activity) {
+            format(cell: cell, forCompletionStatus: .excused)
         } else {
-            cell.accessoryType = .none
+            format(cell: cell, forCompletionStatus: .notCompleted)
         }
     }
     
@@ -144,16 +211,28 @@ class DailyActivitiesViewController: UITableViewController {
         return 65
     }
     
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        let detailViewController = segue.destination as! ActivityDetailViewController
-        detailViewController.activityStore = activityStore
+    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        return true
     }
     
-    @IBAction func viewDayBefore(_ sender: UIBarButtonItem) {
-        load(with: dateDayBefore)
-    }
-    
-    @IBAction func viewDayAfter(_ sender: UIBarButtonItem) {
-        load(with: dateDayAfter)
+    override func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
+        let activity = self.activity(for: indexPath)
+        
+        var archiveAction: UITableViewRowAction
+        if !excusedActivities.contains(activity) {
+            archiveAction = UITableViewRowAction(style: .normal, title: "Excuse") { action, index in
+                self.setCompletionStatus(forActivityAt: index, status: .excused)
+                tableView.setEditing(false, animated: true)
+            }
+            archiveAction.backgroundColor = .lightGray
+        } else {
+            archiveAction = UITableViewRowAction(style: .normal, title: "Revive") { action, index in
+                self.setCompletionStatus(forActivityAt: index, status: .notCompleted)
+                tableView.setEditing(false, animated: true)
+            }
+            archiveAction.backgroundColor = .green
+        }
+        
+        return [archiveAction]
     }
 }

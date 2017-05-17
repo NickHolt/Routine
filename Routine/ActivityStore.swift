@@ -136,7 +136,7 @@ extension ActivityStore {
     }
     
     @discardableResult
-    private func registerCompletion(for activity: Activity, on date: Date, wasCompleted: Bool) -> Completion {
+    func registerCompletion(for activity: Activity, on date: Date, withStatus status: Completion.Status) -> Completion {
         
         deleteCompletion(for: activity, on: date)
         
@@ -147,7 +147,7 @@ extension ActivityStore {
             completion = Completion(context: context)
             completion.activity = activity
             completion.date = date
-            completion.wasCompleted = wasCompleted
+            completion.status = status
         }
         
         add(completion: completion, for: activity)
@@ -159,14 +159,6 @@ extension ActivityStore {
         }
         
         return completion
-    }
-    
-    @discardableResult func registerCompletion(for activity: Activity, on date: Date) -> Completion {
-        return registerCompletion(for: activity, on: date, wasCompleted: true)
-    }
-    
-    @discardableResult func registerNonCompletion(for activity: Activity, on date: Date) -> Completion {
-        return registerCompletion(for: activity, on: date, wasCompleted: false)
     }
     
     private func deleteCompletion(for activity: Activity, on date: Date) {
