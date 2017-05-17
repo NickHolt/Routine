@@ -179,7 +179,7 @@ extension DailyActivitiesViewController {
             
             archiveAction = UITableViewRowAction(style: .normal, title: "Excuse") { action, index in
                 tableView.cellForRow(at: indexPath)?.backgroundColor = .lightGray
-
+                tableView.setEditing(false, animated: true)
             }
             archiveAction.backgroundColor = .lightGray
         } else {
@@ -187,6 +187,7 @@ extension DailyActivitiesViewController {
             
             archiveAction = UITableViewRowAction(style: .normal, title: "Revive") { action, index in
                 tableView.cellForRow(at: indexPath)?.backgroundColor = nil
+                tableView.setEditing(false, animated: true)
             }
             archiveAction.backgroundColor = .green
         }
