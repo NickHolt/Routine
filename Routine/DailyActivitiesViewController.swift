@@ -164,4 +164,19 @@ extension DailyActivitiesViewController {
         let detailViewController = segue.destination as! ActivityDetailViewController
         detailViewController.activityStore = activityStore
     }
+    
+    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        return true
+    }
+    
+    override func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
+        let activity = self.activity(for: indexPath)
+        
+        let archiveAction = UITableViewRowAction(style: .normal, title: "Excuse") { action, index in
+            print("Excusing \(activity)!")
+        }
+        archiveAction.backgroundColor = .lightGray
+        
+        return [archiveAction]
+    }
 }
