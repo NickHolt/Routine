@@ -44,15 +44,11 @@ class DailyActivitiesViewController: UITableViewController {
         return dateFormatter
     }()
 
-    private func activity(for indexPath: IndexPath) -> Activity {
+    fileprivate func activity(for indexPath: IndexPath) -> Activity {
         return currentActivities[indexPath.row]
     }
     
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return currentActivities.count
-    }
-    
-    private func configureBarButtonItems() {
+    fileprivate func configureBarButtonItems() {
         if displayedDateIsToday {
             self.navigationItem.rightBarButtonItems = [addActivityButton]
         } else {
@@ -63,7 +59,7 @@ class DailyActivitiesViewController: UITableViewController {
         tomorrowButton.title = "\(buttonDateFormatter.string(from: dateDayAfter)) >"
     }
     
-    private func configureTitle() {
+    fileprivate func configureTitle() {
         if displayedDateIsToday {
             self.navigationItem.title = "Today"
         } else {
@@ -71,7 +67,7 @@ class DailyActivitiesViewController: UITableViewController {
         }
     }
     
-    private func load(with date: Date) {
+    fileprivate func load(with date: Date) {
         displayedDate = date
 
         let dayOfWeek = Calendar(identifier: .gregorian).dayOfWeek(from: date)
@@ -100,6 +96,22 @@ class DailyActivitiesViewController: UITableViewController {
         configureTitle()
         
         tableView.reloadData()
+    }
+    
+    @IBAction func viewDayBefore(_ sender: UIBarButtonItem) {
+        load(with: dateDayBefore)
+    }
+    
+    @IBAction func viewDayAfter(_ sender: UIBarButtonItem) {
+        load(with: dateDayAfter)
+    }
+}
+
+// MARK: UITableViewController methods
+extension DailyActivitiesViewController {
+    
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return currentActivities.count
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -151,13 +163,5 @@ class DailyActivitiesViewController: UITableViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         let detailViewController = segue.destination as! ActivityDetailViewController
         detailViewController.activityStore = activityStore
-    }
-    
-    @IBAction func viewDayBefore(_ sender: UIBarButtonItem) {
-        load(with: dateDayBefore)
-    }
-    
-    @IBAction func viewDayAfter(_ sender: UIBarButtonItem) {
-        load(with: dateDayAfter)
     }
 }
