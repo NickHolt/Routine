@@ -106,6 +106,27 @@ class DailyActivitiesViewController: UITableViewController {
     @IBAction func viewDayAfter(_ sender: UIBarButtonItem) {
         load(with: dateDayAfter)
     }
+    
+    fileprivate func rowExcused(_ action: UITableViewRowAction, _ indexPath: IndexPath) {
+        let activity = self.activity(for: indexPath)
+        
+        let cell = tableView.cellForRow(at: indexPath)
+        cell?.accessoryType = .none
+        
+        if !excusedActivities.contains(activity) {
+            excusedActivities.insert(activity)
+            cell?.backgroundColor = .lightGray
+            
+            activityStore.registerCompletion(for: activity, on: displayedDate, withStatus: .excused)
+        } else {
+            excusedActivities.remove(activity)
+            cell?.backgroundColor = nil
+            
+            activityStore.registerCompletion(for: activity, on: displayedDate, withStatus: .notCompleted)
+        }
+        
+        tableView.setEditing(false, animated: true)
+    }
 }
 
 // MARK: UITableViewController methods
@@ -175,20 +196,10 @@ extension DailyActivitiesViewController {
         
         var archiveAction: UITableViewRowAction
         if !excusedActivities.contains(activity) {
-            excusedActivities.insert(activity)
-            
-            archiveAction = UITableViewRowAction(style: .normal, title: "Excuse") { action, index in
-                tableView.cellForRow(at: indexPath)?.backgroundColor = .lightGray
-                tableView.setEditing(false, animated: true)
-            }
+            archiveAction = UITableViewRowAction(style: .normal, title: "Excuse", handler: rowExcused)
             archiveAction.backgroundColor = .lightGray
         } else {
-            excusedActivities.remove(activity)
-            
-            archiveAction = UITableViewRowAction(style: .normal, title: "Revive") { action, index in
-                tableView.cellForRow(at: indexPath)?.backgroundColor = nil
-                tableView.setEditing(false, animated: true)
-            }
+            archiveAction = UITableViewRowAction(style: .normal, title: "Revive", handler: rowExcused)
             archiveAction.backgroundColor = .green
         }
         
