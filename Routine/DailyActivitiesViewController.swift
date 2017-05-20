@@ -131,6 +131,15 @@ class DailyActivitiesViewController: UITableViewController {
         }
     }
     
+    fileprivate func setStreak(for cell: DailyActivitiesViewCell, withDataFrom activity: Activity) {
+        guard let activityStreak = try? activityStore.getCompletionStreak(for: activity, endingOn: displayedDate, withPreviousFallback: displayedDateIsToday) else {
+            cell.currentStreak.text = "Unknown Streak"
+            return
+        }
+        
+        cell.currentStreak.text = "\(activityStreak) Day Streak"
+    }
+    
     fileprivate func setCompletionStatus(forActivityAt indexPath: IndexPath, status: Completion.Status) {
         let activity = self.activity(for: indexPath)
 
@@ -152,10 +161,9 @@ class DailyActivitiesViewController: UITableViewController {
             activityStore.registerCompletion(for: activity, on: displayedDate, withStatus: .notCompleted)
         }
         
-        guard let cell = tableView.cellForRow(at: indexPath) else {
-            return
-        }
+        let cell = tableView.cellForRow(at: indexPath) as! DailyActivitiesViewCell
         
+        setStreak(for: cell, withDataFrom: activity)
         format(cell: cell, forCompletionStatus: status)
     }
     
@@ -173,15 +181,7 @@ extension DailyActivitiesViewController {
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        // Grab cell for re-use
-        let cell = tableView.dequeueReusableCell(withIdentifier: "DailyActivitiesViewCell", for: indexPath) as! DailyActivitiesViewCell
-        
-        // Populate cell
-        let activity = self.activity(for: indexPath)
-        
-        cell.activityTitle.text = activity.title
-        
-        return cell
+        return tableView.dequeueReusableCell(withIdentifier: "DailyActivitiesViewCell", for: indexPath)
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -193,11 +193,16 @@ extension DailyActivitiesViewController {
             setCompletionStatus(forActivityAt: indexPath, status: .completed)
         }
         
-        tableView.reloadRows(at: [indexPath], with: .automatic)
+        tableView.deselectRow(at: indexPath, animated: true)
     }
     
     override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         let activity = self.activity(for: indexPath)
+        
+        let myCell = cell as! DailyActivitiesViewCell
+        myCell.activityTitle.text = activity.title
+        setStreak(for: myCell, withDataFrom: activity)
+
         if completedActivities.contains(activity) {
             format(cell: cell, forCompletionStatus: .completed)
         } else if excusedActivities.contains(activity) {

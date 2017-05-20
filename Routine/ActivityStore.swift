@@ -127,6 +127,50 @@ extension ActivityStore {
         return completions?.first ?? nil
     }
     
+    func getCompletionStreak(for activity: Activity, endingOn lastDate: Date, withPreviousFallback fallback: Bool = false) throws -> Int {
+        guard let completions = allCompletions[activity] else {
+            throw Error.activityNotFound(activity)
+        }
+        var recentCompletions = completions.sorted { $0.date!.compare($1.date!) == .orderedDescending }
+        
+        let calendar = NSCalendar.current
+        
+        // Get completion that lies on lastDate
+        guard let mostRecentCompletionIndex = recentCompletions.index(where: { $0.date != nil && calendar.isDate($0.date!, inSameDayAs: lastDate) }) else {
+            return 0
+        }
+        
+        let mostRecentCompletion = recentCompletions[mostRecentCompletionIndex]
+        
+        // Count until a non-completion is found
+        var streak: Int
+        switch mostRecentCompletion.status {
+        case .completed:
+            streak = 1
+        case .excused:
+            streak = 0
+        case .notCompleted:
+            guard fallback else {
+                return 0
+            }
+            streak = 0
+        }
+        
+        for i in mostRecentCompletionIndex + 1..<recentCompletions.count {
+            let completion = recentCompletions[i]
+            
+            guard completion.status != .notCompleted else {
+                return streak
+            }
+            
+            if completion.status == .completed {
+                streak += 1
+            }
+        }
+        
+        return streak
+    }
+    
     private func add(completion: Completion, for activity: Activity) {
         if allCompletions[activity] == nil {
             allCompletions[activity] = []
@@ -167,6 +211,7 @@ extension ActivityStore {
         }
         
         persistentContainer.viewContext.delete(completion)
+        allCompletions[activity]!.remove(at: (allCompletions[activity]?.index(of: completion))!)
     }
     
     func loadCompletionsFromDisk() throws {

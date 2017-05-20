@@ -13,6 +13,7 @@
 		3716630B1EC90C8A00222FB2 /* Completion+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 371663091EC90C8A00222FB2 /* Completion+CoreDataProperties.swift */; };
 		372000841EBE528B00895527 /* DailyActivitiesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 372000831EBE528B00895527 /* DailyActivitiesViewController.swift */; };
 		373B69481EBE9C7B001DE015 /* DayOfWeekButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 373B69471EBE9C7B001DE015 /* DayOfWeekButton.swift */; };
+		378075BF1ECFBD9F0051CCD2 /* Calendar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 378075BE1ECFBD9F0051CCD2 /* Calendar.swift */; };
 		378BD1D41EBE586E00DD0B42 /* ActivityStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 378BD1D31EBE586E00DD0B42 /* ActivityStore.swift */; };
 		378BD1D61EBE66BE00DD0B42 /* DailyActivitiesViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 378BD1D51EBE66BE00DD0B42 /* DailyActivitiesViewCell.swift */; };
 		378BD1D81EBE6CC000DD0B42 /* DayOfWeek.swift in Sources */ = {isa = PBXBuildFile; fileRef = 378BD1D71EBE6CC000DD0B42 /* DayOfWeek.swift */; };
@@ -53,6 +54,7 @@
 		371663091EC90C8A00222FB2 /* Completion+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Completion+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		372000831EBE528B00895527 /* DailyActivitiesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DailyActivitiesViewController.swift; sourceTree = "<group>"; };
 		373B69471EBE9C7B001DE015 /* DayOfWeekButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DayOfWeekButton.swift; sourceTree = "<group>"; };
+		378075BE1ECFBD9F0051CCD2 /* Calendar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Calendar.swift; sourceTree = "<group>"; };
 		378BD1D31EBE586E00DD0B42 /* ActivityStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActivityStore.swift; sourceTree = "<group>"; };
 		378BD1D51EBE66BE00DD0B42 /* DailyActivitiesViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DailyActivitiesViewCell.swift; sourceTree = "<group>"; };
 		378BD1D71EBE6CC000DD0B42 /* DayOfWeek.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DayOfWeek.swift; sourceTree = "<group>"; };
@@ -100,6 +102,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		378075C01ECFBDA50051CCD2 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				378075BE1ECFBD9F0051CCD2 /* Calendar.swift */,
+			);
+			name = Extensions;
+			sourceTree = "<group>";
+		};
 		37AF86521EBE821300691872 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
@@ -160,6 +170,7 @@
 				37AF86531EBE823100691872 /* Models */,
 				37AF86541EBE823E00691872 /* Views */,
 				37AF86521EBE821300691872 /* Controllers */,
+				378075C01ECFBDA50051CCD2 /* Extensions */,
 				37F2B95D1EBA91BA00A6AB9D /* AppDelegate.swift */,
 				37F2B9611EBA91BA00A6AB9D /* Main.storyboard */,
 				37F2B9671EBA91BA00A6AB9D /* Assets.xcassets */,
@@ -328,6 +339,7 @@
 				370251591EC54ED20023364C /* Activity+CoreDataClass.swift in Sources */,
 				37B2D0101EBE8C5400613A18 /* ActivityDetailViewController.swift in Sources */,
 				37F2B9661EBA91BA00A6AB9D /* Routine.xcdatamodeld in Sources */,
+				378075BF1ECFBD9F0051CCD2 /* Calendar.swift in Sources */,
 				378BD1D81EBE6CC000DD0B42 /* DayOfWeek.swift in Sources */,
 				373B69481EBE9C7B001DE015 /* DayOfWeekButton.swift in Sources */,
 				379157E01EBE4EA500CD445A /* RoutineTabBarController.swift in Sources */,
