@@ -83,11 +83,13 @@ class DailyActivitiesViewController: UITableViewController {
         completedActivities.removeAll()
         excusedActivities.removeAll()
         for activity in currentActivities {
-            guard let completionStatus = activityStore.getCompletion(for: activity, on: displayedDate)?.status else {
-                continue
+            var completion = activityStore.getCompletion(for: activity, on: displayedDate)
+            if completion == nil {
+                // Register as not completed by default
+                completion = activityStore.registerCompletion(for: activity, on: date, withStatus: .notCompleted)
             }
             
-            switch completionStatus {
+            switch completion!.status {
             case .completed:
                 completedActivities.insert(activity)
             case .excused:
