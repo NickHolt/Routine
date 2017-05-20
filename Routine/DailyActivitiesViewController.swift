@@ -185,17 +185,7 @@ extension DailyActivitiesViewController {
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        // Grab cell for re-use
-        let cell = tableView.dequeueReusableCell(withIdentifier: "DailyActivitiesViewCell", for: indexPath) as! DailyActivitiesViewCell
-        
-        // Populate cell
-        let activity = self.activity(for: indexPath)
-        
-        cell.activityTitle.text = activity.title
-        
-        setStreak(for: cell, withDataFrom: activity)
-        
-        return cell
+        return tableView.dequeueReusableCell(withIdentifier: "DailyActivitiesViewCell", for: indexPath)
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -212,6 +202,11 @@ extension DailyActivitiesViewController {
     
     override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         let activity = self.activity(for: indexPath)
+        
+        let myCell = cell as! DailyActivitiesViewCell
+        myCell.activityTitle.text = activity.title
+        setStreak(for: myCell, withDataFrom: activity)
+
         if completedActivities.contains(activity) {
             format(cell: cell, forCompletionStatus: .completed)
         } else if excusedActivities.contains(activity) {
