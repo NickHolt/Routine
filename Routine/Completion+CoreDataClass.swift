@@ -26,10 +26,12 @@ public class Completion: NSManagedObject {
         }
         get {
             self.willAccessValue(forKey: "status")
-            let rawValue = self.primitiveValue(forKey: "status") as! Int
+            guard let rawValue = self.primitiveValue(forKey: "status") else {
+                return .notCompleted
+            }
             self.didAccessValue(forKey: "status")
             
-            return Status(rawValue: rawValue)!
+            return Status(rawValue: rawValue as! Int)!
         }
     }
 }
