@@ -127,6 +127,46 @@ extension ActivityStore {
         return completions?.first ?? nil
     }
     
+    func getCompletionStreak(for activity: Activity, endingOn lastDate: Date) throws -> Int {
+        guard let completions = allCompletions[activity] else {
+            throw Error.activityNotFound(activity)
+        }
+        var recentCompletions = Array(completions.reversed())
+        
+        let calendar = NSCalendar.current
+        
+        // Get completion that lies on lastDate
+        guard let mostRecentCompletionIndex = recentCompletions.index(where: { $0.date != nil && calendar.daysBetween(firstDate: $0.date!, secondDate: lastDate) == 0 }) else {
+            return 0
+        }
+        
+        let mostRecentCompletion = recentCompletions[mostRecentCompletionIndex]
+        guard mostRecentCompletion.status == .completed, var lastCheckedDate = mostRecentCompletion.date else {
+            return 0
+        }
+        
+        // Count until a non-completion is found
+        var streak = 1
+        for i in mostRecentCompletionIndex + 1..<recentCompletions.count {
+            let completion = recentCompletions[i]
+            
+            guard completion.status == .completed else {
+                return streak
+            }
+            guard let date = completion.date else {
+                return streak
+            }
+            guard calendar.daysBetween(firstDate: date, secondDate: lastCheckedDate) == 1 else {
+                return streak
+            }
+            
+            lastCheckedDate = date
+            streak += 1
+        }
+        
+        return streak
+    }
+    
     private func add(completion: Completion, for activity: Activity) {
         if allCompletions[activity] == nil {
             allCompletions[activity] = []
