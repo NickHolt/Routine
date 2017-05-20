@@ -46,11 +46,3 @@ func string(for days: [DayOfWeek]) -> String {
     
     return sortedDays.map { String(describing: $0) }.joined(separator: ", ")
 }
-
-extension Calendar {
-    func dayOfWeek(from date: Date) -> DayOfWeek {
-        let weekday = self.component(.weekday, from: date)
-        
-        return DayOfWeek(rawValue: (weekday + Int(5)) % 7)!
-    }
-}
