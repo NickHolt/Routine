@@ -181,6 +181,9 @@ extension DailyActivitiesViewController {
         
         cell.activityTitle.text = activity.title
         
+        let activityStreak = try? activityStore.getCompletionStreak(for: activity, endingOn: displayedDate)
+        cell.currentStreak.text = "\(activityStreak ?? 0) Day Streak"
+        
         return cell
     }
     
