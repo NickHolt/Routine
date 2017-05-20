@@ -131,7 +131,7 @@ extension ActivityStore {
         guard let completions = allCompletions[activity] else {
             throw Error.activityNotFound(activity)
         }
-        var recentCompletions = Array(completions.reversed())
+        var recentCompletions = completions.sorted { $0.date!.compare($1.date!) == .orderedDescending }
         
         let calendar = NSCalendar.current
         
