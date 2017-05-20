@@ -136,14 +136,11 @@ extension ActivityStore {
         let calendar = NSCalendar.current
         
         // Get completion that lies on lastDate
-        guard let mostRecentCompletionIndex = recentCompletions.index(where: { $0.date != nil && calendar.daysBetween(firstDate: $0.date!, secondDate: lastDate) == 0 }) else {
+        guard let mostRecentCompletionIndex = recentCompletions.index(where: { $0.date != nil && calendar.isDate($0.date!, inSameDayAs: lastDate) }) else {
             return 0
         }
         
         let mostRecentCompletion = recentCompletions[mostRecentCompletionIndex]
-        guard var lastCheckedDate = mostRecentCompletion.date else {
-            return 0
-        }
         
         // Count until a non-completion is found
         var streak: Int
@@ -162,14 +159,6 @@ extension ActivityStore {
             guard completion.status != .notCompleted else {
                 return streak
             }
-            guard let date = completion.date else {
-                return streak
-            }
-            guard calendar.daysBetween(firstDate: date, secondDate: lastCheckedDate) == 1 else {
-                return streak
-            }
-            
-            lastCheckedDate = date
             
             if completion.status == .completed {
                 streak += 1
