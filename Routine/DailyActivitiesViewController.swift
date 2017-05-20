@@ -197,7 +197,7 @@ extension DailyActivitiesViewController {
             setCompletionStatus(forActivityAt: indexPath, status: .completed)
         }
         
-        tableView.reloadRows(at: [indexPath], with: .automatic)
+        tableView.deselectRow(at: indexPath, animated: true)
     }
     
     override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
