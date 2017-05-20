@@ -131,6 +131,19 @@ class DailyActivitiesViewController: UITableViewController {
         }
     }
     
+    fileprivate func setStreak(for cell: DailyActivitiesViewCell, withDataFrom activity: Activity) {
+        guard var activityStreak = try? activityStore.getCompletionStreak(for: activity, endingOn: displayedDate) else {
+            cell.currentStreak.text = "Unknown Streak"
+            return
+        }
+        
+        if activityStreak == 0 && displayedDateIsToday {
+            activityStreak = try! activityStore.getCompletionStreak(for: activity, endingOn: dateDayBefore)
+        }
+        
+        cell.currentStreak.text = "\(activityStreak) Day Streak"
+    }
+    
     fileprivate func setCompletionStatus(forActivityAt indexPath: IndexPath, status: Completion.Status) {
         let activity = self.activity(for: indexPath)
 
@@ -152,10 +165,9 @@ class DailyActivitiesViewController: UITableViewController {
             activityStore.registerCompletion(for: activity, on: displayedDate, withStatus: .notCompleted)
         }
         
-        guard let cell = tableView.cellForRow(at: indexPath) else {
-            return
-        }
+        let cell = tableView.cellForRow(at: indexPath) as! DailyActivitiesViewCell
         
+        setStreak(for: cell, withDataFrom: activity)
         format(cell: cell, forCompletionStatus: status)
     }
     
@@ -181,8 +193,7 @@ extension DailyActivitiesViewController {
         
         cell.activityTitle.text = activity.title
         
-        let activityStreak = try? activityStore.getCompletionStreak(for: activity, endingOn: displayedDate)
-        cell.currentStreak.text = "\(activityStreak ?? 0) Day Streak"
+        setStreak(for: cell, withDataFrom: activity)
         
         return cell
     }
