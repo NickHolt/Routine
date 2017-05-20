@@ -207,6 +207,7 @@ extension ActivityStore {
         }
         
         persistentContainer.viewContext.delete(completion)
+        allCompletions[activity]!.remove(at: (allCompletions[activity]?.index(of: completion))!)
     }
     
     func loadCompletionsFromDisk() throws {
