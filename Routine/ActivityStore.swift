@@ -141,16 +141,25 @@ extension ActivityStore {
         }
         
         let mostRecentCompletion = recentCompletions[mostRecentCompletionIndex]
-        guard mostRecentCompletion.status == .completed, var lastCheckedDate = mostRecentCompletion.date else {
+        guard var lastCheckedDate = mostRecentCompletion.date else {
             return 0
         }
         
         // Count until a non-completion is found
-        var streak = 1
+        var streak: Int
+        switch mostRecentCompletion.status {
+        case .completed:
+            streak = 1
+        case .excused:
+            streak = 0
+        case .notCompleted:
+            return 0
+        }
+        
         for i in mostRecentCompletionIndex + 1..<recentCompletions.count {
             let completion = recentCompletions[i]
             
-            guard completion.status == .completed else {
+            guard completion.status != .notCompleted else {
                 return streak
             }
             guard let date = completion.date else {
@@ -161,7 +170,10 @@ extension ActivityStore {
             }
             
             lastCheckedDate = date
-            streak += 1
+            
+            if completion.status == .completed {
+                streak += 1
+            }
         }
         
         return streak
