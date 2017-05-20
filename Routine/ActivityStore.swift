@@ -127,7 +127,7 @@ extension ActivityStore {
         return completions?.first ?? nil
     }
     
-    func getCompletionStreak(for activity: Activity, endingOn lastDate: Date) throws -> Int {
+    func getCompletionStreak(for activity: Activity, endingOn lastDate: Date, withPreviousFallback fallback: Bool = false) throws -> Int {
         guard let completions = allCompletions[activity] else {
             throw Error.activityNotFound(activity)
         }
@@ -150,7 +150,10 @@ extension ActivityStore {
         case .excused:
             streak = 0
         case .notCompleted:
-            return 0
+            guard fallback else {
+                return 0
+            }
+            streak = 0
         }
         
         for i in mostRecentCompletionIndex + 1..<recentCompletions.count {

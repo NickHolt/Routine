@@ -132,13 +132,9 @@ class DailyActivitiesViewController: UITableViewController {
     }
     
     fileprivate func setStreak(for cell: DailyActivitiesViewCell, withDataFrom activity: Activity) {
-        guard var activityStreak = try? activityStore.getCompletionStreak(for: activity, endingOn: displayedDate) else {
+        guard let activityStreak = try? activityStore.getCompletionStreak(for: activity, endingOn: displayedDate, withPreviousFallback: displayedDateIsToday) else {
             cell.currentStreak.text = "Unknown Streak"
             return
-        }
-        
-        if activityStreak == 0 && displayedDateIsToday {
-            activityStreak = try! activityStore.getCompletionStreak(for: activity, endingOn: dateDayBefore)
         }
         
         cell.currentStreak.text = "\(activityStreak) Day Streak"
