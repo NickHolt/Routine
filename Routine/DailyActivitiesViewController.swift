@@ -267,9 +267,13 @@ extension DailyActivitiesViewController {
         
         switch recognizer.edges {
         case [.left]:
-            print("Left swipe!")
+            load(with: dateDayBefore)
         case [.right]:
-            print("Right swipe!")
+            guard !displayedDateIsToday else {
+                return
+            }
+
+            load(with: dateDayAfter)
         default:
             preconditionFailure("Unrecognized edge pan gesture for edges: \(recognizer.edges)")
         }
