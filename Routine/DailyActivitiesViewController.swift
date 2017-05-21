@@ -19,6 +19,13 @@ class DailyActivitiesViewController: UITableViewController {
     var completedActivities = Set<Activity>()
     var excusedActivities = Set<Activity>()
     
+    var allCurrentActivitiesComplete: Bool {
+        return completedActivities.count == currentActivities.count
+    }
+    var allCurrentActivitiesCompleteOrExcused: Bool {
+        return completedActivities.count + excusedActivities.count == currentActivities.count
+    }
+    
     var displayedDate: Date!
     var displayedDateIsToday: Bool {
         return Calendar.current.isDate(displayedDate, inSameDayAs: Date())
@@ -45,7 +52,7 @@ class DailyActivitiesViewController: UITableViewController {
         return dateFormatter
     }()
     
-    let tapGenerator = UIImpactFeedbackGenerator(style: .medium)
+    let tapGenerator = UIImpactFeedbackGenerator(style: .heavy)
 
     fileprivate func activity(for indexPath: IndexPath) -> Activity {
         return currentActivities[indexPath.row]
@@ -63,20 +70,31 @@ class DailyActivitiesViewController: UITableViewController {
     }
     
     fileprivate func configureTitle() {
+        var newTitle: String
+        
         if displayedDateIsToday {
-            self.navigationItem.title = "Today"
+            newTitle = "Today"
         } else {
-            self.navigationItem.title = titleDateFormatter.string(from: displayedDate)
+            newTitle = titleDateFormatter.string(from: displayedDate)
         }
+        
+        let completeBadge = "🌟"
+        let completeWithExcusedBadge = "⭐️"
+        if allCurrentActivitiesComplete {
+            newTitle += " \(completeBadge)"
+        } else if allCurrentActivitiesCompleteOrExcused {
+            newTitle += " \(completeWithExcusedBadge)"
+        } else {
+            newTitle = newTitle.replacingOccurrences(of: completeBadge, with: "")
+            newTitle = newTitle.replacingOccurrences(of: completeWithExcusedBadge, with: "")
+        }
+        
+        navigationItem.title = newTitle
     }
     
     fileprivate func load(with date: Date) {
         displayedDate = date
         
-        if displayedDateIsToday {
-            tapGenerator.prepare()
-        }
-
         let dayOfWeek = Calendar(identifier: .gregorian).dayOfWeek(from: date)
         currentActivities = activityStore.activities(for: dayOfWeek)
         currentActivities.sort {
@@ -107,6 +125,8 @@ class DailyActivitiesViewController: UITableViewController {
         
         configureBarButtonItems()
         configureTitle()
+        
+        tapGenerator.prepare()
         
         tableView.reloadData()
     }
@@ -218,14 +238,16 @@ extension DailyActivitiesViewController {
         if completedActivities.contains(activity) {
             setCompletionStatus(forActivityAt: indexPath, status: .notCompleted)
         } else {
-            if displayedDateIsToday {
-                tapGenerator.impactOccurred()
-            }
-
             setCompletionStatus(forActivityAt: indexPath, status: .completed)
         }
         
         tableView.deselectRow(at: indexPath, animated: true)
+        
+        configureTitle()
+        
+        if allCurrentActivitiesCompleteOrExcused {
+            tapGenerator.impactOccurred()
+        }
     }
     
     override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
