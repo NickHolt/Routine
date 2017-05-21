@@ -44,6 +44,8 @@ class DailyActivitiesViewController: UITableViewController {
         
         return dateFormatter
     }()
+    
+    let tapGenerator = UIImpactFeedbackGenerator(style: .medium)
 
     fileprivate func activity(for indexPath: IndexPath) -> Activity {
         return currentActivities[indexPath.row]
@@ -70,6 +72,10 @@ class DailyActivitiesViewController: UITableViewController {
     
     fileprivate func load(with date: Date) {
         displayedDate = date
+        
+        if displayedDateIsToday {
+            tapGenerator.prepare()
+        }
 
         let dayOfWeek = Calendar(identifier: .gregorian).dayOfWeek(from: date)
         currentActivities = activityStore.activities(for: dayOfWeek)
@@ -212,6 +218,10 @@ extension DailyActivitiesViewController {
         if completedActivities.contains(activity) {
             setCompletionStatus(forActivityAt: indexPath, status: .notCompleted)
         } else {
+            if displayedDateIsToday {
+                tapGenerator.impactOccurred()
+            }
+
             setCompletionStatus(forActivityAt: indexPath, status: .completed)
         }
         
