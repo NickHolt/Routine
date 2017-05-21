@@ -38,6 +38,8 @@ class ActivityDetailViewController: UIViewController, UITextFieldDelegate {
         buttonMap[.Saturday] = saturdayButton
         buttonMap[.Sunday] = sundayButton
         
+        activityTitle.becomeFirstResponder()
+        
         // Populate activity data
         guard let currentActivity = activity else {
             return
@@ -48,8 +50,6 @@ class ActivityDetailViewController: UIViewController, UITextFieldDelegate {
         for day in currentActivity.daysOfWeek {
             buttonMap[day]!.isSelected = true
         }
-        
-        activityTitle.becomeFirstResponder()
         
         if let startDate = activity?.startDate {
             datePicker.date = startDate
