@@ -52,7 +52,7 @@ class DailyActivitiesViewController: UITableViewController {
         return dateFormatter
     }()
     
-    let tapGenerator = UIImpactFeedbackGenerator(style: .medium)
+    let tapGenerator = UIImpactFeedbackGenerator(style: .heavy)
 
     fileprivate func activity(for indexPath: IndexPath) -> Activity {
         return currentActivities[indexPath.row]
@@ -95,10 +95,6 @@ class DailyActivitiesViewController: UITableViewController {
     fileprivate func load(with date: Date) {
         displayedDate = date
         
-        if displayedDateIsToday {
-            tapGenerator.prepare()
-        }
-
         let dayOfWeek = Calendar(identifier: .gregorian).dayOfWeek(from: date)
         currentActivities = activityStore.activities(for: dayOfWeek)
         currentActivities.sort {
@@ -129,6 +125,8 @@ class DailyActivitiesViewController: UITableViewController {
         
         configureBarButtonItems()
         configureTitle()
+        
+        tapGenerator.prepare()
         
         tableView.reloadData()
     }
