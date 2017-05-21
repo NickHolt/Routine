@@ -60,7 +60,7 @@ extension ActivityStore {
         return activity
     }
     
-    func activities(for date: Date) -> [Activity] {
+    func getActivities(for date: Date) -> [Activity] {
         let day = Calendar.current.dayOfWeek(from: date)
         
         return allActivities.filter { activity in
@@ -249,6 +249,25 @@ extension ActivityStore {
         
         if fetchError != nil {
             throw Error.couldNotFetch
+        }
+    }
+    
+    func scrubCompletions(startingFrom startDate: Date, endingOn endDate: Date) {
+        var currentDate = startDate
+        let finalDate = Calendar.current.date(byAdding: .day, value: 1, to: endDate)!
+        
+        while (currentDate < finalDate) {
+            let activities = getActivities(for: currentDate)
+            
+            for activity in activities {
+                guard let _ = getCompletion(for: activity, on: currentDate) else {
+                    continue
+                }
+                
+                registerCompletion(for: activity, on: currentDate, withStatus: .notCompleted)
+            }
+            
+            currentDate = Calendar.current.date(byAdding: .day, value: 1, to: currentDate)!
         }
     }
 }

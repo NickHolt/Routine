@@ -95,7 +95,7 @@ class DailyActivitiesViewController: UITableViewController {
     fileprivate func load(with date: Date) {
         displayedDate = date
         
-        currentActivities = activityStore.activities(for: date)
+        currentActivities = activityStore.getActivities(for: date)
         currentActivities.sort {
             activityA, activityB -> Bool in
             
