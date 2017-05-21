@@ -29,6 +29,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let routineTabBarController = window!.rootViewController as! RoutineTabBarController
         routineTabBarController.activityStore = activityStore
         
+        // Populate missing Completion data
+        let defaults = UserDefaults.standard
+        if let lastTerminated = defaults.object(forKey: "lastTerminated") as? Date {
+            activityStore.scrubCompletions(startingFrom: lastTerminated, endingOn: Date())
+        }
+        
         return true
     }
 
@@ -60,6 +66,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         } catch {
             assertionFailure("ActivityStore could not persist Activity data")
         }
+        
+        // Record time of termination
+        let defaults = UserDefaults.standard
+        defaults.set(Date(), forKey: "lastTerminated")
     }
 
     // MARK: - Core Data stack
