@@ -60,6 +60,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         } catch {
             assertionFailure("ActivityStore could not persist Activity data")
         }
+        
+        // Record time of termination
+        let defaults = UserDefaults.standard
+        defaults.set(Date(), forKey: "lastTerminated")
     }
 
     // MARK: - Core Data stack
