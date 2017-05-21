@@ -21,6 +21,8 @@ class ActivityDetailViewController: UIViewController, UITextFieldDelegate {
     
     var buttonMap: [DayOfWeek:DayOfWeekButton]!
     
+    @IBOutlet var datePicker: UIDatePicker!
+    
     var activity: Activity?
     var activityStore: ActivityStore!
     
