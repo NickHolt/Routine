@@ -111,6 +111,20 @@ class DailyActivitiesViewController: UITableViewController {
         load(with: Date())
     }
     
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        let leftEdgePan = UIScreenEdgePanGestureRecognizer(target: self, action: #selector(screenEdgeSwiped))
+        leftEdgePan.edges = .left
+        
+        view.addGestureRecognizer(leftEdgePan)
+        
+        let rightEdgePan = UIScreenEdgePanGestureRecognizer(target: self, action: #selector(screenEdgeSwiped))
+        rightEdgePan.edges = .right
+        
+        view.addGestureRecognizer(rightEdgePan)
+    }
+    
     @IBAction func viewDayBefore(_ sender: UIBarButtonItem) {
         load(with: dateDayBefore)
     }
@@ -241,5 +255,23 @@ extension DailyActivitiesViewController {
         }
         
         return [archiveAction]
+    }
+}
+
+// MARK: Gesture Recognition
+extension DailyActivitiesViewController {
+    func screenEdgeSwiped(_ recognizer: UIScreenEdgePanGestureRecognizer) {
+        guard recognizer.state == .recognized else {
+            return
+        }
+        
+        switch recognizer.edges {
+        case [.left]:
+            print("Left swipe!")
+        case [.right]:
+            print("Right swipe!")
+        default:
+            preconditionFailure("Unrecognized edge pan gesture for edges: \(recognizer.edges)")
+        }
     }
 }
