@@ -123,6 +123,12 @@ class DailyActivitiesViewController: UITableViewController {
         rightEdgePan.edges = .right
         
         view.addGestureRecognizer(rightEdgePan)
+        
+        let tap = UITapGestureRecognizer(target: self, action: #selector(doubleDoubleTapped))
+        tap.numberOfTapsRequired = 2
+        tap.numberOfTouchesRequired = 2
+        
+        view.addGestureRecognizer(tap)
     }
     
     @IBAction func viewDayBefore(_ sender: UIBarButtonItem) {
@@ -277,5 +283,9 @@ extension DailyActivitiesViewController {
         default:
             preconditionFailure("Unrecognized edge pan gesture for edges: \(recognizer.edges)")
         }
+    }
+    
+    func doubleDoubleTapped() {
+        load(with: Date())
     }
 }
