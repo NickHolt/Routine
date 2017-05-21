@@ -63,11 +63,26 @@ class DailyActivitiesViewController: UITableViewController {
     }
     
     fileprivate func configureTitle() {
+        var newTitle: String
+        
         if displayedDateIsToday {
-            self.navigationItem.title = "Today"
+            newTitle = "Today"
         } else {
-            self.navigationItem.title = titleDateFormatter.string(from: displayedDate)
+            newTitle = titleDateFormatter.string(from: displayedDate)
         }
+        
+        let completeBadge = "⭐️"
+        let completeWithExcusedBadge = "✔︎"
+        if completedActivities.count == currentActivities.count {
+            newTitle += " \(completeBadge)"
+        } else if completedActivities.count + excusedActivities.count == currentActivities.count {
+            newTitle += " \(completeWithExcusedBadge)"
+        } else {
+            newTitle = newTitle.replacingOccurrences(of: completeBadge, with: "")
+            newTitle = newTitle.replacingOccurrences(of: completeWithExcusedBadge, with: "")
+        }
+        
+        navigationItem.title = newTitle
     }
     
     fileprivate func load(with date: Date) {
@@ -226,6 +241,8 @@ extension DailyActivitiesViewController {
         }
         
         tableView.deselectRow(at: indexPath, animated: true)
+        
+        configureTitle()
     }
     
     override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
