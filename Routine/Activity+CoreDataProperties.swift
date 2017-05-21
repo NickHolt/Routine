@@ -48,7 +48,6 @@ extension Activity {
     }
     
     @NSManaged public var title: String?
-    @NSManaged public var uuid: UUID?
     @NSManaged public var startDate: Date?
     @NSManaged public var completions: NSSet?
 
