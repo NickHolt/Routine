@@ -212,6 +212,7 @@ class DailyActivitiesViewController: UITableViewController {
         
         setStreak(for: cell, withDataFrom: activity)
         format(cell: cell, forCompletionStatus: status)
+        configureTitle()
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
