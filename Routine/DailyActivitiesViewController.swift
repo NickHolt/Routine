@@ -78,8 +78,8 @@ class DailyActivitiesViewController: UITableViewController {
             newTitle = titleDateFormatter.string(from: displayedDate)
         }
         
-        let completeBadge = "⭐️"
-        let completeWithExcusedBadge = "✔︎"
+        let completeBadge = "🌟"
+        let completeWithExcusedBadge = "⭐️"
         if allCurrentActivitiesComplete {
             newTitle += " \(completeBadge)"
         } else if allCurrentActivitiesCompleteOrExcused {
