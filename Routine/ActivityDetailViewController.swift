@@ -69,7 +69,7 @@ class ActivityDetailViewController: UIViewController, UITextFieldDelegate {
         view.endEditing(true)
     }
     
-    @IBAction func saveActivity(_ sender: UIButton) {
+    @IBAction func saveActivity(_ sender: UIBarButtonItem) {
         if activity == nil {
             activity = activityStore.fetchNewActivity()
         }
