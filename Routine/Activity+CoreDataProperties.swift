@@ -46,8 +46,10 @@ extension Activity {
             return daysOfWeek
         }
     }
+    
     @NSManaged public var title: String?
     @NSManaged public var uuid: UUID?
+    @NSManaged public var startDate: Date?
 
 }
 
