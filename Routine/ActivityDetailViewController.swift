@@ -50,6 +50,10 @@ class ActivityDetailViewController: UIViewController, UITextFieldDelegate {
         }
         
         activityTitle.becomeFirstResponder()
+        
+        if let startDate = activity?.startDate {
+            datePicker.date = startDate
+        }
     }
     
     @IBAction func toggleDayButton(_ sender: DayOfWeekButton) {
@@ -72,7 +76,7 @@ class ActivityDetailViewController: UIViewController, UITextFieldDelegate {
         
         // Save activity data
         if let newActivityTitle = activityTitle.text, !newActivityTitle.trimmingCharacters(in: .whitespaces).isEmpty {
-            activity!.title = newActivityTitle
+            activity?.title = newActivityTitle
         }
         
         var newDaysOfWeek = [DayOfWeek]()
@@ -81,7 +85,9 @@ class ActivityDetailViewController: UIViewController, UITextFieldDelegate {
                 newDaysOfWeek.append(day)
             }
         }
-        activity!.daysOfWeek = newDaysOfWeek
+        activity?.daysOfWeek = newDaysOfWeek
+        
+        activity?.startDate = datePicker.date
         
         // Save to disk
         do {
