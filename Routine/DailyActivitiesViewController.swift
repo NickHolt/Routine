@@ -95,8 +95,7 @@ class DailyActivitiesViewController: UITableViewController {
     fileprivate func load(with date: Date) {
         displayedDate = date
         
-        let dayOfWeek = Calendar(identifier: .gregorian).dayOfWeek(from: date)
-        currentActivities = activityStore.activities(for: dayOfWeek)
+        currentActivities = activityStore.activities(for: date)
         currentActivities.sort {
             activityA, activityB -> Bool in
             

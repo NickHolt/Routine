@@ -60,9 +60,15 @@ extension ActivityStore {
         return activity
     }
     
-    func activities(for day: DayOfWeek) -> [Activity] {
-        return allActivities.filter { (activity: Activity) -> Bool in
-            return activity.daysOfWeek.contains(day)
+    func activities(for date: Date) -> [Activity] {
+        let day = Calendar.current.dayOfWeek(from: date)
+        
+        return allActivities.filter { activity in
+            guard let startDate = activity.startDate else {
+                return false
+            }
+            
+            return startDate <= date && activity.daysOfWeek.contains(day)
         }
     }
     
