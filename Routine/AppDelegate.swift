@@ -20,6 +20,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         // Configure global state
         activityStore = ActivityStore()
+        activityStore.persistentContainer = persistentContainer
         do {
             try activityStore.loadFromDisk()
         } catch {
