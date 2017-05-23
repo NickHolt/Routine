@@ -7,8 +7,12 @@
 //
 
 import UIKit
+import os.log
 
 class ActivityDetailViewController: UIViewController, UITextFieldDelegate {
+    
+    let log = OSLog(subsystem: "com.redox.Routine", category: "ActivityDetailViewController")
+
     @IBOutlet var activityTitle: UITextField!
     
     @IBOutlet var mondayButton: DayOfWeekButton!
@@ -28,7 +32,7 @@ class ActivityDetailViewController: UIViewController, UITextFieldDelegate {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
+
         buttonMap = [DayOfWeek:DayOfWeekButton]()
         buttonMap[.Monday] = mondayButton
         buttonMap[.Tuesday] = tuesdayButton
@@ -42,8 +46,11 @@ class ActivityDetailViewController: UIViewController, UITextFieldDelegate {
         
         // Populate activity data
         guard let currentActivity = activity else {
+            os_log("Displaying detail view for new activity", log: log, type: .info)
             return
         }
+        
+        os_log("Displaying details for Activity: %@", log: log, type: .info, currentActivity)
 
         activityTitle.text = currentActivity.title
         
@@ -70,6 +77,8 @@ class ActivityDetailViewController: UIViewController, UITextFieldDelegate {
     }
     
     @IBAction func saveActivity(_ sender: UIBarButtonItem) {
+        os_log("Save button pressed", log: log, type: .debug)
+        
         if activity == nil {
             activity = activityStore.fetchNewActivity()
         }
@@ -90,11 +99,7 @@ class ActivityDetailViewController: UIViewController, UITextFieldDelegate {
         activity?.startDate = datePicker.date
         
         // Save to disk
-        do {
-            try activityStore.persistToDisk()
-        } catch {
-            print("Warning: could not persist ActivityStore to disk!")
-        }
+        try? activityStore.persistToDisk()
         
         // Dismiss myself
         navigationController?.popViewController(animated: true)
