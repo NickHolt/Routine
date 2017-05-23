@@ -35,6 +35,11 @@ class ActivityStore {
     }
     
     func persistToDisk() throws {
+        let context = persistentContainer.viewContext
+        guard context.hasChanges else {
+            return
+        }
+
         do {
             try persistentContainer.viewContext.save()
         } catch let error {
