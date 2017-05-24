@@ -7,8 +7,11 @@
 //
 
 import UIKit
+import os.log
 
 class DailyActivitiesViewController: UITableViewController {
+    
+    let log = OSLog(subsystem: "com.redox.Routine", category: "DailyActivitiesViewController")
     
     @IBOutlet var yesterdayButton: UIBarButtonItem!
     @IBOutlet var tomorrowButton: UIBarButtonItem!
@@ -93,6 +96,8 @@ class DailyActivitiesViewController: UITableViewController {
     }
     
     fileprivate func load(with date: Date) {
+        os_log("Loading Activities for date: %f", log: log, type: .debug, date.timeIntervalSinceReferenceDate)
+        
         displayedDate = date
         
         currentActivities = activityStore.getActivities(for: date)
@@ -103,12 +108,14 @@ class DailyActivitiesViewController: UITableViewController {
         }
         
         // Populate from ActivityStore
+        os_log("Removing %d completed and %d excused Activities from current view", log: log, type: .debug, completedActivities.count, excusedActivities.count)
+
         completedActivities.removeAll()
         excusedActivities.removeAll()
         for activity in currentActivities {
             var completion = activityStore.getCompletion(for: activity, on: displayedDate)
             if completion == nil {
-                // Register as not completed by default
+                os_log("No Completion data found for Activity: %@. Adding a non-completion.", log: log, type: .debug, activity)
                 completion = activityStore.registerCompletion(for: activity, on: date, withStatus: .notCompleted)
             }
             
@@ -122,9 +129,12 @@ class DailyActivitiesViewController: UITableViewController {
             }
         }
         
+        os_log("Fetched %d completed and %d excused Activities", log: log, type: .debug, completedActivities.count, excusedActivities.count)
+        
         configureBarButtonItems()
         configureTitle()
         
+        os_log("Preparing tap generator", log: log, type: .debug)
         tapGenerator.prepare()
         
         tableView.reloadData()
@@ -189,6 +199,8 @@ class DailyActivitiesViewController: UITableViewController {
     
     fileprivate func setCompletionStatus(forActivityAt indexPath: IndexPath, status: Completion.Status) {
         let activity = self.activity(for: indexPath)
+        
+        os_log("Setting completion status of Activity: %@ to %d", log: log, type: .debug, activity, status.rawValue)
 
         switch status {
         case .completed:
@@ -216,6 +228,8 @@ class DailyActivitiesViewController: UITableViewController {
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        os_log("Add Activity shortcut pressed", log: log, type: .debug)
+        
         let detailViewController = segue.destination as! ActivityDetailViewController
         detailViewController.activityStore = activityStore
     }
@@ -246,6 +260,7 @@ extension DailyActivitiesViewController {
         configureTitle()
         
         if allCurrentActivitiesCompleteOrExcused {
+            os_log("Requesting impact haptic", log: log, type: .debug)
             tapGenerator.impactOccurred()
         }
     }
@@ -305,12 +320,13 @@ extension DailyActivitiesViewController {
         
         switch recognizer.edges {
         case [.left]:
+            os_log("Left edge pan recognized", log: log, type: .debug)
             load(with: dateDayBefore)
         case [.right]:
             guard !displayedDateIsToday else {
                 return
             }
-
+            os_log("Right edge pan recognized", log: log, type: .debug)
             load(with: dateDayAfter)
         default:
             preconditionFailure("Unrecognized edge pan gesture for edges: \(recognizer.edges)")
@@ -318,6 +334,7 @@ extension DailyActivitiesViewController {
     }
     
     func doubleDoubleTapped() {
+        os_log("Double-double tap recognized", log: log, type: .debug)
         load(with: Date())
     }
 }
