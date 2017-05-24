@@ -7,8 +7,11 @@
 //
 
 import UIKit
+import os.log
 
 class ActivitiesViewController: UITableViewController {
+    
+    let log = OSLog(subsystem: "com.redox.Routine", category: "ActivitiesViewController")
     
     var activityStore: ActivityStore!
     var displayedActivities: [Activity]!
@@ -63,6 +66,8 @@ class ActivitiesViewController: UITableViewController {
         // Populate cell
         let activity = self.activity(for: indexPath)
         
+        os_log("Retrieved Activity: %@ for cell at row: %d", log: log, type: .debug, activity, indexPath.row)
+        
         cell.activityTitle.text = activity.title
         cell.daysOfWeek.text = string(for: activity.daysOfWeek)
         
@@ -72,6 +77,8 @@ class ActivitiesViewController: UITableViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         let detailViewController = segue.destination as! ActivityDetailViewController
         detailViewController.activityStore = activityStore
+        
+        os_log("Segue triggered: %s", log: log, type: .debug, segue.identifier ?? "Unknown")
         
         switch segue.identifier {
         case "addNewActivity"?:
@@ -101,6 +108,8 @@ class ActivitiesViewController: UITableViewController {
         if editingStyle == .delete {
             let activity = self.activity(for: indexPath)
             
+            os_log("User indicated deletion for Activity: %@", log: log, type: .debug, activity)
+            
             try? activityStore.remove(activity: activity)
             if let activityIndex = displayedActivities.index(of: activity) {
                 displayedActivities.remove(at: activityIndex)
@@ -113,14 +122,18 @@ class ActivitiesViewController: UITableViewController {
 
 extension ActivitiesViewController: UISearchResultsUpdating {
     func updateSearchResults(for searchController: UISearchController) {
-        if let searchText = searchController.searchBar.text {
-            displayedActivities = searchText.isEmpty ? activityStore.allActivities : activityStore.allActivities.filter {
-                    activity -> Bool in
-                
-                return activity.title?.range(of: searchText, options: .caseInsensitive) != nil
-            }
-            
-            tableView.reloadData()
+        guard let searchText = searchController.searchBar.text else {
+            return
         }
+        
+        os_log("User searching Activities for: %s", log: log, type: .debug, searchText)
+        
+        displayedActivities = searchText.isEmpty ? activityStore.allActivities : activityStore.allActivities.filter {
+                activity -> Bool in
+            
+            return activity.title?.range(of: searchText, options: .caseInsensitive) != nil
+        }
+        
+        tableView.reloadData()
     }
 }
