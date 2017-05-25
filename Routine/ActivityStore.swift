@@ -7,6 +7,7 @@
 //
 
 import CoreData
+import os.log
 
 class ActivityStore {
     
@@ -15,6 +16,8 @@ class ActivityStore {
         case couldNotFetch
         case couldNotPersist
     }
+    
+    let log = OSLog(subsystem: "com.redox.Routine", category: "ActivityStore")
     
     var persistentContainer: NSPersistentContainer!
     
@@ -34,8 +37,9 @@ class ActivityStore {
 
         do {
             try persistentContainer.viewContext.save()
+            os_log("Successfully persisted to CoreData", log: log, type: .debug)
         } catch let error {
-            print("Error persisting Activities to disk: \(error)")
+            os_log("Error persisting to CoreData: %@", log: log, type: .error, error.localizedDescription)
             throw Error.couldNotPersist
         }
     }
@@ -53,6 +57,8 @@ extension ActivityStore {
         }
 
         allActivities.append(activity)
+        
+        os_log("Created new Activity: %@", log: log, type: .info, activity)
 
         return activity
     }
@@ -60,13 +66,17 @@ extension ActivityStore {
     func getActivities(for date: Date) -> [Activity] {
         let day = Calendar.current.dayOfWeek(from: date)
         
-        return allActivities.filter { activity in
+        let activities = allActivities.filter { activity in
             guard let startDate = activity.startDate else {
                 return false
             }
             
             return startDate <= date && activity.daysOfWeek.contains(day)
         }
+        
+        os_log("Fetched %u activities for %f", log: log, type: .debug, activities.count, date.timeIntervalSinceReferenceDate)
+        
+        return activities
     }
     
     func remove(activity: Activity) throws {
@@ -79,8 +89,9 @@ extension ActivityStore {
         
         do {
             try persistToDisk()
+            os_log("Removed Activity: %@", log: log, type: .info, activity)
         } catch {
-            print("Failed to delete \(activity) from disk. Might work on next save.")
+            os_log("Failed to remove Activity from CoreData: %@", log: log, type: .error, activity)
         }
     }
     
@@ -103,12 +114,12 @@ extension ActivityStore {
             }
         }
         
-        if fetchError != nil {
-            print("Could not fetch Activities from CoreData: \(String(describing: fetchError))")
+        guard fetchError == nil else {
+            os_log("Could not fetch Activities from CoreData: %@", log: log, type: .error, fetchError!.localizedDescription)
             throw Error.couldNotFetch
-        } else {
-            print("ActivityStore retrieved \(allActivities.count) activities from CoreData")
         }
+        
+        os_log("ActivityStore retrieved %u activities from CoreData", log: log, type: .info, allActivities.count)
     }
 }
 
@@ -117,21 +128,34 @@ extension ActivityStore {
     
     func getCompletion(for activity: Activity, on date: Date) -> Completion? {
         
-        let completions = allCompletions[activity]?.filter { (completion: Completion) -> Bool in
-            
-            guard let completionDate = completion.date else {
-                    return false
+        guard let completions = allCompletions[activity]?.filter({
+            guard let completionDate = $0.date else {
+                return false
             }
             
             return Calendar.current.isDate(completionDate, inSameDayAs: date)
+
+        }) else {
+            return nil
         }
-        assert(completions?.count ?? 0 <= 1, "Multiple completions found for \(activity) on \(date)")
         
-        return completions?.first ?? nil
+        if completions.count > 1 {
+            os_log("Multiple completions found for Activity: %@ on %f", log: log, type: .error, activity, date.timeIntervalSinceReferenceDate)
+            assertionFailure("Multiple completions found for \(activity) on \(date)")
+        }
+        guard let completion = completions.first else {
+            os_log("No completion data found for Activity: %@ on date: %f", log: log, type: .debug, activity, date.timeIntervalSinceReferenceDate)
+            return nil
+        }
+        
+        os_log("Retrieved completion for Activity: %@ on %@", log: log, type: .debug, completion, activity)
+
+        return completion
     }
     
     func getCompletionStreak(for activity: Activity, endingOn lastDate: Date, withPreviousFallback fallback: Bool = false) throws -> Int {
         guard let completions = allCompletions[activity] else {
+            os_log("Streak requested for unknown Activity: %@", log: log, type: .error, activity)
             throw Error.activityNotFound(activity)
         }
         var recentCompletions = completions.sorted { $0.date!.compare($1.date!) == .orderedDescending }
@@ -144,6 +168,8 @@ extension ActivityStore {
         }
         
         let mostRecentCompletion = recentCompletions[mostRecentCompletionIndex]
+        
+        os_log("Completion streak for %@ ends with %@.", log: log, type: .debug, activity, mostRecentCompletion)
         
         // Count until a non-completion is found
         var streak: Int
@@ -163,6 +189,7 @@ extension ActivityStore {
             let completion = recentCompletions[i]
             
             guard completion.status != .notCompleted else {
+                os_log("Non-completion found: %@. Streak: %d", log: log, type: .debug, completion, streak)
                 return streak
             }
             
@@ -171,6 +198,8 @@ extension ActivityStore {
             }
         }
         
+        os_log("No non-completions found. Streak: %d", log: log, type: .debug, streak)
+
         return streak
     }
     
@@ -197,12 +226,12 @@ extension ActivityStore {
             completion.status = status
         }
         
-        add(completion: completion, for: activity)
-        
         do {
             try persistToDisk()
+            add(completion: completion, for: activity)
+            os_log("New Completion: %@ registered for Activity: %@", log: log, type: .info, completion, activity)
         } catch {
-            print("ActivityStore could not save on completion change")
+            os_log("New Completion: %@ for Activity: %@ could not be saved to CoreData", log: log, type: .error, completion, activity)
         }
         
         return completion
@@ -215,6 +244,8 @@ extension ActivityStore {
         
         persistentContainer.viewContext.delete(completion)
         allCompletions[activity]!.remove(at: (allCompletions[activity]?.index(of: completion))!)
+        
+        os_log("Completion data for Activity: %@ deleted for date: %f", log: log, type: .debug, activity, date.timeIntervalSinceReferenceDate)
     }
     
     func loadCompletionsFromDisk() throws {
@@ -237,10 +268,10 @@ extension ActivityStore {
                     self.add(completion: completion, for: activity)
                 }
                 
-                print("ActivityStore retrieved \(completions.count) completions from CoreData")
+                os_log("Retrieved %d Completions from CoreData", log: self.log, type: .debug, completions.count)
             } catch let error {
                 fetchError = error
-                print("Could not fetch Completions from CoreData: \(String(describing: error))")
+                os_log("Could not fetch Completions from CoreData: %@", log: self.log, type: .error, error.localizedDescription)
             }
         }
         
@@ -253,6 +284,8 @@ extension ActivityStore {
         var currentDate = startDate
         let finalDate = Calendar.current.date(byAdding: .day, value: 1, to: endDate)!
         
+        os_log("Filling in missing Completion data from dates %f to %f", log: log, type: .debug, startDate.timeIntervalSinceReferenceDate, endDate.timeIntervalSinceReferenceDate)
+        
         while (currentDate < finalDate) {
             let activities = getActivities(for: currentDate)
             
@@ -261,6 +294,7 @@ extension ActivityStore {
                     continue
                 }
                 
+                os_log("Missing Completion data for Activity: %@ found on date: %f", log: log, type: .debug, activity, currentDate.timeIntervalSinceReferenceDate)
                 registerCompletion(for: activity, on: currentDate, withStatus: .notCompleted)
             }
             
