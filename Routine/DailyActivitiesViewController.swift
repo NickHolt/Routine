@@ -95,6 +95,11 @@ class DailyActivitiesViewController: UITableViewController {
         navigationItem.title = newTitle
     }
     
+    @objc fileprivate func configureNavigationItem() {
+        configureBarButtonItems()
+        configureTitle()
+    }
+    
     fileprivate func load(with date: Date) {
         os_log("Loading Activities for date: %f", log: log, type: .debug, date.timeIntervalSinceReferenceDate)
         
@@ -131,8 +136,7 @@ class DailyActivitiesViewController: UITableViewController {
         
         os_log("Fetched %d completed and %d excused Activities", log: log, type: .debug, completedActivities.count, excusedActivities.count)
         
-        configureBarButtonItems()
-        configureTitle()
+        configureNavigationItem()
         
         os_log("Preparing tap generator", log: log, type: .debug)
         tapGenerator.prepare()
@@ -164,6 +168,8 @@ class DailyActivitiesViewController: UITableViewController {
         tap.numberOfTouchesRequired = 2
         
         view.addGestureRecognizer(tap)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(configureNavigationItem), name: NSNotification.Name.UIApplicationWillEnterForeground, object: nil )
     }
     
     @IBAction func viewDayBefore(_ sender: UIBarButtonItem) {
