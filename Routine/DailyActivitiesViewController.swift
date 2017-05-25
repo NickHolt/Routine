@@ -83,9 +83,9 @@ class DailyActivitiesViewController: UITableViewController {
         
         let completeBadge = "🌟"
         let completeWithExcusedBadge = "⭐️"
-        if allCurrentActivitiesComplete {
+        if currentActivities.count > 0 && allCurrentActivitiesComplete {
             newTitle += " \(completeBadge)"
-        } else if allCurrentActivitiesCompleteOrExcused {
+        } else if currentActivities.count > 0 && allCurrentActivitiesCompleteOrExcused {
             newTitle += " \(completeWithExcusedBadge)"
         } else {
             newTitle = newTitle.replacingOccurrences(of: completeBadge, with: "")
