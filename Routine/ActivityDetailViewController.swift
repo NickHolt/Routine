@@ -67,6 +67,7 @@ class ActivityDetailViewController: UIViewController, UITextFieldDelegate {
         }
         
         archiveButton.isHidden = false
+        deleteButton.isHidden = false
     }
     
     @IBAction func toggleDayButton(_ sender: DayOfWeekButton) {
