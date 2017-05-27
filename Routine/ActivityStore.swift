@@ -63,6 +63,14 @@ extension ActivityStore {
         return activity
     }
     
+    func getAllActiveActivities() -> Set<Activity> {
+        return Set(allActivities.filter { $0.isActive })
+    }
+    
+    func getAllInactiveActivities() -> Set<Activity> {
+        return Set(allActivities.filter { !$0.isActive })
+    }
+    
     func getHistoricActivities(for date: Date) -> Set<Activity> {
         let completions = getAllCompletions(for: date)
         let activities = Set(completions.filter { $0.activity != nil && !$0.activity!.isActive }.map { $0.activity! })

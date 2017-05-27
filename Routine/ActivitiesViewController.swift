@@ -14,35 +14,58 @@ class ActivitiesViewController: UITableViewController {
     let log = OSLog(subsystem: "com.redox.Routine", category: "ActivitiesViewController")
     
     var activityStore: ActivityStore!
-    var displayedActivities: [Activity]!
+    
+    var activeActivities: [Activity]!
+    var inactiveActivities: [Activity]!
     
     var searchController: UISearchController!
     
     private func activity(for indexPath: IndexPath) -> Activity {
-        return displayedActivities[indexPath.row]
+        if indexPath.section == 0 {
+            return activeActivities[indexPath.row]
+        } else {
+            return inactiveActivities[indexPath.row]
+        }
     }
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 65
     }
+    
+    override func numberOfSections(in tableView: UITableView) -> Int {
+        return 2
+    }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return displayedActivities.count
+        if section == 0 {
+            return activeActivities.count
+        } else {
+            return inactiveActivities.count
+        }
+    }
+    
+    fileprivate func refreshActiveActivities() {
+        activeActivities = Array(activityStore.getAllActiveActivities())
+        activeActivities.sort { $0.title! < $1.title! }
+    }
+    
+    fileprivate func refreshInactiveActivities() {
+        inactiveActivities = Array(activityStore.getAllInactiveActivities())
+        inactiveActivities.sort { $0.title! < $1.title! }
+    }
+    
+    fileprivate func refreshActivities() {
+        refreshActiveActivities()
+        refreshInactiveActivities()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        // Sort displayed activities
-        displayedActivities = activityStore.allActivities
-        displayedActivities.sort {
-            activityA, activityB -> Bool in
-            
-            return activityA.title ?? "" < activityB.title ?? ""
-        }
+        refreshActivities()
         
         // Configure search
-        if displayedActivities.count > 0 {
+        if activeActivities.count + inactiveActivities.count > 0 {
             searchController = UISearchController(searchResultsController: nil)
             searchController.searchResultsUpdater = self
             searchController.dimsBackgroundDuringPresentation = false
@@ -74,6 +97,17 @@ class ActivitiesViewController: UITableViewController {
         return cell
     }
     
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        switch section {
+        case 0:
+            return "Active Activities"
+        case 1:
+            return "Archived Activities"
+        default:
+            return nil
+        }
+    }
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         let detailViewController = segue.destination as! ActivityDetailViewController
         detailViewController.activityStore = activityStore
@@ -103,11 +137,14 @@ extension ActivitiesViewController: UISearchResultsUpdating {
         
         os_log("User searching Activities for: %s", log: log, type: .debug, searchText)
         
-        displayedActivities = activityStore.allActivities
+        refreshActivities()
         if !searchText.isEmpty {
-            displayedActivities = displayedActivities.filter {
-                $0.title?.range(of: searchText, options: .caseInsensitive) != nil
+            let containsText: (Activity) -> Bool = {
+                return $0.title?.range(of: searchText, options: .caseInsensitive) != nil
             }
+            
+            activeActivities = activeActivities.filter(containsText)
+            inactiveActivities = activeActivities.filter(containsText)
         }
         
         tableView.reloadData()
