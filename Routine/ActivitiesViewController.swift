@@ -34,7 +34,7 @@ class ActivitiesViewController: UITableViewController {
         super.viewWillAppear(animated)
         
         // Sort displayed activities
-        displayedActivities = activityStore.allActivities
+        displayedActivities = activityStore.getAllActivities()
         displayedActivities.sort {
             activityA, activityB -> Bool in
             
@@ -93,31 +93,6 @@ class ActivitiesViewController: UITableViewController {
             preconditionFailure("Unexpected segue identifier")
         }        
     }
-    
-    @IBAction func toggleEditingMode(_ sender: UIBarButtonItem) {
-        if isEditing {
-            sender.title = "Edit"
-            setEditing(false, animated: true)
-        } else {
-            sender.title = "Done"
-            setEditing(true, animated: true)
-        }
-    }
-    
-    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
-        if editingStyle == .delete {
-            let activity = self.activity(for: indexPath)
-            
-            os_log("User indicated deletion for Activity: %@", log: log, type: .debug, activity)
-            
-            try? activityStore.remove(activity: activity)
-            if let activityIndex = displayedActivities.index(of: activity) {
-                displayedActivities.remove(at: activityIndex)
-            }
-            
-            tableView.deleteRows(at: [indexPath], with: .automatic)
-        }
-    }
 }
 
 extension ActivitiesViewController: UISearchResultsUpdating {
@@ -128,7 +103,7 @@ extension ActivitiesViewController: UISearchResultsUpdating {
         
         os_log("User searching Activities for: %s", log: log, type: .debug, searchText)
         
-        displayedActivities = searchText.isEmpty ? activityStore.allActivities : activityStore.allActivities.filter {
+        displayedActivities = searchText.isEmpty ? activityStore.getAllActivities() : activityStore.getAllActivities {
                 activity -> Bool in
             
             return activity.title?.range(of: searchText, options: .caseInsensitive) != nil

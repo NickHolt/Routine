@@ -27,6 +27,8 @@ class ActivityDetailViewController: UIViewController, UITextFieldDelegate {
     
     @IBOutlet var datePicker: UIDatePicker!
     
+    @IBOutlet var archiveButton: UIButton!
+    
     var activity: Activity?
     var activityStore: ActivityStore!
     
@@ -61,6 +63,8 @@ class ActivityDetailViewController: UIViewController, UITextFieldDelegate {
         if let startDate = activity?.startDate {
             datePicker.date = startDate
         }
+        
+        archiveButton.isHidden = false
     }
     
     @IBAction func toggleDayButton(_ sender: DayOfWeekButton) {
@@ -103,5 +107,33 @@ class ActivityDetailViewController: UIViewController, UITextFieldDelegate {
         
         // Dismiss myself
         navigationController?.popViewController(animated: true)
+    }
+    
+    @IBAction func archiveActivity(_ sender: UIButton) {
+        guard let activityToArchive = activity else {
+            return
+        }
+        
+        
+        // Display confirmation alert
+        let title = "Archive \(String(describing: activityToArchive.title ?? ""))?"
+        let message = "Archiving an Activity cannot be undone. Are you sure you want to permanently archive this Activity?"
+        
+        let ac = UIAlertController(title: title, message: message, preferredStyle: .actionSheet)
+        
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        ac.addAction(cancelAction)
+        
+        let archiveAction = UIAlertAction(title: "Archive", style: .destructive) { (action) in
+            os_log("User indicated archive for Activity: %@", log: self.log, type: .debug, activityToArchive)
+            
+            try? self.activityStore.archive(activity: activityToArchive)
+            
+            // Dismiss myself
+            self.navigationController?.popViewController(animated: true)
+        }
+        ac.addAction(archiveAction)
+        
+        present(ac, animated: true, completion: nil)
     }
 }

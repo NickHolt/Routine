@@ -21,7 +21,7 @@ class ActivityStore {
     
     var persistentContainer: NSPersistentContainer!
     
-    var allActivities = [Activity]()
+    fileprivate var allActivities = [Activity]()
     var allCompletions = [Activity: [Completion]]()
 
     func loadFromDisk() throws {
@@ -63,10 +63,21 @@ extension ActivityStore {
         return activity
     }
     
+    func getAllActivities() -> [Activity] {
+        return allActivities.filter { $0.isActive }
+    }
+    
+    func getAllActivities(with filter: (Activity) -> Bool) -> [Activity] {
+        return getAllActivities().filter(filter)
+    }
+    
     func getActivities(for date: Date) -> [Activity] {
         let day = Calendar.current.dayOfWeek(from: date)
         
         let activities = allActivities.filter { activity in
+            guard activity.isActive else {
+                return false
+            }
             guard let startDate = activity.startDate else {
                 return false
             }
@@ -79,13 +90,12 @@ extension ActivityStore {
         return activities
     }
     
-    func remove(activity: Activity) throws {
-        guard let activityIndex = allActivities.index(of: activity) else {
+    func archive(activity: Activity) throws {
+        guard allActivities.contains(activity) else {
             throw Error.activityNotFound(activity)
         }
         
-        allActivities.remove(at: activityIndex)
-        persistentContainer.viewContext.delete(activity)
+        activity.isActive = false
         
         do {
             try persistToDisk()
