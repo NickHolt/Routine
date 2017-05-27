@@ -332,6 +332,7 @@
                         <outlet property="fridayButton" destination="76L-mu-1OB" id="rO3-wY-1ka"/>
                         <outlet property="mondayButton" destination="wH2-sH-Gcf" id="tw5-MT-zcx"/>
                         <outlet property="saturdayButton" destination="5O6-i5-Sbv" id="gbE-AA-nmh"/>
+                        <outlet property="saveButton" destination="DoX-4C-3qP" id="8Lg-vh-v21"/>
                         <outlet property="sundayButton" destination="WeB-q5-eta" id="KDN-kH-6Ic"/>
                         <outlet property="thursdayButton" destination="1AT-9L-jQK" id="6Et-IS-oh1"/>
                         <outlet property="tuesdayButton" destination="yZ7-oc-xJo" id="q9a-0a-qbh"/>

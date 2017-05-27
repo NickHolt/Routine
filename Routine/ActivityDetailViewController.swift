@@ -15,6 +15,8 @@ class ActivityDetailViewController: UIViewController, UITextFieldDelegate {
 
     @IBOutlet var activityTitle: UITextField!
     
+    @IBOutlet var saveButton: UIBarButtonItem!
+    
     @IBOutlet var mondayButton: DayOfWeekButton!
     @IBOutlet var tuesdayButton: DayOfWeekButton!
     @IBOutlet var wednesdayButton: DayOfWeekButton!
@@ -66,8 +68,23 @@ class ActivityDetailViewController: UIViewController, UITextFieldDelegate {
             datePicker.date = startDate
         }
         
-        archiveButton.isHidden = false
         deleteButton.isHidden = false
+        
+        // Disable elements if archived
+        guard !currentActivity.isActive else {
+            archiveButton.isHidden = false
+            return
+        }
+        
+        activityTitle.isEnabled = false
+        
+        for (_, button) in buttonMap {
+            button.isEnabled = false
+        }
+        
+        datePicker.isEnabled = false
+        
+        navigationItem.rightBarButtonItem = nil
     }
     
     @IBAction func toggleDayButton(_ sender: DayOfWeekButton) {
