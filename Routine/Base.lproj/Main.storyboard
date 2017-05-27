@@ -328,7 +328,6 @@
                         <outlet property="activityTitle" destination="G3h-Aj-hew" id="FRe-Ks-6Jx"/>
                         <outlet property="archiveButton" destination="ser-oG-X6A" id="iEz-E0-F6p"/>
                         <outlet property="datePicker" destination="FaG-Nk-cYW" id="0ba-09-1d1"/>
-                        <outlet property="deleteActivity" destination="AyI-3p-U68" id="Vrj-Ni-UTd"/>
                         <outlet property="deleteButton" destination="AyI-3p-U68" id="rVQ-3f-eFh"/>
                         <outlet property="fridayButton" destination="76L-mu-1OB" id="rO3-wY-1ka"/>
                         <outlet property="mondayButton" destination="wH2-sH-Gcf" id="tw5-MT-zcx"/>
