@@ -34,7 +34,7 @@ class ActivitiesViewController: UITableViewController {
         super.viewWillAppear(animated)
         
         // Sort displayed activities
-        displayedActivities = activityStore.allActivities
+        displayedActivities = activityStore.getAllActivities()
         displayedActivities.sort {
             activityA, activityB -> Bool in
             
@@ -128,7 +128,7 @@ extension ActivitiesViewController: UISearchResultsUpdating {
         
         os_log("User searching Activities for: %s", log: log, type: .debug, searchText)
         
-        displayedActivities = searchText.isEmpty ? activityStore.allActivities : activityStore.allActivities.filter {
+        displayedActivities = searchText.isEmpty ? activityStore.getAllActivities() : activityStore.getAllActivities {
                 activity -> Bool in
             
             return activity.title?.range(of: searchText, options: .caseInsensitive) != nil
