@@ -118,7 +118,7 @@ class ActivityDetailViewController: UIViewController, UITextFieldDelegate {
         
         // Display confirmation alert
         let title = "Archive \(String(describing: activityToArchive.title ?? ""))?"
-        let message = "Archiving an activity will remove all future occurances, and cannot be undone. Are you sure you want to permanently archive this Activity?"
+        let message = "Archiving an activity will remove all future occurrences, and cannot be undone. Are you sure you want to permanently archive this Activity?"
         
         let ac = UIAlertController(title: title, message: message, preferredStyle: .actionSheet)
         

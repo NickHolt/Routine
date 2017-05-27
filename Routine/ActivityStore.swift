@@ -78,7 +78,7 @@ extension ActivityStore {
         let completions = getAllCompletions(for: date)
         var activities = Set(completions.filter { $0.activity != nil }.map { $0.activity! })
         
-        // Get Activities for new occurances
+        // Get Activities for new occurrences
         for newActivity in getAllActivities(mustBeActive: mustBeActive) {
             guard let startDate = newActivity.startDate else {
                 continue
