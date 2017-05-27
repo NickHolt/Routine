@@ -91,12 +91,11 @@ extension ActivityStore {
     }
     
     func remove(activity: Activity) throws {
-        guard let activityIndex = allActivities.index(of: activity) else {
+        guard allActivities.contains(activity) else {
             throw Error.activityNotFound(activity)
         }
         
-        allActivities.remove(at: activityIndex)
-        persistentContainer.viewContext.delete(activity)
+        activity.isActive = false
         
         do {
             try persistToDisk()
