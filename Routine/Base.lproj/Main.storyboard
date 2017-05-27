@@ -60,11 +60,6 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="Activities" id="AVJ-Wc-eNa">
-                        <barButtonItem key="leftBarButtonItem" title="Edit" id="fXU-Bq-gAu">
-                            <connections>
-                                <action selector="toggleEditingMode:" destination="oXn-Vx-oRS" id="XFO-0m-4ML"/>
-                            </connections>
-                        </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="Q1j-ju-ZrX">
                             <connections>
                                 <segue destination="SjH-LL-4sQ" kind="show" identifier="addNewActivity" id="AnS-Ef-IVU"/>
@@ -515,6 +510,6 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="VE9-L4-uqq"/>
+        <segue reference="MZP-wG-hQm"/>
     </inferredMetricsTieBreakers>
 </document>
