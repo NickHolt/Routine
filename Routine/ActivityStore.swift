@@ -63,21 +63,18 @@ extension ActivityStore {
         return activity
     }
     
-    func getAllActivities() -> [Activity] {
-        return allActivities.filter { $0.isActive }
+    func getAllActivities(mustBeActive: Bool = false) -> [Activity] {
+        guard !mustBeActive else {
+            return allActivities.filter { $0.isActive }
+        }
+        
+        return allActivities
     }
     
-    func getAllActivities(with filter: (Activity) -> Bool) -> [Activity] {
-        return getAllActivities().filter(filter)
-    }
-    
-    func getActivities(for date: Date) -> [Activity] {
+    func getActivities(for date: Date, mustBeActive: Bool) -> [Activity] {
         let day = Calendar.current.dayOfWeek(from: date)
         
-        let activities = allActivities.filter { activity in
-            guard activity.isActive else {
-                return false
-            }
+        let activities = getAllActivities(mustBeActive: mustBeActive).filter { activity in
             guard let startDate = activity.startDate else {
                 return false
             }
@@ -135,6 +132,22 @@ extension ActivityStore {
 
 // MARK: Methods regarding completions
 extension ActivityStore {
+    
+    func getAllCompletions(for date: Date) -> Set<Completion> {
+        var completions = Set<Completion>()
+        
+        for (_, activityCompletions) in allCompletions {
+            for activityCompletion in activityCompletions {
+                guard let completionDate = activityCompletion.date, Calendar.current.isDate(completionDate, inSameDayAs: date) else {
+                    continue
+                }
+                
+                completions.insert(activityCompletion)
+            }
+        }
+        
+        return completions
+    }
     
     func getCompletion(for activity: Activity, on date: Date) -> Completion? {
         
@@ -297,7 +310,7 @@ extension ActivityStore {
         os_log("Filling in missing Completion data from dates %f to %f", log: log, type: .debug, startDate.timeIntervalSinceReferenceDate, endDate.timeIntervalSinceReferenceDate)
         
         while (currentDate < finalDate) {
-            let activities = getActivities(for: currentDate)
+            let activities = getActivities(for: currentDate, mustBeActive: true)
             
             for activity in activities {
                 guard let _ = getCompletion(for: activity, on: currentDate) else {
