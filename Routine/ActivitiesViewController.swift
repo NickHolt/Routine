@@ -79,6 +79,8 @@ class ActivitiesViewController: UITableViewController {
             tableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: false)
         }
         
+        // Don't show empty
+        
         tableView.reloadData()
     }
     

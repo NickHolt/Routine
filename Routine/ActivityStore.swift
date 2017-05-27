@@ -126,8 +126,10 @@ extension ActivityStore {
         allActivities.remove(at: activityIndex)
         persistentContainer.viewContext.delete(activity)
         
-        for completion in allCompletions[activity]! {
-            persistentContainer.viewContext.delete(completion)
+        if let completions = allCompletions[activity] {
+            for completion in completions {
+                persistentContainer.viewContext.delete(completion)
+            }
         }
         
         do {
