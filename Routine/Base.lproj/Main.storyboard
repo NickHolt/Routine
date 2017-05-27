@@ -15,13 +15,13 @@
         <scene sceneID="qFO-pN-S0U">
             <objects>
                 <tableViewController id="oXn-Vx-oRS" customClass="ActivitiesViewController" customModule="Routine" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="dac-CU-5un">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="18" sectionFooterHeight="18" id="dac-CU-5un">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="ActivitiesViewCell" rowHeight="65" id="Beh-pV-HhW" customClass="ActivitiesViewCell" customModule="Routine" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="28" width="375" height="65"/>
+                                <rect key="frame" x="0.0" y="55.5" width="375" height="65"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Beh-pV-HhW" id="B1q-m6-jKM">
                                     <rect key="frame" x="0.0" y="0.0" width="342" height="64.5"/>
@@ -280,6 +280,17 @@
                                     <action selector="archiveActivity:" destination="SjH-LL-4sQ" eventType="touchUpInside" id="xDs-aZ-9Aj"/>
                                 </connections>
                             </button>
+                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="AyI-3p-U68">
+                                <rect key="frame" x="0.0" y="574" width="375" height="36"/>
+                                <color key="backgroundColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <fontDescription key="fontDescription" style="UICTFontTextStyleTitle3"/>
+                                <state key="normal" title="Delete">
+                                    <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                </state>
+                                <connections>
+                                    <action selector="deleteActivity:" destination="SjH-LL-4sQ" eventType="touchUpInside" id="46d-dg-3E0"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" red="0.90196079019999997" green="0.90196079019999997" blue="0.90196079019999997" alpha="1" colorSpace="calibratedRGB"/>
                         <gestureRecognizers/>
@@ -289,13 +300,16 @@
                             <constraint firstItem="ser-oG-X6A" firstAttribute="leading" secondItem="1DX-Tb-0AE" secondAttribute="leading" id="Dpe-dQ-VWe"/>
                             <constraint firstAttribute="trailing" secondItem="ser-oG-X6A" secondAttribute="trailing" id="I6E-ne-tQV"/>
                             <constraint firstItem="FII-B3-Ys5" firstAttribute="leading" secondItem="1DX-Tb-0AE" secondAttribute="leading" id="LAT-w1-fiQ"/>
+                            <constraint firstItem="unw-sy-8EE" firstAttribute="top" secondItem="AyI-3p-U68" secondAttribute="bottom" constant="8" id="RJj-Ag-gPu"/>
                             <constraint firstAttribute="trailing" secondItem="G3h-Aj-hew" secondAttribute="trailing" id="ZtW-AP-jRO"/>
                             <constraint firstItem="ser-oG-X6A" firstAttribute="top" secondItem="FaG-Nk-cYW" secondAttribute="bottom" constant="8" id="ZzP-ya-Na1"/>
                             <constraint firstItem="G3h-Aj-hew" firstAttribute="top" secondItem="1ed-eB-Kgo" secondAttribute="bottom" constant="8" id="bT7-37-d9d"/>
                             <constraint firstItem="FII-B3-Ys5" firstAttribute="top" secondItem="G3h-Aj-hew" secondAttribute="bottom" constant="8" id="dEw-Lj-eIt"/>
+                            <constraint firstItem="AyI-3p-U68" firstAttribute="leading" secondItem="1DX-Tb-0AE" secondAttribute="leading" id="fXy-RK-JhS"/>
                             <constraint firstItem="FaG-Nk-cYW" firstAttribute="top" secondItem="nKR-WI-Cco" secondAttribute="bottom" constant="-6" id="grC-Iv-OvE"/>
                             <constraint firstItem="nKR-WI-Cco" firstAttribute="centerX" secondItem="1DX-Tb-0AE" secondAttribute="centerX" id="jVO-Nq-JDb"/>
                             <constraint firstItem="nKR-WI-Cco" firstAttribute="top" secondItem="FII-B3-Ys5" secondAttribute="bottom" constant="22" id="kop-oT-Udi"/>
+                            <constraint firstAttribute="trailing" secondItem="AyI-3p-U68" secondAttribute="trailing" id="rxa-w3-rb3"/>
                             <constraint firstAttribute="trailing" secondItem="FII-B3-Ys5" secondAttribute="trailing" id="sX5-iP-HiE"/>
                             <constraint firstItem="G3h-Aj-hew" firstAttribute="leading" secondItem="1DX-Tb-0AE" secondAttribute="leading" id="zOP-S3-CEz"/>
                         </constraints>
@@ -314,9 +328,11 @@
                         <outlet property="activityTitle" destination="G3h-Aj-hew" id="FRe-Ks-6Jx"/>
                         <outlet property="archiveButton" destination="ser-oG-X6A" id="iEz-E0-F6p"/>
                         <outlet property="datePicker" destination="FaG-Nk-cYW" id="0ba-09-1d1"/>
+                        <outlet property="deleteButton" destination="AyI-3p-U68" id="rVQ-3f-eFh"/>
                         <outlet property="fridayButton" destination="76L-mu-1OB" id="rO3-wY-1ka"/>
                         <outlet property="mondayButton" destination="wH2-sH-Gcf" id="tw5-MT-zcx"/>
                         <outlet property="saturdayButton" destination="5O6-i5-Sbv" id="gbE-AA-nmh"/>
+                        <outlet property="saveButton" destination="DoX-4C-3qP" id="8Lg-vh-v21"/>
                         <outlet property="sundayButton" destination="WeB-q5-eta" id="KDN-kH-6Ic"/>
                         <outlet property="thursdayButton" destination="1AT-9L-jQK" id="6Et-IS-oh1"/>
                         <outlet property="tuesdayButton" destination="yZ7-oc-xJo" id="q9a-0a-qbh"/>

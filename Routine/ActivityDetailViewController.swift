@@ -15,6 +15,8 @@ class ActivityDetailViewController: UIViewController, UITextFieldDelegate {
 
     @IBOutlet var activityTitle: UITextField!
     
+    @IBOutlet var saveButton: UIBarButtonItem!
+    
     @IBOutlet var mondayButton: DayOfWeekButton!
     @IBOutlet var tuesdayButton: DayOfWeekButton!
     @IBOutlet var wednesdayButton: DayOfWeekButton!
@@ -28,6 +30,7 @@ class ActivityDetailViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet var datePicker: UIDatePicker!
     
     @IBOutlet var archiveButton: UIButton!
+    @IBOutlet var deleteButton: UIButton!
     
     var activity: Activity?
     var activityStore: ActivityStore!
@@ -44,11 +47,12 @@ class ActivityDetailViewController: UIViewController, UITextFieldDelegate {
         buttonMap[.Saturday] = saturdayButton
         buttonMap[.Sunday] = sundayButton
         
-        activityTitle.becomeFirstResponder()
-        
         // Populate activity data
         guard let currentActivity = activity else {
             os_log("Displaying detail view for new activity", log: log, type: .info)
+            
+            activityTitle.becomeFirstResponder()
+
             return
         }
         
@@ -64,7 +68,23 @@ class ActivityDetailViewController: UIViewController, UITextFieldDelegate {
             datePicker.date = startDate
         }
         
-        archiveButton.isHidden = false
+        deleteButton.isHidden = false
+        
+        // Disable elements if archived
+        guard !currentActivity.isActive else {
+            archiveButton.isHidden = false
+            return
+        }
+        
+        activityTitle.isEnabled = false
+        
+        for (_, button) in buttonMap {
+            button.isEnabled = false
+        }
+        
+        datePicker.isEnabled = false
+        
+        navigationItem.rightBarButtonItem = nil
     }
     
     @IBAction func toggleDayButton(_ sender: DayOfWeekButton) {
@@ -114,10 +134,9 @@ class ActivityDetailViewController: UIViewController, UITextFieldDelegate {
             return
         }
         
-        
         // Display confirmation alert
         let title = "Archive \(String(describing: activityToArchive.title ?? ""))?"
-        let message = "Archiving an Activity cannot be undone. Are you sure you want to permanently archive this Activity?"
+        let message = "Archiving an activity will remove all future occurrences, and cannot be undone. Are you sure you want to permanently archive this Activity?"
         
         let ac = UIAlertController(title: title, message: message, preferredStyle: .actionSheet)
         
@@ -128,6 +147,33 @@ class ActivityDetailViewController: UIViewController, UITextFieldDelegate {
             os_log("User indicated archive for Activity: %@", log: self.log, type: .debug, activityToArchive)
             
             try? self.activityStore.archive(activity: activityToArchive)
+            
+            // Dismiss myself
+            self.navigationController?.popViewController(animated: true)
+        }
+        ac.addAction(archiveAction)
+        
+        present(ac, animated: true, completion: nil)
+    }
+    
+    @IBAction func deleteActivity(_ sender: UIButton) {
+        guard let activityToDelete = activity else {
+            return
+        }
+        
+        // Display confirmation alert
+        let title = "Delete \(String(describing: activityToDelete.title ?? ""))?"
+        let message = "This will permanently remove this activity's data, including all past completions. Are you sure you want to delete this Activity?"
+        
+        let ac = UIAlertController(title: title, message: message, preferredStyle: .actionSheet)
+        
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        ac.addAction(cancelAction)
+        
+        let archiveAction = UIAlertAction(title: "Delete", style: .destructive) { (action) in
+            os_log("User indicated deletion for Activity: %@", log: self.log, type: .debug, activityToDelete)
+            
+            try? self.activityStore.delete(activity: activityToDelete)
             
             // Dismiss myself
             self.navigationController?.popViewController(animated: true)
