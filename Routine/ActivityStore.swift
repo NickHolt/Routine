@@ -106,7 +106,27 @@ extension ActivityStore {
             try persistToDisk()
             os_log("Removed Activity: %@", log: log, type: .info, activity)
         } catch {
-            os_log("Failed to remove Activity from CoreData: %@", log: log, type: .error, activity)
+            os_log("Failed to archive Activity: %@", log: log, type: .error, activity)
+        }
+    }
+    
+    func delete(activity: Activity) throws {
+        guard let activityIndex = allActivities.index(of: activity) else {
+            throw Error.activityNotFound(activity)
+        }
+        
+        allActivities.remove(at: activityIndex)
+        persistentContainer.viewContext.delete(activity)
+        
+        for completion in allCompletions[activity]! {
+            persistentContainer.viewContext.delete(completion)
+        }
+        
+        do {
+            try persistToDisk()
+            os_log("Removed Activity: %@", log: log, type: .info, activity)
+        } catch {
+            os_log("Failed to delete Activity data from CoreData: %@", log: log, type: .error, activity)
         }
     }
     
