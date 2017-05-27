@@ -112,7 +112,7 @@ class ActivityDetailViewController: UIViewController, UITextFieldDelegate {
     @IBAction func archiveActivity(_ sender: UIButton) {
         os_log("User indicated archive for Activity: %@", log: log, type: .debug, activity!)
         
-        try? activityStore.remove(activity: activity!)
+        try? activityStore.archive(activity: activity!)
 
         // Dismiss myself
         navigationController?.popViewController(animated: true)

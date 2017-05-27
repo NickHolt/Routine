@@ -110,7 +110,7 @@ class ActivitiesViewController: UITableViewController {
             
             os_log("User indicated deletion for Activity: %@", log: log, type: .debug, activity)
             
-            try? activityStore.remove(activity: activity)
+            try? activityStore.archive(activity: activity)
             if let activityIndex = displayedActivities.index(of: activity) {
                 displayedActivities.remove(at: activityIndex)
             }

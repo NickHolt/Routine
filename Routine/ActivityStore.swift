@@ -90,7 +90,7 @@ extension ActivityStore {
         return activities
     }
     
-    func remove(activity: Activity) throws {
+    func archive(activity: Activity) throws {
         guard allActivities.contains(activity) else {
             throw Error.activityNotFound(activity)
         }
