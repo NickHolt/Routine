@@ -27,6 +27,8 @@ class ActivityDetailViewController: UIViewController, UITextFieldDelegate {
     
     @IBOutlet var datePicker: UIDatePicker!
     
+    @IBOutlet var archiveButton: UIButton!
+    
     var activity: Activity?
     var activityStore: ActivityStore!
     
@@ -61,6 +63,8 @@ class ActivityDetailViewController: UIViewController, UITextFieldDelegate {
         if let startDate = activity?.startDate {
             datePicker.date = startDate
         }
+        
+        archiveButton.isHidden = false
     }
     
     @IBAction func toggleDayButton(_ sender: DayOfWeekButton) {
@@ -101,6 +105,15 @@ class ActivityDetailViewController: UIViewController, UITextFieldDelegate {
         // Save to disk
         try? activityStore.persistToDisk()
         
+        // Dismiss myself
+        navigationController?.popViewController(animated: true)
+    }
+    
+    @IBAction func archiveActivity(_ sender: UIButton) {
+        os_log("User indicated archive for Activity: %@", log: log, type: .debug, activity!)
+        
+        try? activityStore.remove(activity: activity!)
+
         // Dismiss myself
         navigationController?.popViewController(animated: true)
     }

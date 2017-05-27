@@ -274,14 +274,28 @@
                                 <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ser-oG-X6A">
+                                <rect key="frame" x="0.0" y="408" width="375" height="36"/>
+                                <color key="backgroundColor" name="disabledControlTextColor" catalog="System" colorSpace="catalog"/>
+                                <fontDescription key="fontDescription" style="UICTFontTextStyleTitle3"/>
+                                <state key="normal" title="Archive">
+                                    <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                </state>
+                                <connections>
+                                    <action selector="archiveActivity:" destination="SjH-LL-4sQ" eventType="touchUpInside" id="xDs-aZ-9Aj"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" red="0.90196079019999997" green="0.90196079019999997" blue="0.90196079019999997" alpha="1" colorSpace="calibratedRGB"/>
                         <gestureRecognizers/>
                         <constraints>
                             <constraint firstItem="FaG-Nk-cYW" firstAttribute="leading" secondItem="1DX-Tb-0AE" secondAttribute="leading" id="3JR-xz-EPY"/>
                             <constraint firstAttribute="trailing" secondItem="FaG-Nk-cYW" secondAttribute="trailing" id="8UO-LV-gs0"/>
+                            <constraint firstItem="ser-oG-X6A" firstAttribute="leading" secondItem="1DX-Tb-0AE" secondAttribute="leading" id="Dpe-dQ-VWe"/>
+                            <constraint firstAttribute="trailing" secondItem="ser-oG-X6A" secondAttribute="trailing" id="I6E-ne-tQV"/>
                             <constraint firstItem="FII-B3-Ys5" firstAttribute="leading" secondItem="1DX-Tb-0AE" secondAttribute="leading" id="LAT-w1-fiQ"/>
                             <constraint firstAttribute="trailing" secondItem="G3h-Aj-hew" secondAttribute="trailing" id="ZtW-AP-jRO"/>
+                            <constraint firstItem="ser-oG-X6A" firstAttribute="top" secondItem="FaG-Nk-cYW" secondAttribute="bottom" constant="8" id="ZzP-ya-Na1"/>
                             <constraint firstItem="G3h-Aj-hew" firstAttribute="top" secondItem="1ed-eB-Kgo" secondAttribute="bottom" constant="8" id="bT7-37-d9d"/>
                             <constraint firstItem="FII-B3-Ys5" firstAttribute="top" secondItem="G3h-Aj-hew" secondAttribute="bottom" constant="8" id="dEw-Lj-eIt"/>
                             <constraint firstItem="FaG-Nk-cYW" firstAttribute="top" secondItem="nKR-WI-Cco" secondAttribute="bottom" constant="-6" id="grC-Iv-OvE"/>
@@ -303,6 +317,7 @@
                     </navigationItem>
                     <connections>
                         <outlet property="activityTitle" destination="G3h-Aj-hew" id="FRe-Ks-6Jx"/>
+                        <outlet property="archiveButton" destination="ser-oG-X6A" id="iEz-E0-F6p"/>
                         <outlet property="datePicker" destination="FaG-Nk-cYW" id="0ba-09-1d1"/>
                         <outlet property="fridayButton" destination="76L-mu-1OB" id="rO3-wY-1ka"/>
                         <outlet property="mondayButton" destination="wH2-sH-Gcf" id="tw5-MT-zcx"/>
