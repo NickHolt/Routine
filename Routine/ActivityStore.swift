@@ -21,7 +21,7 @@ class ActivityStore {
     
     var persistentContainer: NSPersistentContainer!
     
-    fileprivate var allActivities = [Activity]()
+    var allActivities = [Activity]()
     var allCompletions = [Activity: [Completion]]()
 
     func loadFromDisk() throws {
@@ -63,36 +63,36 @@ extension ActivityStore {
         return activity
     }
     
-    func getAllActivities(mustBeActive: Bool = false) -> [Activity] {
-        guard !mustBeActive else {
-            return allActivities.filter { $0.isActive }
-        }
-        
-        return allActivities
+    func getHistoricActivities(for date: Date) -> Set<Activity> {
+        let completions = getAllCompletions(for: date)
+        let activities = Set(completions.filter { $0.activity != nil && !$0.activity!.isActive }.map { $0.activity! })
+
+        os_log("Fetched %u archived Activities for %f", log: log, type: .debug, activities.count, date.timeIntervalSinceReferenceDate)
+
+        return activities
     }
     
-    func getActivities(for date: Date, mustBeActive: Bool) -> Set<Activity> {
+    func getNewActivities(for date: Date) -> Set<Activity> {
         let day = Calendar.current.dayOfWeek(from: date)
-        
-        // Get Activities from Completions
-        let completions = getAllCompletions(for: date)
-        var activities = Set(completions.filter { $0.activity != nil }.map { $0.activity! })
-        
-        // Get Activities for new occurrences
-        for newActivity in getAllActivities(mustBeActive: mustBeActive) {
-            guard let startDate = newActivity.startDate else {
-                continue
+
+        let activities = allActivities.filter { activity in
+            guard activity.isActive else {
+                return false
             }
-            guard startDate <= date && newActivity.daysOfWeek.contains(day) else {
-                continue
+            guard let startDate = activity.startDate else {
+                return false
             }
             
-            activities.insert(newActivity)
+            return startDate <= date && activity.daysOfWeek.contains(day)
         }
         
-        os_log("Fetched %u activities for %f", log: log, type: .debug, activities.count, date.timeIntervalSinceReferenceDate)
+        os_log("Fetched %u active Activities for %f", log: log, type: .debug, activities.count, date.timeIntervalSinceReferenceDate)
         
-        return activities
+        return Set(activities)
+    }
+    
+    func getAllActivities(for date: Date) -> Set<Activity> {
+        return getHistoricActivities(for: date).union(getNewActivities(for: date))
     }
     
     func archive(activity: Activity) throws {
@@ -338,7 +338,7 @@ extension ActivityStore {
         os_log("Filling in missing Completion data from dates %f to %f", log: log, type: .debug, startDate.timeIntervalSinceReferenceDate, endDate.timeIntervalSinceReferenceDate)
         
         while (currentDate < finalDate) {
-            let activities = getActivities(for: currentDate, mustBeActive: true)
+            let activities = getNewActivities(for: currentDate)
             
             for activity in activities {
                 guard let _ = getCompletion(for: activity, on: currentDate) else {
