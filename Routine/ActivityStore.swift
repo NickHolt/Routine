@@ -71,15 +71,23 @@ extension ActivityStore {
         return allActivities
     }
     
-    func getActivities(for date: Date, mustBeActive: Bool) -> [Activity] {
+    func getActivities(for date: Date, mustBeActive: Bool) -> Set<Activity> {
         let day = Calendar.current.dayOfWeek(from: date)
         
-        let activities = getAllActivities(mustBeActive: mustBeActive).filter { activity in
-            guard let startDate = activity.startDate else {
-                return false
+        // Get Activities from Completions
+        let completions = getAllCompletions(for: date)
+        var activities = Set(completions.filter { $0.activity != nil }.map { $0.activity! })
+        
+        // Get Activities for new occurances
+        for newActivity in getAllActivities(mustBeActive: mustBeActive) {
+            guard let startDate = newActivity.startDate else {
+                continue
+            }
+            guard startDate <= date && newActivity.daysOfWeek.contains(day) else {
+                continue
             }
             
-            return startDate <= date && activity.daysOfWeek.contains(day)
+            activities.insert(newActivity)
         }
         
         os_log("Fetched %u activities for %f", log: log, type: .debug, activities.count, date.timeIntervalSinceReferenceDate)
