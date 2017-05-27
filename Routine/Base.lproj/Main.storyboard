@@ -269,17 +269,6 @@
                                 <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ser-oG-X6A">
-                                <rect key="frame" x="0.0" y="408" width="375" height="36"/>
-                                <color key="backgroundColor" name="disabledControlTextColor" catalog="System" colorSpace="catalog"/>
-                                <fontDescription key="fontDescription" style="UICTFontTextStyleTitle3"/>
-                                <state key="normal" title="Archive">
-                                    <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                </state>
-                                <connections>
-                                    <action selector="archiveActivity:" destination="SjH-LL-4sQ" eventType="touchUpInside" id="xDs-aZ-9Aj"/>
-                                </connections>
-                            </button>
                             <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="AyI-3p-U68">
                                 <rect key="frame" x="0.0" y="574" width="375" height="36"/>
                                 <color key="backgroundColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
@@ -289,6 +278,17 @@
                                 </state>
                                 <connections>
                                     <action selector="deleteActivity:" destination="SjH-LL-4sQ" eventType="touchUpInside" id="46d-dg-3E0"/>
+                                </connections>
+                            </button>
+                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ser-oG-X6A">
+                                <rect key="frame" x="0.0" y="530" width="375" height="36"/>
+                                <color key="backgroundColor" name="disabledControlTextColor" catalog="System" colorSpace="catalog"/>
+                                <fontDescription key="fontDescription" style="UICTFontTextStyleTitle3"/>
+                                <state key="normal" title="Archive">
+                                    <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                </state>
+                                <connections>
+                                    <action selector="archiveActivity:" destination="SjH-LL-4sQ" eventType="touchUpInside" id="xDs-aZ-9Aj"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -302,10 +302,10 @@
                             <constraint firstItem="FII-B3-Ys5" firstAttribute="leading" secondItem="1DX-Tb-0AE" secondAttribute="leading" id="LAT-w1-fiQ"/>
                             <constraint firstItem="unw-sy-8EE" firstAttribute="top" secondItem="AyI-3p-U68" secondAttribute="bottom" constant="8" id="RJj-Ag-gPu"/>
                             <constraint firstAttribute="trailing" secondItem="G3h-Aj-hew" secondAttribute="trailing" id="ZtW-AP-jRO"/>
-                            <constraint firstItem="ser-oG-X6A" firstAttribute="top" secondItem="FaG-Nk-cYW" secondAttribute="bottom" constant="8" id="ZzP-ya-Na1"/>
                             <constraint firstItem="G3h-Aj-hew" firstAttribute="top" secondItem="1ed-eB-Kgo" secondAttribute="bottom" constant="8" id="bT7-37-d9d"/>
                             <constraint firstItem="FII-B3-Ys5" firstAttribute="top" secondItem="G3h-Aj-hew" secondAttribute="bottom" constant="8" id="dEw-Lj-eIt"/>
                             <constraint firstItem="AyI-3p-U68" firstAttribute="leading" secondItem="1DX-Tb-0AE" secondAttribute="leading" id="fXy-RK-JhS"/>
+                            <constraint firstItem="AyI-3p-U68" firstAttribute="top" secondItem="ser-oG-X6A" secondAttribute="bottom" constant="8" id="gJn-kU-8bs"/>
                             <constraint firstItem="FaG-Nk-cYW" firstAttribute="top" secondItem="nKR-WI-Cco" secondAttribute="bottom" constant="-6" id="grC-Iv-OvE"/>
                             <constraint firstItem="nKR-WI-Cco" firstAttribute="centerX" secondItem="1DX-Tb-0AE" secondAttribute="centerX" id="jVO-Nq-JDb"/>
                             <constraint firstItem="nKR-WI-Cco" firstAttribute="top" secondItem="FII-B3-Ys5" secondAttribute="bottom" constant="22" id="kop-oT-Udi"/>
