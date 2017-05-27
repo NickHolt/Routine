@@ -110,11 +110,30 @@ class ActivityDetailViewController: UIViewController, UITextFieldDelegate {
     }
     
     @IBAction func archiveActivity(_ sender: UIButton) {
-        os_log("User indicated archive for Activity: %@", log: log, type: .debug, activity!)
+        guard let activityToArchive = activity else {
+            return
+        }
         
-        try? activityStore.archive(activity: activity!)
-
-        // Dismiss myself
-        navigationController?.popViewController(animated: true)
+        
+        // Display confirmation alert
+        let title = "Archive \(String(describing: activityToArchive.title ?? ""))?"
+        let message = "Archiving an Activity cannot be undone. Are you sure you want to permanently archive this Activity?"
+        
+        let ac = UIAlertController(title: title, message: message, preferredStyle: .actionSheet)
+        
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        ac.addAction(cancelAction)
+        
+        let archiveAction = UIAlertAction(title: "Archive", style: .destructive) { (action) in
+            os_log("User indicated archive for Activity: %@", log: self.log, type: .debug, activityToArchive)
+            
+            try? self.activityStore.archive(activity: activityToArchive)
+            
+            // Dismiss myself
+            self.navigationController?.popViewController(animated: true)
+        }
+        ac.addAction(archiveAction)
+        
+        present(ac, animated: true, completion: nil)
     }
 }
