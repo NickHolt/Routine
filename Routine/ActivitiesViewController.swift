@@ -33,7 +33,7 @@ class ActivitiesViewController: UITableViewController {
     }
     
     override func numberOfSections(in tableView: UITableView) -> Int {
-        return 2
+        return inactiveActivities.count > 0 ? 2 : 1
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -60,8 +60,6 @@ class ActivitiesViewController: UITableViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        
         refreshActivities()
         
         // Configure search
@@ -79,7 +77,7 @@ class ActivitiesViewController: UITableViewController {
             tableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: false)
         }
         
-        // Don't show empty
+        super.viewWillAppear(animated)
         
         tableView.reloadData()
     }
@@ -100,6 +98,10 @@ class ActivitiesViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        guard numberOfSections(in: tableView) > 1 else {
+            return nil
+        }
+        
         switch section {
         case 0:
             return "Active Activities"
