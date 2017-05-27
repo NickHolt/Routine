@@ -28,6 +28,7 @@ class ActivityDetailViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet var datePicker: UIDatePicker!
     
     @IBOutlet var archiveButton: UIButton!
+    @IBOutlet var deleteButton: UIButton!
     
     var activity: Activity?
     var activityStore: ActivityStore!
@@ -115,7 +116,6 @@ class ActivityDetailViewController: UIViewController, UITextFieldDelegate {
             return
         }
         
-        
         // Display confirmation alert
         let title = "Archive \(String(describing: activityToArchive.title ?? ""))?"
         let message = "Archiving an Activity cannot be undone. Are you sure you want to permanently archive this Activity?"
@@ -129,6 +129,33 @@ class ActivityDetailViewController: UIViewController, UITextFieldDelegate {
             os_log("User indicated archive for Activity: %@", log: self.log, type: .debug, activityToArchive)
             
             try? self.activityStore.archive(activity: activityToArchive)
+            
+            // Dismiss myself
+            self.navigationController?.popViewController(animated: true)
+        }
+        ac.addAction(archiveAction)
+        
+        present(ac, animated: true, completion: nil)
+    }
+    
+    @IBAction func deleteActivity(_ sender: UIButton) {
+        guard let activityToDelete = activity else {
+            return
+        }
+        
+        // Display confirmation alert
+        let title = "Delete \(String(describing: activityToDelete.title ?? ""))?"
+        let message = "This will permanently remove this activity's data, including all past completions. Are you sure you want to delete this Activity?"
+        
+        let ac = UIAlertController(title: title, message: message, preferredStyle: .actionSheet)
+        
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        ac.addAction(cancelAction)
+        
+        let archiveAction = UIAlertAction(title: "Delete", style: .destructive) { (action) in
+            os_log("User indicated deletion for Activity: %@", log: self.log, type: .debug, activityToDelete)
+            
+            try? self.activityStore.delete(activity: activityToDelete)
             
             // Dismiss myself
             self.navigationController?.popViewController(animated: true)

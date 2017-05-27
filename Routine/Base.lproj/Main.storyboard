@@ -287,6 +287,9 @@
                                 <state key="normal" title="Delete">
                                     <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 </state>
+                                <connections>
+                                    <action selector="deleteActivity:" destination="SjH-LL-4sQ" eventType="touchUpInside" id="46d-dg-3E0"/>
+                                </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" red="0.90196079019999997" green="0.90196079019999997" blue="0.90196079019999997" alpha="1" colorSpace="calibratedRGB"/>
@@ -325,6 +328,8 @@
                         <outlet property="activityTitle" destination="G3h-Aj-hew" id="FRe-Ks-6Jx"/>
                         <outlet property="archiveButton" destination="ser-oG-X6A" id="iEz-E0-F6p"/>
                         <outlet property="datePicker" destination="FaG-Nk-cYW" id="0ba-09-1d1"/>
+                        <outlet property="deleteActivity" destination="AyI-3p-U68" id="Vrj-Ni-UTd"/>
+                        <outlet property="deleteButton" destination="AyI-3p-U68" id="rVQ-3f-eFh"/>
                         <outlet property="fridayButton" destination="76L-mu-1OB" id="rO3-wY-1ka"/>
                         <outlet property="mondayButton" destination="wH2-sH-Gcf" id="tw5-MT-zcx"/>
                         <outlet property="saturdayButton" destination="5O6-i5-Sbv" id="gbE-AA-nmh"/>
