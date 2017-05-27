@@ -47,6 +47,7 @@ extension Activity {
         }
     }
     
+    @NSManaged public var isActive: Bool
     @NSManaged public var title: String?
     @NSManaged public var startDate: Date?
     @NSManaged public var completions: NSSet?
