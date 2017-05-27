@@ -44,11 +44,12 @@ class ActivityDetailViewController: UIViewController, UITextFieldDelegate {
         buttonMap[.Saturday] = saturdayButton
         buttonMap[.Sunday] = sundayButton
         
-        activityTitle.becomeFirstResponder()
-        
         // Populate activity data
         guard let currentActivity = activity else {
             os_log("Displaying detail view for new activity", log: log, type: .info)
+            
+            activityTitle.becomeFirstResponder()
+
             return
         }
         
