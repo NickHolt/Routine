@@ -348,6 +348,35 @@ extension ActivityStore {
         }
     }
     
+    func scrubCompletions(for activity: Activity, startingFrom startDate: Date, endingOn endDate: Date) {
+        guard let activityStartDate = activity.startDate else {
+            assertionFailure("Could not find start date for Activity: \(activity)")
+        }
+
+        var currentDate = startDate
+        let finalDate = Calendar.current.date(byAdding: .day, value: 1, to: endDate)! // This ensures we don't get screwed by e.g. 1PM vs 2PM
+
+        os_log("Filling in missing Completion data for %@, dates %f to %f", log: log, type: .debug, activity, startDate.timeIntervalSinceReferenceDate, endDate.timeIntervalSinceReferenceDate)
+
+        while (currentDate <= finalDate) {
+            let dayOfWeek = Calendar.current.dayOfWeek(from: currentDate)
+            guard activity.daysOfWeek.contains(dayOfWeek) else {
+                continue
+            }
+            guard activityStartDate <= currentDate else {
+                continue
+            }
+            guard let _ = getCompletion(for: activity, on: currentDate) else {
+                continue
+            }
+            
+            os_log("Missing Completion data for Activity: %@ found on date: %f", log: log, type: .debug, activity, currentDate.timeIntervalSinceReferenceDate)
+            registerCompletion(for: activity, on: currentDate, withStatus: .notCompleted)
+            
+            currentDate = Calendar.current.date(byAdding: .day, value: 1, to: currentDate)!
+        }
+    }
+    
     func scrubCompletions(startingFrom startDate: Date, endingOn endDate: Date) {
         var currentDate = startDate
         let finalDate = Calendar.current.date(byAdding: .day, value: 1, to: endDate)!
