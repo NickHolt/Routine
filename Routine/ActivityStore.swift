@@ -48,15 +48,18 @@ class ActivityStore {
 // MARK: Methods regarding activities
 extension ActivityStore {
     
-    @discardableResult func fetchNewActivity() -> Activity {
+    func fetchNewActivity(withStartDate startDate: Date) -> Activity {
         let context = persistentContainer.viewContext
         var activity: Activity!
         
         context.performAndWait {
             activity = Activity(context: context)
+            activity.startDate = startDate
         }
 
         allActivities.append(activity)
+        
+        scrubCompletions(for: activity, startingFrom: startDate, endingOn: Date())
         
         os_log("Created new Activity: %@", log: log, type: .info, activity)
 
@@ -351,6 +354,7 @@ extension ActivityStore {
     func scrubCompletions(for activity: Activity, startingFrom startDate: Date, endingOn endDate: Date) {
         guard let activityStartDate = activity.startDate else {
             assertionFailure("Could not find start date for Activity: \(activity)")
+            return
         }
 
         var currentDate = startDate

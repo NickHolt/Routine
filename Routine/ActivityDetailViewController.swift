@@ -104,12 +104,11 @@ class ActivityDetailViewController: UIViewController, UITextFieldDelegate {
         os_log("Save button pressed", log: log, type: .debug)
         
         if activity == nil {
-            activity = activityStore.fetchNewActivity()
+            activity = activityStore.fetchNewActivity(withStartDate: datePicker.date)
         }
         
-        // Save activity data
         if let newActivityTitle = activityTitle.text, !newActivityTitle.trimmingCharacters(in: .whitespaces).isEmpty {
-            activity?.title = newActivityTitle
+            activity!.title = newActivityTitle
         }
         
         var newDaysOfWeek = [DayOfWeek]()
@@ -118,9 +117,7 @@ class ActivityDetailViewController: UIViewController, UITextFieldDelegate {
                 newDaysOfWeek.append(day)
             }
         }
-        activity?.daysOfWeek = newDaysOfWeek
-        
-        activity?.startDate = datePicker.date
+        activity!.daysOfWeek = newDaysOfWeek
         
         // Save to disk
         try? activityStore.persistToDisk()
