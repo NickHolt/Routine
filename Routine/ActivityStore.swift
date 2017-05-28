@@ -73,7 +73,14 @@ extension ActivityStore {
     
     func getHistoricActivities(for date: Date) -> Set<Activity> {
         let completions = getAllCompletions(for: date)
-        let activities = Set(completions.filter { $0.activity != nil && !$0.activity!.isActive }.map { $0.activity! })
+        for completion in completions {
+            print(completion)
+            print(completion.activity ?? "nil")
+            print(completion.activity?.isActive ?? "nil")
+        }
+        let activities = Set(completions.filter { $0.activity != nil }.map { $0.activity! })
+        
+        print(activities)
 
         os_log("Fetched %u archived Activities for %f", log: log, type: .debug, activities.count, date.timeIntervalSinceReferenceDate)
 
