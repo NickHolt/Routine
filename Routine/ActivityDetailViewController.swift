@@ -36,10 +36,9 @@ class ActivityDetailViewController: UIViewController, UITextFieldDelegate {
     var activityStore: ActivityStore!
     var completionHistory: CompletionHistory!
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-
+    private func configureButtonMap() {
         buttonMap = [DayOfWeek:DayOfWeekButton]()
+        
         buttonMap[.Monday] = mondayButton
         buttonMap[.Tuesday] = tuesdayButton
         buttonMap[.Wednesday] = wednesdayButton
@@ -47,32 +46,25 @@ class ActivityDetailViewController: UIViewController, UITextFieldDelegate {
         buttonMap[.Friday] = fridayButton
         buttonMap[.Saturday] = saturdayButton
         buttonMap[.Sunday] = sundayButton
-        
-        // Populate activity data
-        guard let currentActivity = activity else {
-            os_log("Displaying detail view for new activity", log: log, type: .info)
-            
-            activityTitle.becomeFirstResponder()
+    }
+    
+    private func populateFrom(activity: Activity) {
+        os_log("Displaying details for Activity: %@", log: log, type: .info, activity)
 
-            return
-        }
+        activityTitle.text = activity.title
         
-        os_log("Displaying details for Activity: %@", log: log, type: .info, currentActivity)
-
-        activityTitle.text = currentActivity.title
-        
-        for day in currentActivity.daysOfWeek {
+        for day in activity.daysOfWeek {
             buttonMap[day]!.isSelected = true
         }
         
-        if let startDate = activity?.startDate {
+        if let startDate = activity.startDate {
             datePicker.date = startDate
         }
         
         deleteButton.isHidden = false
         
         // Disable elements if archived
-        guard !currentActivity.isActive else {
+        guard !activity.isActive else {
             archiveButton.isHidden = false
             return
         }
@@ -88,6 +80,22 @@ class ActivityDetailViewController: UIViewController, UITextFieldDelegate {
         navigationItem.rightBarButtonItem = nil
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+
+        configureButtonMap()
+        
+        guard let currentActivity = activity else {
+            os_log("Displaying detail view for new activity", log: log, type: .info)
+            
+            activityTitle.becomeFirstResponder()
+
+            return
+        }
+        
+        populateFrom(activity: currentActivity)
+    }
+    
     @IBAction func toggleDayButton(_ sender: DayOfWeekButton) {
         sender.isSelected = !sender.isSelected
     }
@@ -101,16 +109,9 @@ class ActivityDetailViewController: UIViewController, UITextFieldDelegate {
         view.endEditing(true)
     }
     
-    @IBAction func saveActivity(_ sender: UIBarButtonItem) {
-        os_log("Save button pressed", log: log, type: .debug)
-        
-        if activity == nil {
-            activity = activityStore.getEntity()
-        }
-        let activityToUpdate = activity!
-        
+    private func saveTo(activity: Activity) {
         if let newActivityTitle = activityTitle.text, !newActivityTitle.trimmingCharacters(in: .whitespaces).isEmpty {
-            activityToUpdate.title = newActivityTitle
+            activity.title = newActivityTitle
         }
         
         var newDaysOfWeek = [DayOfWeek]()
@@ -119,9 +120,18 @@ class ActivityDetailViewController: UIViewController, UITextFieldDelegate {
                 newDaysOfWeek.append(day)
             }
         }
-        activityToUpdate.daysOfWeek = newDaysOfWeek
+        activity.daysOfWeek = newDaysOfWeek
         
-        activityToUpdate.startDate = datePicker.date
+        activity.startDate = datePicker.date
+    }
+    
+    @IBAction func saveActivity(_ sender: UIBarButtonItem) {
+        os_log("Save button pressed", log: log, type: .debug)
+        
+        if activity == nil {
+            activity = activityStore.getEntity()
+        }
+        saveTo(activity: activity!)        
         
         // Save to disk
         // MARK: TODO<nickholt> handle CoreDate failure
