@@ -57,7 +57,7 @@ extension ActivityStore {
         return activity
     }
     
-    func insertNew(activity: Activity) {
+    func insertNew(activity: Activity) throws {
         guard allActivities.index(of: activity) == nil else {
             assertionFailure("New Activity was already registered: \(activity)")
             os_log("A new Activity was inserted, which was already known: %@", log: log, type: .error, activity)
@@ -69,9 +69,11 @@ extension ActivityStore {
         
         if let startDate = activity.startDate {
             scrubCompletions(for: activity, startingFrom: startDate, endingOn: Date())
+        } else {
+            assertionFailure("New Activity entered without start date: \(activity)")
         }
 
-        os_log("Inserted new Activity: %@", log: log, type: .info, activity)
+        try persistToDisk()
     }
     
     func getAllActiveActivities() -> Set<Activity> {

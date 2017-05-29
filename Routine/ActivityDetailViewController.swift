@@ -103,7 +103,8 @@ class ActivityDetailViewController: UIViewController, UITextFieldDelegate {
     @IBAction func saveActivity(_ sender: UIBarButtonItem) {
         os_log("Save button pressed", log: log, type: .debug)
         
-        if activity == nil {
+        let isNewActivity = activity == nil
+        if isNewActivity {
             activity = activityStore.getNewActivity()
         }
         
@@ -122,8 +123,12 @@ class ActivityDetailViewController: UIViewController, UITextFieldDelegate {
         activity!.startDate = datePicker.date
         
         // Save to disk
-        activityStore.insertNew(activity: activity!)
-        try? activityStore.persistToDisk()
+        if isNewActivity {
+            try? activityStore.insertNew(activity: activity!)
+        } else {
+            // TODO<nickholt>: Is this neccessary?
+            try? activityStore.persistToDisk()
+        }
         
         // Dismiss myself
         navigationController?.popViewController(animated: true)
