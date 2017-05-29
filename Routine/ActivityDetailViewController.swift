@@ -112,6 +112,8 @@ class ActivityDetailViewController: UIViewController, UITextFieldDelegate {
     private func saveTo(activity: Activity) {
         if let newActivityTitle = activityTitle.text, !newActivityTitle.trimmingCharacters(in: .whitespaces).isEmpty {
             activity.title = newActivityTitle
+        } else {
+            activity.title = "New Activity"
         }
         
         var newDaysOfWeek = [DayOfWeek]()
