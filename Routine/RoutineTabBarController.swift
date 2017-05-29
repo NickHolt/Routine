@@ -11,14 +11,19 @@ import UIKit
 class RoutineTabBarController: UITabBarController {
     
     var activityStore: ActivityStore!
+    var completionStore: CompletionStore!
+    var completionHistory: CompletionHistory!
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
         // Configure tabbed view controllers
         let dailyActivitiesNavigationController = self.viewControllers?.first! as! UINavigationController
+        
         let dailyActivitiesViewController = dailyActivitiesNavigationController.topViewController as! DailyActivitiesViewController
         dailyActivitiesViewController.activityStore = activityStore
+        dailyActivitiesViewController.completionStore = completionStore
+        dailyActivitiesViewController.completionHistory = completionHistory
         
         let activitiesNavigationController = self.viewControllers?[1] as! UINavigationController
         let activitiesViewController = activitiesNavigationController.topViewController as! ActivitiesViewController

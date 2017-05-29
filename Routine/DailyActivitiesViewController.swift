@@ -18,6 +18,9 @@ class DailyActivitiesViewController: UITableViewController {
     @IBOutlet var addActivityButton: UIBarButtonItem!
     
     var activityStore: ActivityStore!
+    var completionStore: CompletionStore!
+    var completionHistory: CompletionHistory!
+
     var currentActivities: [Activity]!
     var completedActivities = Set<Activity>()
     var excusedActivities = Set<Activity>()
@@ -100,12 +103,21 @@ class DailyActivitiesViewController: UITableViewController {
         configureTitle()
     }
     
-    fileprivate func load(with date: Date) {
+    fileprivate func getAllActivities(for date: Date) -> Set<Activity> {
+        let allCompletions = completionStore.getAllCompletions(for: date)
+        let activitiesFromCompletions = Set(allCompletions.filter { $0.activity != nil }.map { $0.activity! })
+        
+        let activitiesFromDate = activityStore.getActivities(for: date)
+        
+        return activitiesFromCompletions.union(activitiesFromDate)
+    }
+    
+    fileprivate func load(for date: Date) {
         os_log("Loading Activities for date: %f", log: log, type: .debug, date.timeIntervalSinceReferenceDate)
         
         displayedDate = date
         
-        currentActivities = Array(activityStore.getAllActivities(for: date))
+        currentActivities = Array(getAllActivities(for: date))
         currentActivities.sort {
             activityA, activityB -> Bool in
             
@@ -118,10 +130,10 @@ class DailyActivitiesViewController: UITableViewController {
         completedActivities.removeAll()
         excusedActivities.removeAll()
         for activity in currentActivities {
-            var completion = activityStore.getCompletion(for: activity, on: displayedDate)
+            var completion = completionHistory.getCompletion(for: activity, on: displayedDate)
             if completion == nil {
                 os_log("No Completion data found for Activity: %@. Adding a non-completion.", log: log, type: .debug, activity)
-                completion = activityStore.registerCompletion(for: activity, on: date, withStatus: .notCompleted)
+                completion = completionHistory.registerCompletion(for: activity, on: date, withStatus: .notCompleted)
             }
             
             switch completion!.status {
@@ -147,7 +159,7 @@ class DailyActivitiesViewController: UITableViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        load(with: Date())
+        load(for: Date())
     }
     
     override func viewDidLoad() {
@@ -173,11 +185,11 @@ class DailyActivitiesViewController: UITableViewController {
     }
     
     @IBAction func viewDayBefore(_ sender: UIBarButtonItem) {
-        load(with: dateDayBefore)
+        load(for: dateDayBefore)
     }
     
     @IBAction func viewDayAfter(_ sender: UIBarButtonItem) {
-        load(with: dateDayAfter)
+        load(for: dateDayAfter)
     }
     
     fileprivate func format(cell: UITableViewCell, forCompletionStatus status: Completion.Status) {
@@ -195,7 +207,7 @@ class DailyActivitiesViewController: UITableViewController {
     }
     
     fileprivate func setStreak(for cell: DailyActivitiesViewCell, withDataFrom activity: Activity) {
-        guard let activityStreak = try? activityStore.getCompletionStreak(for: activity, endingOn: displayedDate, withPreviousFallback: displayedDateIsToday) else {
+        guard let activityStreak = try? completionHistory.getCompletionStreak(for: activity, endingOn: displayedDate, withPreviousFallback: displayedDateIsToday) else {
             cell.currentStreak.text = "Unknown Streak"
             return
         }
@@ -213,17 +225,17 @@ class DailyActivitiesViewController: UITableViewController {
             completedActivities.insert(activity)
             excusedActivities.remove(activity)
 
-            activityStore.registerCompletion(for: activity, on: displayedDate, withStatus: .completed)
+            completionHistory.registerCompletion(for: activity, on: displayedDate, withStatus: .completed)
         case .excused:
             completedActivities.remove(activity)
             excusedActivities.insert(activity)
             
-            activityStore.registerCompletion(for: activity, on: displayedDate, withStatus: .excused)
+            completionHistory.registerCompletion(for: activity, on: displayedDate, withStatus: .excused)
         case .notCompleted:
             completedActivities.remove(activity)
             excusedActivities.remove(activity)
 
-            activityStore.registerCompletion(for: activity, on: displayedDate, withStatus: .notCompleted)
+            completionHistory.registerCompletion(for: activity, on: displayedDate, withStatus: .notCompleted)
         }
         
         let cell = tableView.cellForRow(at: indexPath) as! DailyActivitiesViewCell
@@ -327,13 +339,13 @@ extension DailyActivitiesViewController {
         switch recognizer.edges {
         case [.left]:
             os_log("Left edge pan recognized", log: log, type: .debug)
-            load(with: dateDayBefore)
+            load(for: dateDayBefore)
         case [.right]:
             guard !displayedDateIsToday else {
                 return
             }
             os_log("Right edge pan recognized", log: log, type: .debug)
-            load(with: dateDayAfter)
+            load(for: dateDayAfter)
         default:
             preconditionFailure("Unrecognized edge pan gesture for edges: \(recognizer.edges)")
         }
@@ -341,6 +353,6 @@ extension DailyActivitiesViewController {
     
     func doubleDoubleTapped() {
         os_log("Double-double tap recognized", log: log, type: .debug)
-        load(with: Date())
+        load(for: Date())
     }
 }

@@ -34,6 +34,7 @@ class ActivityDetailViewController: UIViewController, UITextFieldDelegate {
     
     var activity: Activity?
     var activityStore: ActivityStore!
+    var completionHistory: CompletionHistory!
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -103,13 +104,13 @@ class ActivityDetailViewController: UIViewController, UITextFieldDelegate {
     @IBAction func saveActivity(_ sender: UIBarButtonItem) {
         os_log("Save button pressed", log: log, type: .debug)
         
-        let isNewActivity = activity == nil
-        if isNewActivity {
-            activity = activityStore.getNewActivity()
+        if activity == nil {
+            activity = activityStore.getEntity()
         }
+        let activityToUpdate = activity!
         
         if let newActivityTitle = activityTitle.text, !newActivityTitle.trimmingCharacters(in: .whitespaces).isEmpty {
-            activity!.title = newActivityTitle
+            activityToUpdate.title = newActivityTitle
         }
         
         var newDaysOfWeek = [DayOfWeek]()
@@ -118,14 +119,13 @@ class ActivityDetailViewController: UIViewController, UITextFieldDelegate {
                 newDaysOfWeek.append(day)
             }
         }
-        activity!.daysOfWeek = newDaysOfWeek
+        activityToUpdate.daysOfWeek = newDaysOfWeek
         
-        activity!.startDate = datePicker.date
+        activityToUpdate.startDate = datePicker.date
         
         // Save to disk
-        if isNewActivity {
-            activityStore.insertNew(activity: activity!)
-        }
+        // MARK: TODO<nickholt> handle CoreDate failure
+        try! activityStore.persistToDisk()
         
         // Dismiss myself
         navigationController?.popViewController(animated: true)
