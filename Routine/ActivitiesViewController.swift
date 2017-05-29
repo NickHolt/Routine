@@ -44,14 +44,25 @@ class ActivitiesViewController: UITableViewController {
         }
     }
     
+    private func activity(_ firstActivity: Activity, shouldAppearBefore secondActivity: Activity) -> Bool {
+        guard let firstTitle = firstActivity.title else {
+            return false
+        }
+        guard let secondTitle = secondActivity.title else {
+            return true
+        }
+        
+        return firstTitle < secondTitle
+    }
+    
     fileprivate func refreshActiveActivities() {
         activeActivities = Array(activityStore.getAllActiveActivities())
-        activeActivities.sort { $0.title! < $1.title! }
+        activeActivities = activeActivities.sorted(by: activity(_:shouldAppearBefore:))
     }
     
     fileprivate func refreshInactiveActivities() {
         inactiveActivities = Array(activityStore.getAllInactiveActivities())
-        inactiveActivities.sort { $0.title! < $1.title! }
+        inactiveActivities = inactiveActivities.sorted(by: activity(_:shouldAppearBefore:))
     }
     
     fileprivate func refreshActivities() {
