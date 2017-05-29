@@ -48,19 +48,30 @@ class ActivityStore {
 // MARK: Methods regarding activities
 extension ActivityStore {
     
-    @discardableResult func fetchNewActivity() -> Activity {
-        let context = persistentContainer.viewContext
-        var activity: Activity!
+    func getNewActivity() -> Activity {
+        let description = NSEntityDescription.entity(forEntityName: "Activity", in: persistentContainer.viewContext)!
+        let activity = Activity.init(entity: description, insertInto: nil)
         
-        context.performAndWait {
-            activity = Activity(context: context)
+        os_log("Created new, untracked Activity: %@", log: log, type: .debug, activity)
+        
+        return activity
+    }
+    
+    func insertNew(activity: Activity) {
+        guard allActivities.index(of: activity) == nil else {
+            assertionFailure("New Activity was already registered: \(activity)")
+            os_log("A new Activity was inserted, which was already known: %@", log: log, type: .error, activity)
+            return
+        }
+        
+        allActivities.append(activity)
+        persistentContainer.viewContext.insert(activity)
+        
+        if let startDate = activity.startDate {
+            scrubCompletions(for: activity, startingFrom: startDate, endingOn: Date())
         }
 
-        allActivities.append(activity)
-        
-        os_log("Created new Activity: %@", log: log, type: .info, activity)
-
-        return activity
+        os_log("Inserted new Activity: %@", log: log, type: .info, activity)
     }
     
     func getAllActiveActivities() -> Set<Activity> {
@@ -73,15 +84,8 @@ extension ActivityStore {
     
     func getHistoricActivities(for date: Date) -> Set<Activity> {
         let completions = getAllCompletions(for: date)
-        for completion in completions {
-            print(completion)
-            print(completion.activity ?? "nil")
-            print(completion.activity?.isActive ?? "nil")
-        }
         let activities = Set(completions.filter { $0.activity != nil }.map { $0.activity! })
         
-        print(activities)
-
         os_log("Fetched %u archived Activities for %f", log: log, type: .debug, activities.count, date.timeIntervalSinceReferenceDate)
 
         return activities
@@ -345,6 +349,39 @@ extension ActivityStore {
         
         if fetchError != nil {
             throw Error.couldNotFetch
+        }
+    }
+    
+    func scrubCompletions(for activity: Activity, startingFrom startDate: Date, endingOn endDate: Date) {
+        guard let activityStartDate = activity.startDate else {
+            assertionFailure("Could not find start date for Activity: \(activity)")
+            return
+        }
+
+        var currentDate = startDate
+        let finalDate = Calendar.current.date(byAdding: .day, value: 1, to: endDate)! // This ensures we don't get screwed by e.g. 1PM vs 2PM
+
+        os_log("Filling in missing Completion data for %@, dates %f to %f", log: log, type: .debug, activity, startDate.timeIntervalSinceReferenceDate, endDate.timeIntervalSinceReferenceDate)
+
+        var count = 0
+        while (currentDate <= finalDate) {
+            defer {
+                currentDate = Calendar.current.date(byAdding: .day, value: 1, to: currentDate)!
+            }
+            
+            let dayOfWeek = Calendar.current.dayOfWeek(from: currentDate)
+            guard activity.daysOfWeek.contains(dayOfWeek) else {
+                continue
+            }
+            guard activityStartDate <= currentDate else {
+                continue
+            }
+            guard getCompletion(for: activity, on: currentDate) == nil else {
+                continue
+            }
+            
+            os_log("Missing Completion data for Activity: %@ found on date: %f", log: log, type: .debug, activity, currentDate.timeIntervalSinceReferenceDate)
+            registerCompletion(for: activity, on: currentDate, withStatus: .notCompleted)
         }
     }
     
