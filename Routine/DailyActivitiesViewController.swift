@@ -18,6 +18,9 @@ class DailyActivitiesViewController: UITableViewController {
     @IBOutlet var addActivityButton: UIBarButtonItem!
     
     var activityStore: ActivityStore!
+    var completionStore: CompletionStore!
+    var completionHistory: CompletionHistory!
+
     var currentActivities: [Activity]!
     var completedActivities = Set<Activity>()
     var excusedActivities = Set<Activity>()
@@ -72,27 +75,37 @@ class DailyActivitiesViewController: UITableViewController {
         tomorrowButton.title = "\(buttonDateFormatter.string(from: dateDayAfter)) >"
     }
     
-    fileprivate func configureTitle() {
-        var newTitle: String
-        
+    private func getDateTitle() -> String {
         if displayedDateIsToday {
-            newTitle = "Today"
+            return "Today"
         } else {
-            newTitle = titleDateFormatter.string(from: displayedDate)
+            return titleDateFormatter.string(from: displayedDate)
         }
+    }
+    
+    private func setBadge(forTitle title: String) -> String {
+        var newTitle = title
         
         let completeBadge = "🌟"
         let completeWithExcusedBadge = "⭐️"
+        
+        newTitle = newTitle.replacingOccurrences(of: completeBadge, with: "")
+        newTitle = newTitle.replacingOccurrences(of: completeWithExcusedBadge, with: "")
+
         if currentActivities.count > 0 && allCurrentActivitiesComplete {
             newTitle += " \(completeBadge)"
         } else if currentActivities.count > 0 && allCurrentActivitiesCompleteOrExcused {
             newTitle += " \(completeWithExcusedBadge)"
-        } else {
-            newTitle = newTitle.replacingOccurrences(of: completeBadge, with: "")
-            newTitle = newTitle.replacingOccurrences(of: completeWithExcusedBadge, with: "")
         }
+
+        return newTitle
+    }
+    
+    fileprivate func configureTitle() {
+        var title = getDateTitle()
+        title = setBadge(forTitle: title)
         
-        navigationItem.title = newTitle
+        navigationItem.title = title
     }
     
     @objc fileprivate func configureNavigationItem() {
@@ -100,28 +113,34 @@ class DailyActivitiesViewController: UITableViewController {
         configureTitle()
     }
     
-    fileprivate func load(with date: Date) {
-        os_log("Loading Activities for date: %f", log: log, type: .debug, date.timeIntervalSinceReferenceDate)
+    fileprivate func getAllActivities(for date: Date) -> Set<Activity> {
+        let allCompletions = completionStore.getAllCompletions(for: date)
+        let activitiesFromCompletions = Set(allCompletions.filter { $0.activity != nil }.map { $0.activity! })
         
-        displayedDate = date
+        let activitiesFromDate = activityStore.getActivities(for: date)
         
-        currentActivities = Array(activityStore.getAllActivities(for: date))
+        return activitiesFromCompletions.union(activitiesFromDate)
+    }
+    
+    private func refreshCurrentActivities(for date: Date) {
+        currentActivities = Array(getAllActivities(for: date))
         currentActivities.sort {
             activityA, activityB -> Bool in
             
             return activityA.title ?? "" < activityB.title ?? ""
         }
-        
-        // Populate from ActivityStore
+    }
+    
+    private func sortCurrentActivities() {
         os_log("Removing %d completed and %d excused Activities from current view", log: log, type: .debug, completedActivities.count, excusedActivities.count)
-
+        
         completedActivities.removeAll()
         excusedActivities.removeAll()
         for activity in currentActivities {
-            var completion = activityStore.getCompletion(for: activity, on: displayedDate)
+            var completion = completionHistory.getCompletion(for: activity, on: displayedDate)
             if completion == nil {
                 os_log("No Completion data found for Activity: %@. Adding a non-completion.", log: log, type: .debug, activity)
-                completion = activityStore.registerCompletion(for: activity, on: date, withStatus: .notCompleted)
+                completion = completionHistory.registerCompletion(for: activity, on: displayedDate, withStatus: .notCompleted)
             }
             
             switch completion!.status {
@@ -134,7 +153,17 @@ class DailyActivitiesViewController: UITableViewController {
             }
         }
         
-        os_log("Fetched %d completed and %d excused Activities", log: log, type: .debug, completedActivities.count, excusedActivities.count)
+        os_log("Sorted into %d completed and %d excused Activities", log: log, type: .debug, completedActivities.count, excusedActivities.count)
+    }
+    
+    fileprivate func load(for date: Date) {
+        os_log("Loading Activities for date: %f", log: log, type: .debug, date.timeIntervalSinceReferenceDate)
+        
+        displayedDate = date
+        
+        refreshCurrentActivities(for: date)
+        
+        sortCurrentActivities()
         
         configureNavigationItem()
         
@@ -147,12 +176,10 @@ class DailyActivitiesViewController: UITableViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        load(with: Date())
+        load(for: Date())
     }
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
+    private func configureEdgePanGestures() {
         let leftEdgePan = UIScreenEdgePanGestureRecognizer(target: self, action: #selector(screenEdgeSwiped))
         leftEdgePan.edges = .left
         
@@ -162,22 +189,33 @@ class DailyActivitiesViewController: UITableViewController {
         rightEdgePan.edges = .right
         
         view.addGestureRecognizer(rightEdgePan)
-        
+    }
+    
+    private func configureTapGesture() {
         let tap = UITapGestureRecognizer(target: self, action: #selector(doubleDoubleTapped))
         tap.numberOfTapsRequired = 2
         tap.numberOfTouchesRequired = 2
         
         view.addGestureRecognizer(tap)
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        configureEdgePanGestures()
+        
+        configureTapGesture()
+        
         
         NotificationCenter.default.addObserver(self, selector: #selector(configureNavigationItem), name: NSNotification.Name.UIApplicationWillEnterForeground, object: nil )
     }
     
     @IBAction func viewDayBefore(_ sender: UIBarButtonItem) {
-        load(with: dateDayBefore)
+        load(for: dateDayBefore)
     }
     
     @IBAction func viewDayAfter(_ sender: UIBarButtonItem) {
-        load(with: dateDayAfter)
+        load(for: dateDayAfter)
     }
     
     fileprivate func format(cell: UITableViewCell, forCompletionStatus status: Completion.Status) {
@@ -195,7 +233,7 @@ class DailyActivitiesViewController: UITableViewController {
     }
     
     fileprivate func setStreak(for cell: DailyActivitiesViewCell, withDataFrom activity: Activity) {
-        guard let activityStreak = try? activityStore.getCompletionStreak(for: activity, endingOn: displayedDate, withPreviousFallback: displayedDateIsToday) else {
+        guard let activityStreak = try? completionHistory.getCompletionStreak(for: activity, endingOn: displayedDate, withPreviousFallback: displayedDateIsToday) else {
             cell.currentStreak.text = "Unknown Streak"
             return
         }
@@ -213,17 +251,17 @@ class DailyActivitiesViewController: UITableViewController {
             completedActivities.insert(activity)
             excusedActivities.remove(activity)
 
-            activityStore.registerCompletion(for: activity, on: displayedDate, withStatus: .completed)
+            completionHistory.registerCompletion(for: activity, on: displayedDate, withStatus: .completed)
         case .excused:
             completedActivities.remove(activity)
             excusedActivities.insert(activity)
             
-            activityStore.registerCompletion(for: activity, on: displayedDate, withStatus: .excused)
+            completionHistory.registerCompletion(for: activity, on: displayedDate, withStatus: .excused)
         case .notCompleted:
             completedActivities.remove(activity)
             excusedActivities.remove(activity)
 
-            activityStore.registerCompletion(for: activity, on: displayedDate, withStatus: .notCompleted)
+            completionHistory.registerCompletion(for: activity, on: displayedDate, withStatus: .notCompleted)
         }
         
         let cell = tableView.cellForRow(at: indexPath) as! DailyActivitiesViewCell
@@ -327,13 +365,13 @@ extension DailyActivitiesViewController {
         switch recognizer.edges {
         case [.left]:
             os_log("Left edge pan recognized", log: log, type: .debug)
-            load(with: dateDayBefore)
+            load(for: dateDayBefore)
         case [.right]:
             guard !displayedDateIsToday else {
                 return
             }
             os_log("Right edge pan recognized", log: log, type: .debug)
-            load(with: dateDayAfter)
+            load(for: dateDayAfter)
         default:
             preconditionFailure("Unrecognized edge pan gesture for edges: \(recognizer.edges)")
         }
@@ -341,6 +379,6 @@ extension DailyActivitiesViewController {
     
     func doubleDoubleTapped() {
         os_log("Double-double tap recognized", log: log, type: .debug)
-        load(with: Date())
+        load(for: Date())
     }
 }

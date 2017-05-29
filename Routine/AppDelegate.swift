@@ -13,28 +13,30 @@ import CoreData
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-    var activityStore: ActivityStore!
     
+    var activityStore: ActivityStore!
+    var completionStore: CompletionStore!
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
 
         // Configure global state
-        activityStore = ActivityStore()
-        activityStore.persistentContainer = persistentContainer
-        do {
-            try activityStore.loadFromDisk()
-        } catch {
-            assertionFailure("ActivityStore could not fetch Activities")
-        }
+        activityStore = ActivityStore(with: persistentContainer)
+        completionStore = CompletionStore(with: persistentContainer)
         
-        let routineTabBarController = window!.rootViewController as! RoutineTabBarController
-        routineTabBarController.activityStore = activityStore
+        let completionHistory = CompletionHistory()
+        completionHistory.activityStore = activityStore
+        completionHistory.completionStore = completionStore
         
         // Populate missing Completion data
         let defaults = UserDefaults.standard
         if let lastTerminated = defaults.object(forKey: "lastTerminated") as? Date {
-            activityStore.scrubCompletions(startingFrom: lastTerminated, endingOn: Date())
+            completionHistory.scrubCompletions(startingFrom: lastTerminated, endingOn: Date())
         }
+        
+        let routineTabBarController = window!.rootViewController as! RoutineTabBarController
+        routineTabBarController.activityStore = activityStore
+        routineTabBarController.completionStore = completionStore
+        routineTabBarController.completionHistory = completionHistory
         
         return true
     }
@@ -66,6 +68,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             try activityStore.persistToDisk()
         } catch {
             assertionFailure("ActivityStore could not persist Activity data")
+        }
+
+        do {
+            try completionStore.persistToDisk()
+        } catch {
+            assertionFailure("CompletionStore could not persist Completion data")
         }
         
         // Record time of termination
