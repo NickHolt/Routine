@@ -57,23 +57,28 @@ extension ActivityStore {
         return activity
     }
     
-    func insertNew(activity: Activity) throws {
+    func insertNew(activity: Activity) {
         guard allActivities.index(of: activity) == nil else {
             assertionFailure("New Activity was already registered: \(activity)")
             os_log("A new Activity was inserted, which was already known: %@", log: log, type: .error, activity)
             return
         }
-        
-        allActivities.append(activity)
-        persistentContainer.viewContext.insert(activity)
-        
-        if let startDate = activity.startDate {
-            scrubCompletions(for: activity, startingFrom: startDate, endingOn: Date())
-        } else {
+        guard let startDate = activity.startDate else {
             assertionFailure("New Activity entered without start date: \(activity)")
+            os_log("A new Activity was inserted without a start date: %@", log: log, type: .error, activity)
+            return
         }
-
-        try persistToDisk()
+        
+        do {
+            persistentContainer.viewContext.insert(activity)
+            try persistToDisk()
+            
+            allActivities.append(activity)
+            
+            scrubCompletions(for: activity, startingFrom: startDate, endingOn: Date())
+        } catch {
+            persistentContainer.viewContext.delete(activity)
+        }
     }
     
     func getAllActiveActivities() -> Set<Activity> {
@@ -306,6 +311,7 @@ extension ActivityStore {
             os_log("New Completion: %@ registered for Activity: %@", log: log, type: .info, completion, activity)
         } catch {
             os_log("New Completion: %@ for Activity: %@ could not be saved to CoreData", log: log, type: .error, completion, activity)
+            context.delete(completion)
         }
         
         return completion

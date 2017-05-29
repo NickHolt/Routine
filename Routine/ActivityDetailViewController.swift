@@ -124,10 +124,7 @@ class ActivityDetailViewController: UIViewController, UITextFieldDelegate {
         
         // Save to disk
         if isNewActivity {
-            try? activityStore.insertNew(activity: activity!)
-        } else {
-            // TODO<nickholt>: Is this neccessary?
-            try? activityStore.persistToDisk()
+            activityStore.insertNew(activity: activity!)
         }
         
         // Dismiss myself
