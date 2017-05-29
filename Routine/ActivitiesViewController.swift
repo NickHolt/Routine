@@ -59,40 +59,46 @@ class ActivitiesViewController: UITableViewController {
         refreshInactiveActivities()
     }
     
+    private func configureForSearch() {
+        guard activeActivities.count + inactiveActivities.count > 0 else {
+            return
+        }
+        
+        searchController = UISearchController(searchResultsController: nil)
+        searchController.searchResultsUpdater = self
+        searchController.dimsBackgroundDuringPresentation = false
+        
+        searchController.searchBar.sizeToFit()
+        tableView.tableHeaderView = searchController.searchBar
+        
+        definesPresentationContext = true
+        
+        // Hide search bar by default
+        tableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: false)
+    }
+    
     override func viewWillAppear(_ animated: Bool) {
         refreshActivities()
         
-        // Configure search
-        if activeActivities.count + inactiveActivities.count > 0 {
-            searchController = UISearchController(searchResultsController: nil)
-            searchController.searchResultsUpdater = self
-            searchController.dimsBackgroundDuringPresentation = false
-            
-            searchController.searchBar.sizeToFit()
-            tableView.tableHeaderView = searchController.searchBar
-            
-            definesPresentationContext = true
-            
-            // Hide search bar by default
-            tableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: false)
-        }
+        configureForSearch()
         
         super.viewWillAppear(animated)
         
         tableView.reloadData()
     }
     
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        // Grab cell for re-use
-        let cell = tableView.dequeueReusableCell(withIdentifier: "ActivitiesViewCell", for: indexPath) as! ActivitiesViewCell
-        
-        // Populate cell
-        let activity = self.activity(for: indexPath)
-        
-        os_log("Retrieved Activity: %@ for cell at row: %d", log: log, type: .debug, activity, indexPath.row)
-        
+    private func configure(cell: ActivitiesViewCell, for activity: Activity) {
         cell.activityTitle.text = activity.title
         cell.daysOfWeek.text = string(for: activity.daysOfWeek)
+    }
+    
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "ActivitiesViewCell", for: indexPath) as! ActivitiesViewCell
+        
+        let activity = self.activity(for: indexPath)
+        os_log("Retrieved Activity: %@ for cell at row: %d", log: log, type: .debug, activity, indexPath.row)
+        
+        configure(cell: cell, for: activity)
         
         return cell
     }
