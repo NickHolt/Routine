@@ -135,10 +135,10 @@
 				3718FFC01EDBCF8400B55A2B /* ActivityStore.swift */,
 				371663081EC90C8A00222FB2 /* Completion+CoreDataClass.swift */,
 				371663091EC90C8A00222FB2 /* Completion+CoreDataProperties.swift */,
+				371F6A8A1EDBE26A0025BFFB /* CompletionHistory.swift */,
 				371F6A881EDBDA230025BFFB /* CompletionStore.swift */,
 				378BD1D71EBE6CC000DD0B42 /* DayOfWeek.swift */,
 				3718FFC21EDBD00000B55A2B /* EntityStore.swift */,
-				371F6A8A1EDBE26A0025BFFB /* CompletionHistory.swift */,
 			);
 			name = Models;
 			sourceTree = "<group>";

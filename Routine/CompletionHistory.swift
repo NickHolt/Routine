@@ -156,7 +156,7 @@ class CompletionHistory {
             let activities = activityStore.getActivities(for: currentDate)
             
             for activity in activities {
-                guard let _ = getCompletion(for: activity, on: currentDate) else {
+                guard getCompletion(for: activity, on: currentDate) == nil else {
                     continue
                 }
                 
