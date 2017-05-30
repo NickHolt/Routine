@@ -17,6 +17,7 @@
 		371F6A8B1EDBE26A0025BFFB /* CompletionHistory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 371F6A8A1EDBE26A0025BFFB /* CompletionHistory.swift */; };
 		372000841EBE528B00895527 /* DailyActivitiesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 372000831EBE528B00895527 /* DailyActivitiesViewController.swift */; };
 		373B69481EBE9C7B001DE015 /* DayOfWeekButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 373B69471EBE9C7B001DE015 /* DayOfWeekButton.swift */; };
+		376DE1541EDD0BE200CB2B9C /* UIViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 376DE1531EDD0BE200CB2B9C /* UIViewController.swift */; };
 		378075BF1ECFBD9F0051CCD2 /* Calendar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 378075BE1ECFBD9F0051CCD2 /* Calendar.swift */; };
 		378BD1D61EBE66BE00DD0B42 /* DailyActivitiesViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 378BD1D51EBE66BE00DD0B42 /* DailyActivitiesViewCell.swift */; };
 		378BD1D81EBE6CC000DD0B42 /* DayOfWeek.swift in Sources */ = {isa = PBXBuildFile; fileRef = 378BD1D71EBE6CC000DD0B42 /* DayOfWeek.swift */; };
@@ -61,6 +62,7 @@
 		371F6A8A1EDBE26A0025BFFB /* CompletionHistory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CompletionHistory.swift; sourceTree = "<group>"; };
 		372000831EBE528B00895527 /* DailyActivitiesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = DailyActivitiesViewController.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		373B69471EBE9C7B001DE015 /* DayOfWeekButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DayOfWeekButton.swift; sourceTree = "<group>"; };
+		376DE1531EDD0BE200CB2B9C /* UIViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIViewController.swift; sourceTree = "<group>"; };
 		378075BE1ECFBD9F0051CCD2 /* Calendar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Calendar.swift; sourceTree = "<group>"; };
 		378BD1D51EBE66BE00DD0B42 /* DailyActivitiesViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DailyActivitiesViewCell.swift; sourceTree = "<group>"; };
 		378BD1D71EBE6CC000DD0B42 /* DayOfWeek.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DayOfWeek.swift; sourceTree = "<group>"; };
@@ -112,6 +114,7 @@
 			isa = PBXGroup;
 			children = (
 				378075BE1ECFBD9F0051CCD2 /* Calendar.swift */,
+				376DE1531EDD0BE200CB2B9C /* UIViewController.swift */,
 			);
 			name = Extensions;
 			sourceTree = "<group>";
@@ -359,6 +362,7 @@
 				372000841EBE528B00895527 /* DailyActivitiesViewController.swift in Sources */,
 				3716630B1EC90C8A00222FB2 /* Completion+CoreDataProperties.swift in Sources */,
 				3718FFC31EDBD00000B55A2B /* EntityStore.swift in Sources */,
+				376DE1541EDD0BE200CB2B9C /* UIViewController.swift in Sources */,
 				3702515A1EC54ED20023364C /* Activity+CoreDataProperties.swift in Sources */,
 				3716630A1EC90C8A00222FB2 /* Completion+CoreDataClass.swift in Sources */,
 				378BD1D61EBE66BE00DD0B42 /* DailyActivitiesViewCell.swift in Sources */,
