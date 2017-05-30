@@ -48,6 +48,10 @@ class ActivityDetailViewController: UIViewController, UITextFieldDelegate {
         buttonMap[.Sunday] = sundayButton
     }
     
+    private func configureInterfaceElements() {
+        activityTitle.autocapitalizationType = .sentences
+    }
+    
     private func populateFrom(activity: Activity) {
         os_log("Displaying details for Activity: %@", log: log, type: .info, activity)
 
@@ -85,6 +89,8 @@ class ActivityDetailViewController: UIViewController, UITextFieldDelegate {
 
         configureButtonMap()
         
+        configureInterfaceElements()
+        
         guard let currentActivity = activity else {
             os_log("Displaying detail view for new activity", log: log, type: .info)
             
@@ -111,7 +117,7 @@ class ActivityDetailViewController: UIViewController, UITextFieldDelegate {
     
     private func saveTo(activity: Activity) {
         if let newActivityTitle = activityTitle.text, !newActivityTitle.trimmingCharacters(in: .whitespaces).isEmpty {
-            activity.title = newActivityTitle
+            activity.title = newActivityTitle.trimmingCharacters(in: .whitespaces)
         } else {
             activity.title = "New Activity"
         }
