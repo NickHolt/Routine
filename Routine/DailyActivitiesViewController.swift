@@ -101,11 +101,20 @@ class DailyActivitiesViewController: UITableViewController {
         return newTitle
     }
     
+    private func requestImpactIfNeeded() {
+        if allCurrentActivitiesCompleteOrExcused {
+            os_log("Requesting impact haptic", log: log, type: .debug)
+            tapGenerator.impactOccurred()
+        }
+    }
+    
     fileprivate func configureTitle() {
         var title = getDateTitle()
         title = setBadge(forTitle: title)
         
         navigationItem.title = title
+        
+        requestImpactIfNeeded()
     }
     
     fileprivate func configureNavigationItem() {
@@ -244,7 +253,7 @@ class DailyActivitiesViewController: UITableViewController {
         
         cell.currentStreak.text = "\(activityStreak) Day Streak"
     }
-    
+        
     fileprivate func setCompletionStatus(forActivityAt indexPath: IndexPath, status: Completion.Status) {
         let activity = self.activity(for: indexPath)
         
@@ -306,11 +315,6 @@ extension DailyActivitiesViewController {
         tableView.deselectRow(at: indexPath, animated: true)
         
         configureTitle()
-        
-        if allCurrentActivitiesCompleteOrExcused {
-            os_log("Requesting impact haptic", log: log, type: .debug)
-            tapGenerator.impactOccurred()
-        }
     }
     
     override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
