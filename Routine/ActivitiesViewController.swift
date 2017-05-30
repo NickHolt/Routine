@@ -86,7 +86,10 @@ class ActivitiesViewController: UITableViewController {
         definesPresentationContext = true
         
         // Hide search bar by default
-        tableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: false)
+        let firstRowIndexPath = IndexPath(row: 0, section: 0)
+        if tableView.cellForRow(at: firstRowIndexPath) != nil {
+            tableView.scrollToRow(at: firstRowIndexPath, at: .top, animated: false)
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
