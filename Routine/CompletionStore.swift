@@ -32,13 +32,4 @@ class CompletionStore: EntityStore<Completion> {
             return completionActivity == activity
         })
     }
-    
-    func delete(completion: Completion) throws {
-        guard allEntities.contains(completion) else {
-            throw EntityStore.Error.entityNotFound(completion)
-        }
-        
-        try delete(entity: completion)
-        allEntities.remove(completion)
-    }
 }
