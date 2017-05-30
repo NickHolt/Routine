@@ -142,8 +142,11 @@ class ActivityDetailViewController: UIViewController, UITextFieldDelegate {
         saveTo(activity: activity!)        
         
         // Save to disk
-        // MARK: TODO<nickholt> handle CoreDate failure
-        try! activityStore.persistToDisk()
+        do {
+            try activityStore.persistToDisk()
+        } catch let error {
+            presentAlert(withError: error)
+        }
         
         // Dismiss myself
         navigationController?.popViewController(animated: true)
@@ -193,9 +196,12 @@ class ActivityDetailViewController: UIViewController, UITextFieldDelegate {
         let archiveAction = UIAlertAction(title: "Delete", style: .destructive) { (action) in
             os_log("User indicated deletion for Activity: %@", log: self.log, type: .debug, activityToDelete)
             
-            // MARK: TODO<nickholt> CoreData failure
-            try! self.completionHistory.deleteCompletionHistory(for: activityToDelete)
-            try! self.activityStore.delete(activity: activityToDelete)
+            do {
+                try self.completionHistory.deleteCompletionHistory(for: activityToDelete)
+                try self.activityStore.delete(activity: activityToDelete)
+            } catch let error {
+                self.presentAlert(withError: error)
+            }
             
             // Dismiss myself
             self.navigationController?.popViewController(animated: true)
