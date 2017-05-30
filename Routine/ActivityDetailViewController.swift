@@ -187,7 +187,9 @@ class ActivityDetailViewController: UIViewController, UITextFieldDelegate {
         let archiveAction = UIAlertAction(title: "Delete", style: .destructive) { (action) in
             os_log("User indicated deletion for Activity: %@", log: self.log, type: .debug, activityToDelete)
             
-            try? self.activityStore.delete(activity: activityToDelete)
+            // MARK: TODO<nickholt> CoreData failure
+            try! self.completionHistory.deleteCompletionHistory(for: activityToDelete)
+            try! self.activityStore.delete(activity: activityToDelete)
             
             // Dismiss myself
             self.navigationController?.popViewController(animated: true)

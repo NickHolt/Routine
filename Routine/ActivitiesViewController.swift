@@ -14,6 +14,7 @@ class ActivitiesViewController: UITableViewController {
     let log = OSLog(subsystem: "com.redox.Routine", category: "ActivitiesViewController")
     
     var activityStore: ActivityStore!
+    var completionHistory: CompletionHistory!
     
     var activeActivities: [Activity]!
     var inactiveActivities: [Activity]!
@@ -132,6 +133,7 @@ class ActivitiesViewController: UITableViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         let detailViewController = segue.destination as! ActivityDetailViewController
         detailViewController.activityStore = activityStore
+        detailViewController.completionHistory = completionHistory
         
         os_log("Segue triggered: %s", log: log, type: .debug, segue.identifier ?? "Unknown")
         
