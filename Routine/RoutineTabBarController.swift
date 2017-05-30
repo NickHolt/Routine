@@ -28,6 +28,7 @@ class RoutineTabBarController: UITabBarController {
         let activitiesNavigationController = self.viewControllers?[1] as! UINavigationController
         let activitiesViewController = activitiesNavigationController.topViewController as! ActivitiesViewController
         activitiesViewController.activityStore = activityStore
+        activitiesViewController.completionHistory = completionHistory
     }
     
     override func didReceiveMemoryWarning() {
