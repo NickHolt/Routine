@@ -16,27 +16,40 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     var activityStore: ActivityStore!
     var completionStore: CompletionStore!
-
-    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-
-        // Configure global state
+    var completionHistory: CompletionHistory!
+    
+    private func configureGlobals() {
         activityStore = ActivityStore(with: persistentContainer)
         completionStore = CompletionStore(with: persistentContainer)
         
-        let completionHistory = CompletionHistory()
+        completionHistory = CompletionHistory()
         completionHistory.activityStore = activityStore
         completionHistory.completionStore = completionStore
-        
-        // Populate missing Completion data
+    }
+    
+    private func populateMissingCompletionData() {
         let defaults = UserDefaults.standard
         if let lastTerminated = defaults.object(forKey: "lastTerminated") as? Date {
             completionHistory.scrubCompletions(startingFrom: lastTerminated, endingOn: Date())
         }
-        
+    }
+    
+    private func configureRootViewController() {
         let routineTabBarController = window!.rootViewController as! RoutineTabBarController
         routineTabBarController.activityStore = activityStore
         routineTabBarController.completionStore = completionStore
         routineTabBarController.completionHistory = completionHistory
+    }
+    
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+
+        configureGlobals()
+        
+        populateMissingCompletionData()
+        
+        configureRootViewController()
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(saveContext), name: NSNotification.Name.UIApplicationDidEnterBackground, object: nil )
         
         return true
     }
@@ -63,18 +76,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
         // Saves changes in the application's managed object context before the application terminates.
         self.saveContext()
-        
-        do {
-            try activityStore.persistToDisk()
-        } catch {
-            assertionFailure("ActivityStore could not persist Activity data")
-        }
-
-        do {
-            try completionStore.persistToDisk()
-        } catch {
-            assertionFailure("CompletionStore could not persist Completion data")
-        }
         
         // Record time of termination
         let defaults = UserDefaults.standard

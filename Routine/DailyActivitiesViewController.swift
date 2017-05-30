@@ -108,7 +108,7 @@ class DailyActivitiesViewController: UITableViewController {
         navigationItem.title = title
     }
     
-    @objc fileprivate func configureNavigationItem() {
+    fileprivate func configureNavigationItem() {
         configureBarButtonItems()
         configureTitle()
     }
@@ -199,6 +199,11 @@ class DailyActivitiesViewController: UITableViewController {
         view.addGestureRecognizer(tap)
     }
     
+    @objc private func applicationWillEnterForeground() {
+        os_log("Entered foreground", log: log, type: .debug)
+        load(for: displayedDate)
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -206,8 +211,7 @@ class DailyActivitiesViewController: UITableViewController {
         
         configureTapGesture()
         
-        
-        NotificationCenter.default.addObserver(self, selector: #selector(configureNavigationItem), name: NSNotification.Name.UIApplicationWillEnterForeground, object: nil )
+        NotificationCenter.default.addObserver(self, selector: #selector(applicationWillEnterForeground), name: NSNotification.Name.UIApplicationWillEnterForeground, object: nil )
     }
     
     @IBAction func viewDayBefore(_ sender: UIBarButtonItem) {
