@@ -111,7 +111,7 @@ class ActivityDetailViewController: UIViewController, UITextFieldDelegate {
     
     private func saveTo(activity: Activity) {
         if let newActivityTitle = activityTitle.text, !newActivityTitle.trimmingCharacters(in: .whitespaces).isEmpty {
-            activity.title = newActivityTitle
+            activity.title = newActivityTitle.trimmingCharacters(in: .whitespaces)
         } else {
             activity.title = "New Activity"
         }
