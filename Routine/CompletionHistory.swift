@@ -111,6 +111,14 @@ class CompletionHistory {
         try! completionStore.delete(entity: completion)
     }
     
+    func deleteCompletionHistory(for activity: Activity) throws {
+        let completions = completionStore.getAllCompletions(for: activity)
+        
+        for completion in completions {
+            try completionStore.delete(entity: completion)
+        }
+    }
+    
     func scrubCompletions(for activity: Activity, startingFrom startDate: Date, endingOn endDate: Date) {
         
         guard let activityStartDate = activity.startDate else {
