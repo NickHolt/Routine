@@ -46,10 +46,10 @@ class ActivitiesViewController: UITableViewController {
     }
     
     private func activity(_ firstActivity: Activity, shouldAppearBefore secondActivity: Activity) -> Bool {
-        guard let firstTitle = firstActivity.title else {
+        guard let firstTitle = firstActivity.title?.lowercased() else {
             return false
         }
-        guard let secondTitle = secondActivity.title else {
+        guard let secondTitle = secondActivity.title?.lowercased() else {
             return true
         }
         
