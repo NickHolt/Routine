@@ -108,7 +108,7 @@ class CompletionHistory {
             return
         }
         
-        try! completionStore.delete(completion: completion)
+        try! completionStore.delete(entity: completion)
     }
     
     func scrubCompletions(for activity: Activity, startingFrom startDate: Date, endingOn endDate: Date) {

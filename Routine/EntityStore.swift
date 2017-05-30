@@ -93,11 +93,16 @@ class EntityStore<T: NSManagedObject> {
     }
 
     func delete(entity: T) throws {
+        guard allEntities.contains(entity) else {
+            throw Error.entityNotFound(entity)
+        }
+
         persistentContainer.viewContext.delete(entity)
 
         do {
             try persistToDisk()
             os_log("Removed entity: %@", log: entityStoreLog, type: .info, entity)
+            allEntities.remove(entity)
         } catch {
             os_log("Failed to delete entity from CoreData: %@", log: entityStoreLog, type: .error, entity)
             throw Error.couldNotDeleteEntity(entity)
