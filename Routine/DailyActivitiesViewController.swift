@@ -285,10 +285,24 @@ class DailyActivitiesViewController: UITableViewController {
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        os_log("Add Activity shortcut pressed", log: log, type: .debug)
+        guard let identifier = segue.identifier else {
+            return
+        }
         
-        let detailViewController = segue.destination as! ActivityDetailViewController
-        detailViewController.activityStore = activityStore
+        switch identifier {
+        case "showActivitySelection":
+            os_log("Add Activity occurrence button pressed", log: log, type: .debug)
+            
+            let selectionViewController = segue.destination as! ActivitySelectionViewController
+            selectionViewController.activityStore = activityStore
+        case "addNewActivityShortcut":
+            os_log("Add Activity shortcut pressed", log: log, type: .debug)
+
+            let detailViewController = segue.destination as! ActivityDetailViewController
+            detailViewController.activityStore = activityStore
+        default:
+            preconditionFailure("Unexpected segue identifier: \(String(describing: segue.identifier))")
+        }
     }
 }
 
