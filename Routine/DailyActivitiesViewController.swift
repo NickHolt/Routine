@@ -319,7 +319,7 @@ extension DailyActivitiesViewController {
             return nil
         }
         
-        return "Recurring Activities"
+        return "Activities"
     }
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -462,6 +462,6 @@ extension DailyActivitiesViewController {
 
 extension DailyActivitiesViewController: ActivityOccurrenceHandler {
     func addActivityOccurrence(activity: Activity) {
-        print("Got back Activity: \(activity)")
+        completionHistory.registerCompletion(for: activity, on: displayedDate, withStatus: .notCompleted)
     }
 }
