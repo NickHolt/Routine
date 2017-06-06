@@ -9,6 +9,10 @@
 import UIKit
 import os.log
 
+protocol ActivityOccurrenceHandler {
+    func addActivityOccurrence(activity: Activity)
+}
+
 class DailyActivitiesViewController: UITableViewController {
     
     let log = OSLog(subsystem: "com.redox.Routine", category: "DailyActivitiesViewController")
@@ -295,6 +299,7 @@ class DailyActivitiesViewController: UITableViewController {
             
             let selectionViewController = segue.destination as! ActivitySelectionViewController
             selectionViewController.activityStore = activityStore
+            selectionViewController.delegate = self
         case "addNewActivityShortcut":
             os_log("Add Activity shortcut pressed", log: log, type: .debug)
 
@@ -452,5 +457,11 @@ extension DailyActivitiesViewController {
     func doubleDoubleTapped() {
         os_log("Double-double tap recognized", log: log, type: .debug)
         load(for: Date())
+    }
+}
+
+extension DailyActivitiesViewController: ActivityOccurrenceHandler {
+    func addActivityOccurrence(activity: Activity) {
+        print("Got back Activity: \(activity)")
     }
 }

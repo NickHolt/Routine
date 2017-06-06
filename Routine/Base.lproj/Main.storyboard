@@ -471,7 +471,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" textLabel="PoC-Qh-rq1" style="IBUITableViewCellStyleDefault" id="NRW-iS-1Xe">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="ActivitySelectionCell" selectionStyle="default" indentationWidth="10" reuseIdentifier="ActivitySelectionCell" textLabel="PoC-Qh-rq1" style="IBUITableViewCellStyleDefault" id="NRW-iS-1Xe">
                                 <rect key="frame" x="0.0" y="28" width="375" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="NRW-iS-1Xe" id="AgE-7H-Zr0">
