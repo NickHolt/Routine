@@ -117,8 +117,6 @@ class DailyActivitiesViewController: UITableViewController {
         title = setBadge(forTitle: title)
         
         navigationItem.title = title
-        
-        requestImpactIfNeeded()
     }
     
     fileprivate func configureNavigationItem() {
@@ -286,6 +284,7 @@ class DailyActivitiesViewController: UITableViewController {
         setStreak(for: cell, withDataFrom: activity)
         format(cell: cell, forCompletionStatus: status)
         configureTitle()
+        requestImpactIfNeeded()
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
