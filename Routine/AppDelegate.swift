@@ -58,6 +58,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func registerDailyReminder() {
+        requestNotificationAuthorization()
+        
         let content = UNMutableNotificationContent()
         content.title = "Daily Reminder"
         content.body = "Have you completed today's activities?"
@@ -73,6 +75,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         center.add(request) { (error : Error?) in
             if let theError = error {
                 print(theError.localizedDescription)
+            }
+        }
+    }
+    
+    func requestNotificationAuthorization() {
+        let center = UNUserNotificationCenter.current()
+        
+        center.requestAuthorization(options: [.alert, .badge]) { (granted, error) in
+            if !granted {
+                print("User did not allow for notifications")
             }
         }
     }
