@@ -9,6 +9,10 @@
 import UIKit
 import os.log
 
+protocol ActivityOccurrenceHandler {
+    func addActivityOccurrence(activity: Activity)
+}
+
 class DailyActivitiesViewController: UITableViewController {
     
     let log = OSLog(subsystem: "com.redox.Routine", category: "DailyActivitiesViewController")
@@ -215,7 +219,7 @@ class DailyActivitiesViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+                
         configureEdgePanGestures()
         
         configureTapGesture()
@@ -235,13 +239,13 @@ class DailyActivitiesViewController: UITableViewController {
         switch status {
         case .completed:
             cell.accessoryType = .checkmark
-            cell.backgroundColor = nil
+            cell.backgroundColor = .white
         case .excused:
             cell.accessoryType = .none
             cell.backgroundColor = .lightGray
         case .notCompleted:
             cell.accessoryType = .none
-            cell.backgroundColor = nil
+            cell.backgroundColor = .white
         }
     }
     
@@ -285,25 +289,77 @@ class DailyActivitiesViewController: UITableViewController {
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        os_log("Add Activity shortcut pressed", log: log, type: .debug)
+        guard let identifier = segue.identifier else {
+            return
+        }
         
-        let detailViewController = segue.destination as! ActivityDetailViewController
-        detailViewController.activityStore = activityStore
+        switch identifier {
+        case "showActivitySelection":
+            os_log("Add Activity occurrence button pressed", log: log, type: .debug)
+            
+            let selectionViewController = segue.destination as! ActivitySelectionViewController
+            selectionViewController.activityStore = activityStore
+            selectionViewController.delegate = self
+        case "addNewActivityShortcut":
+            os_log("Add Activity shortcut pressed", log: log, type: .debug)
+
+            let detailViewController = segue.destination as! ActivityDetailViewController
+            detailViewController.activityStore = activityStore
+        default:
+            preconditionFailure("Unexpected segue identifier: \(String(describing: segue.identifier))")
+        }
     }
 }
 
 // MARK: UITableViewController methods
 extension DailyActivitiesViewController {
     
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        guard section == 0 else {
+            return nil
+        }
+        
+        return "Activities"
+    }
+    
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        switch indexPath.section {
+        case 0:
+            return 65
+        case 1:
+            return 32
+        default:
+            preconditionFailure("Unexpected section: \(indexPath.section)")
+        }
+    }
+    
+    override func numberOfSections(in tableView: UITableView) -> Int {
+        return 2
+    }
+        
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return currentActivities.count
+        switch section {
+        case 0:
+            return currentActivities.count
+        case 1:
+            return 1
+        default:
+            preconditionFailure("Unexpected section: \(section)")
+        }
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        return tableView.dequeueReusableCell(withIdentifier: "DailyActivitiesViewCell", for: indexPath)
+        switch indexPath.section {
+        case 0:
+            return tableView.dequeueReusableCell(withIdentifier: "DailyActivitiesViewCell", for: indexPath)
+        case 1:
+            return tableView.dequeueReusableCell(withIdentifier: "AddOccurrenceCell", for: indexPath)
+        default:
+            preconditionFailure("Unexpected section: \(indexPath.section)")
+        }
     }
     
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    private func didSelectActivityRowAt(indexPath: IndexPath) {
         let activity = self.activity(for: indexPath)
         
         if completedActivities.contains(activity) {
@@ -317,7 +373,22 @@ extension DailyActivitiesViewController {
         configureTitle()
     }
     
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        switch indexPath.section {
+        case 0:
+            didSelectActivityRowAt(indexPath: indexPath)
+        case 1:
+            print("Add Activity occurrence")
+        default:
+            preconditionFailure("Unexpected section: \(indexPath.section)")
+        }
+    }
+    
     override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        guard indexPath.section == 0 else {
+            return
+        }
+        
         let activity = self.activity(for: indexPath)
         
         let myCell = cell as! DailyActivitiesViewCell
@@ -333,15 +404,13 @@ extension DailyActivitiesViewController {
         }
     }
     
-    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 65
-    }
-    
     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        return true
+        return indexPath.section == 0
     }
     
     override func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
+        precondition(indexPath.section == 0, "Editing should only be enabled for Activity section")
+        
         let activity = self.activity(for: indexPath)
         
         var archiveAction: UITableViewRowAction
@@ -388,5 +457,11 @@ extension DailyActivitiesViewController {
     func doubleDoubleTapped() {
         os_log("Double-double tap recognized", log: log, type: .debug)
         load(for: Date())
+    }
+}
+
+extension DailyActivitiesViewController: ActivityOccurrenceHandler {
+    func addActivityOccurrence(activity: Activity) {
+        completionHistory.registerCompletion(for: activity, on: displayedDate, withStatus: .notCompleted)
     }
 }

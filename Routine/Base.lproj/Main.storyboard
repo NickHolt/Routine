@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12120" systemVersion="16E195" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="KH1-SA-Sl7">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12120" systemVersion="16F73" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="KH1-SA-Sl7">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -69,7 +69,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="coZ-RG-IeQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1465" y="-179"/>
+            <point key="canvasLocation" x="1464.8" y="-179.46026986506749"/>
         </scene>
         <!--Activity Detail-->
         <scene sceneID="ZJA-c8-Irc">
@@ -352,14 +352,14 @@
         <scene sceneID="mt9-Xd-mEW">
             <objects>
                 <tableViewController title="Daily" id="ozH-R1-RF1" customClass="DailyActivitiesViewController" customModule="Routine" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="62" sectionHeaderHeight="28" sectionFooterHeight="28" id="q1T-ro-iE1">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="62" sectionHeaderHeight="18" sectionFooterHeight="18" id="q1T-ro-iE1">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                         <gestureRecognizers/>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="DailyActivitiesViewCell" rowHeight="65" id="5IT-iG-4XY" customClass="DailyActivitiesViewCell" customModule="Routine" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="28" width="375" height="65"/>
+                                <rect key="frame" x="0.0" y="55.5" width="375" height="65"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="5IT-iG-4XY" id="09c-3f-Y7d">
                                     <rect key="frame" x="0.0" y="0.0" width="375" height="64.5"/>
@@ -372,12 +372,13 @@
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="252" text="Current Streak" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OoY-k3-ZWO">
-                                            <rect key="frame" x="8" y="41" width="83" height="15"/>
+                                            <rect key="frame" x="8" y="42" width="83" height="15"/>
                                             <fontDescription key="fontDescription" style="UICTFontTextStyleCaption1"/>
                                             <color key="textColor" red="0.40000000600000002" green="0.40000000600000002" blue="0.40000000600000002" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                     </subviews>
+                                    <color key="backgroundColor" red="1" green="1" blue="1" alpha="0.0" colorSpace="calibratedRGB"/>
                                     <constraints>
                                         <constraint firstAttribute="leadingMargin" secondItem="GBc-mM-ITf" secondAttribute="leading" id="6Sc-Xe-BtQ"/>
                                         <constraint firstAttribute="topMargin" secondItem="GBc-mM-ITf" secondAttribute="top" id="oci-vF-fNb"/>
@@ -388,6 +389,41 @@
                                 <connections>
                                     <outlet property="activityTitle" destination="GBc-mM-ITf" id="stK-2T-7Fi"/>
                                     <outlet property="currentStreak" destination="OoY-k3-ZWO" id="BL4-r0-LHh"/>
+                                </connections>
+                            </tableViewCell>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="AddOccurrenceCell" rowHeight="32" id="QfE-Wc-iwh">
+                                <rect key="frame" x="0.0" y="120.5" width="375" height="32"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="QfE-Wc-iwh" id="1Vd-dJ-dmu">
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="31.5"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="+" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eI1-CU-4Vg">
+                                            <rect key="frame" x="8" y="5.5" width="11" height="21"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Add Activity Occurrence" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Pzg-ee-QU5">
+                                            <rect key="frame" x="8" y="0.0" width="359" height="32"/>
+                                            <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstItem="Pzg-ee-QU5" firstAttribute="top" secondItem="1Vd-dJ-dmu" secondAttribute="top" id="2vx-eZ-X8S"/>
+                                        <constraint firstItem="Pzg-ee-QU5" firstAttribute="centerY" secondItem="1Vd-dJ-dmu" secondAttribute="centerY" id="AdG-my-qk7"/>
+                                        <constraint firstItem="eI1-CU-4Vg" firstAttribute="centerY" secondItem="1Vd-dJ-dmu" secondAttribute="centerY" id="EaW-Rq-e0T"/>
+                                        <constraint firstAttribute="bottom" secondItem="Pzg-ee-QU5" secondAttribute="bottom" id="Eqh-yy-lTt"/>
+                                        <constraint firstAttribute="leadingMargin" secondItem="eI1-CU-4Vg" secondAttribute="leading" id="ZAg-qc-w3K"/>
+                                        <constraint firstAttribute="trailingMargin" secondItem="Pzg-ee-QU5" secondAttribute="trailing" id="bDy-jC-qLe"/>
+                                        <constraint firstAttribute="leadingMargin" secondItem="Pzg-ee-QU5" secondAttribute="leading" id="syh-wC-fjL"/>
+                                    </constraints>
+                                </tableViewCellContentView>
+                                <color key="backgroundColor" red="0.90196079019999997" green="0.90196079019999997" blue="0.90196079019999997" alpha="1" colorSpace="calibratedRGB"/>
+                                <connections>
+                                    <segue destination="t8f-1g-oKr" kind="show" identifier="showActivitySelection" id="bPf-Il-qyi"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -425,6 +461,43 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="8tb-ht-sM7" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1464.8" y="-854.1229385307347"/>
+        </scene>
+        <!--Activity Selection View Controller-->
+        <scene sceneID="fwu-Vf-4em">
+            <objects>
+                <tableViewController id="t8f-1g-oKr" customClass="ActivitySelectionViewController" customModule="Routine" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="Egg-QI-qRJ">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="ActivitySelectionCell" selectionStyle="default" indentationWidth="10" reuseIdentifier="ActivitySelectionCell" textLabel="PoC-Qh-rq1" style="IBUITableViewCellStyleDefault" id="NRW-iS-1Xe">
+                                <rect key="frame" x="0.0" y="28" width="375" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="NRW-iS-1Xe" id="AgE-7H-Zr0">
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Activity Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="PoC-Qh-rq1">
+                                            <rect key="frame" x="15" y="0.0" width="345" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="t8f-1g-oKr" id="L4D-YC-CFe"/>
+                            <outlet property="delegate" destination="t8f-1g-oKr" id="ukT-a4-tzV"/>
+                        </connections>
+                    </tableView>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="0g2-Rk-3uv" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2369" y="-1200"/>
         </scene>
         <!--Settings-->
         <scene sceneID="grk-N7-Hik">
@@ -526,6 +599,6 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="MZP-wG-hQm"/>
+        <segue reference="VE9-L4-uqq"/>
     </inferredMetricsTieBreakers>
 </document>
