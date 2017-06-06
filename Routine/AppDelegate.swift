@@ -8,6 +8,7 @@
 
 import UIKit
 import CoreData
+import UserNotifications
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -51,7 +52,29 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         NotificationCenter.default.addObserver(self, selector: #selector(saveContext), name: NSNotification.Name.UIApplicationDidEnterBackground, object: nil )
         
+        registerDailyReminder()
+        
         return true
+    }
+    
+    func registerDailyReminder() {
+        let content = UNMutableNotificationContent()
+        content.title = "Daily Reminder"
+        content.body = "Have you completed today's activities?"
+        
+        var dateInfo = DateComponents()
+        dateInfo.hour = 22
+        dateInfo.minute = 0
+        let trigger = UNCalendarNotificationTrigger(dateMatching: dateInfo, repeats: true)
+        
+        let request = UNNotificationRequest(identifier: "DailyReminder", content: content, trigger: trigger)
+        
+        let center = UNUserNotificationCenter.current()
+        center.add(request) { (error : Error?) in
+            if let theError = error {
+                print(theError.localizedDescription)
+            }
+        }
     }
 
     func applicationWillResignActive(_ application: UIApplication) {
