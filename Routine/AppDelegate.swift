@@ -15,6 +15,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
     
+    let lastActiveDefaultsKey = "lastActive"
+    
     var activityStore: ActivityStore!
     var completionStore: CompletionStore!
     var completionHistory: CompletionHistory!
@@ -30,7 +32,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     private func populateMissingCompletionData() {
         let defaults = UserDefaults.standard
-        if let lastTerminated = defaults.object(forKey: "lastTerminated") as? Date {
+        if let lastTerminated = defaults.object(forKey: lastActiveDefaultsKey) as? Date {
             completionHistory.scrubCompletions(startingFrom: lastTerminated, endingOn: Date())
         }
     }
@@ -97,6 +99,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationDidEnterBackground(_ application: UIApplication) {
         // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
         // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
+        
+        // Record time of termination
+        let defaults = UserDefaults.standard
+        defaults.set(Date(), forKey: lastActiveDefaultsKey)
     }
 
     func applicationWillEnterForeground(_ application: UIApplication) {
@@ -111,10 +117,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
         // Saves changes in the application's managed object context before the application terminates.
         self.saveContext()
-        
-        // Record time of termination
-        let defaults = UserDefaults.standard
-        defaults.set(Date(), forKey: "lastTerminated")
     }
 
     // MARK: - Core Data stack
