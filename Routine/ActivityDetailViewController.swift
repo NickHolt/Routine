@@ -137,7 +137,7 @@ class ActivityDetailViewController: UIViewController, UITextFieldDelegate {
         os_log("Save button pressed", log: log, type: .debug)
         
         if activity == nil {
-            activity = activityStore.getEntity()
+            activity = activityStore.getNewEntity()
         }
         saveTo(activity: activity!)        
         
