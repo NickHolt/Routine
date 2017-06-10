@@ -34,7 +34,7 @@ class CompletionHistory {
         return completion
     }
     
-    private func deleteCompletion(for activity: Activity, on date: Date) {
+    func deleteCompletion(for activity: Activity, on date: Date) {
         
         guard let completion = getCompletion(for: activity, on: date) else {
             return
@@ -42,7 +42,6 @@ class CompletionHistory {
         
         try! completionStore.delete(entity: completion)
     }
-    
     
     func deleteCompletionHistory(for activity: Activity) throws {
         let completions = completionStore.getAllCompletions(for: activity)
@@ -81,6 +80,7 @@ class CompletionHistory {
         guard let mostRecentCompletionIndex = allCompletions.index(where: {
             $0.date != nil && NSCalendar.current.isDate($0.date!, inSameDayAs: lastDate)
         }) else {
+            // TODO<nick> this is weird - why do we have to have a Completion on lastDate?
             return 0
         }
         

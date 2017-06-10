@@ -105,7 +105,138 @@ class CompletionHistoryTests: RoutineTestCase {
         
         let completion = completionHistory.getCompletion(for: activity, on: tomorrow)
         
-        XCTAssertNotEqual(completion, nil, "Completion could not be retrieved")
+        XCTAssertNotNil(completion, "Completion could not be retrieved")
         XCTAssertEqual(completion?.status, completionStatus, "Completion status not properly set")
+    }
+    
+    func testDeleteSingleCompletionForActivity() {
+        let activity = activityStore.getNewEntity()
+        
+        let completionStatus = Completion.Status.completed
+        
+        completionHistory.registerCompletion(for: activity, on: today, withStatus: completionStatus)
+        completionHistory.deleteCompletion(for: activity, on: today)
+        
+        let completion = completionHistory.getCompletion(for: activity, on: today)
+
+        XCTAssertNil(completion, "Completion was not deleted")
+    }
+    
+    func registerSeveralCompletions(for activity: Activity) {
+        completionHistory.registerCompletion(for: activity, on: yesterday, withStatus: .notCompleted)
+        completionHistory.registerCompletion(for: activity, on: today, withStatus: .excused)
+        completionHistory.registerCompletion(for: activity, on: tomorrow, withStatus: .completed)
+    }
+    
+    func testDeleteCompletionHistoryForSingleActivity() {
+        let activity = activityStore.getNewEntity()
+        
+        registerSeveralCompletions(for: activity)
+
+        try! completionHistory.deleteCompletionHistory(for: activity)
+        
+        XCTAssertNil(
+            completionHistory.getCompletion(for: activity, on: yesterday),
+            "Yesterday's Completion was not deleted"
+        )
+        XCTAssertNil(
+            completionHistory.getCompletion(for: activity, on: today),
+            "Today's Completion was not deleted"
+        )
+        XCTAssertNil(
+            completionHistory.getCompletion(for: activity, on: tomorrow),
+            "Tomorrow's Completion was not deleted"
+        )
+    }
+    
+    func testDeleteCompletionHistoryForMultipleActivities() {
+        let activity0 = activityStore.getNewEntity()
+        let activity1 = activityStore.getNewEntity()
+        
+        registerSeveralCompletions(for: activity0)
+        registerSeveralCompletions(for: activity1)
+        
+        try! completionHistory.deleteCompletionHistory(for: activity0)
+        XCTAssertNil(
+            completionHistory.getCompletion(for: activity0, on: yesterday),
+            "Yesterday's Completion was not deleted for first Activity"
+        )
+        XCTAssertNil(
+            completionHistory.getCompletion(for: activity0, on: today),
+            "Today's Completion was not deleted for first Activity"
+        )
+        XCTAssertNil(
+            completionHistory.getCompletion(for: activity0, on: tomorrow),
+            "Tomorrow's Completion was not deleted for first Activity"
+        )
+        
+        XCTAssertNotNil(
+            completionHistory.getCompletion(for: activity1, on: yesterday),
+            "Yesterday's Completion was prematurely deleted for second Activity"
+        )
+        XCTAssertNotNil(
+            completionHistory.getCompletion(for: activity1, on: today),
+            "Today's Completion was prematurely deleted for second Activity"
+        )
+        XCTAssertNotNil(
+            completionHistory.getCompletion(for: activity1, on: tomorrow),
+            "Tomorrow's Completion was prematurely deleted for second Activity"
+        )
+
+        try! completionHistory.deleteCompletionHistory(for: activity1)
+        XCTAssertNil(
+            completionHistory.getCompletion(for: activity1, on: yesterday),
+            "Yesterday's Completion was not deleted for second Activity"
+        )
+        XCTAssertNil(
+            completionHistory.getCompletion(for: activity1, on: today),
+            "Today's Completion was not deleted for second Activity"
+        )
+        XCTAssertNil(
+            completionHistory.getCompletion(for: activity1, on: tomorrow),
+            "Tomorrow's Completion was not deleted for second Activity"
+        )
+    }
+    
+    func testCompletionStreakForSingleActivityWithNoFallback() {
+        let activity = activityStore.getNewEntity()
+        
+        completionHistory.registerCompletion(for: activity, on: today, withStatus: .completed)
+        
+        var streak = try! completionHistory.getCompletionStreak(for: activity, endingOn: today)
+        XCTAssertEqual(streak, 1, "Streak for today's Completion was not registered")
+        
+        completionHistory.registerCompletion(for: activity, on: yesterday, withStatus: .completed)
+
+        streak = try! completionHistory.getCompletionStreak(for: activity, endingOn: today)
+        XCTAssertEqual(streak, 2, "Streak for yesterday's Completion was not registered")
+        
+        completionHistory.deleteCompletion(for: activity, on: today)
+        
+        streak = try! completionHistory.getCompletionStreak(for: activity, endingOn: today)
+        XCTAssertEqual(streak, 0, "Streak was not broken")
+}
+    
+    func testCompletionStreakForSingleActivityWithFallback() {
+        let activity = activityStore.getNewEntity()
+        
+        completionHistory.registerCompletion(for: activity, on: today, withStatus: .completed)
+        
+        var streak = try! completionHistory.getCompletionStreak(for: activity, endingOn: today)
+        XCTAssertEqual(streak, 1, "Streak for today's Completion was not registered")
+        
+        completionHistory.registerCompletion(for: activity, on: yesterday, withStatus: .completed)
+        
+        streak = try! completionHistory.getCompletionStreak(for: activity, endingOn: today)
+        XCTAssertEqual(streak, 2, "Streak for yesterday's Completion was not registered")
+        
+        completionHistory.deleteCompletion(for: activity, on: today)
+        
+        streak = try! completionHistory.getCompletionStreak(for: activity, endingOn: today, withPreviousFallback: true)
+        XCTAssertEqual(streak,  1, "Could not fall back to previous day's streak")
+    }
+
+    func testCompletionStreakForSingleActivityWithExcused() {
+        
     }
 }
