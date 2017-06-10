@@ -13,17 +13,7 @@ import XCTest
 class CompletionHistoryTests: RoutineTestCase {
     
     var completionHistory: CompletionHistory!
-    
-    var today: Date {
-        return Date()
-    }
-    var yesterday: Date {
-        return Calendar.current.date(byAdding: .day, value: -1, to: today)!
-    }
-    var tomorrow: Date {
-        return Calendar.current.date(byAdding: .day, value: 1, to: today)!
-    }
-    
+        
     override func setUp() {
         super.setUp()
         
@@ -258,5 +248,21 @@ class CompletionHistoryTests: RoutineTestCase {
 
         streak = try! completionHistory.getCompletionStreak(for: activity, endingOn: tomorrow)
         XCTAssertEqual(streak,  2, "Excused Completion broke streak")
+    }
+    
+    func testActivityScrubbing() {
+        let activity = activityStore.getNewEntity()
+
+        activity.startDate = Calendar.current.date(byAdding: .day, value: -7, to: today)!
+        activity.daysOfWeek = [
+            .Monday,
+            .Wednesday,
+            .Friday,
+        ]
+        
+        completionHistory.scrubCompletions(for: activity, startingFrom: activity.startDate!, endingOn: today)
+        let completions = completionStore.getAllCompletions(for: activity)
+        
+        XCTAssertEqual(completions.count, activity.daysOfWeek.count, "Completions over the last week not added")
     }
 }

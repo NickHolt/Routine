@@ -18,6 +18,16 @@ class RoutineTestCase: XCTestCase {
     var activityStore: ActivityStore!
     var completionStore: CompletionStore!
     
+    var today: Date {
+        return Date()
+    }
+    var yesterday: Date {
+        return Calendar.current.date(byAdding: .day, value: -1, to: today)!
+    }
+    var tomorrow: Date {
+        return Calendar.current.date(byAdding: .day, value: 1, to: today)!
+    }
+    
     override func setUp() {
         super.setUp()
         
