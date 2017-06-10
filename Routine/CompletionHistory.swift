@@ -16,6 +16,42 @@ class CompletionHistory {
     var activityStore: ActivityStore!
     var completionStore: CompletionStore!
     
+    @discardableResult
+    func registerCompletion(for activity: Activity, on date: Date, withStatus status: Completion.Status) -> Completion {
+        
+        deleteCompletion(for: activity, on: date)
+        
+        // MARK: TODO<nickholt> CoreData failure
+        let completion = completionStore.getNewEntity()
+        
+        completion.activity = activity
+        completion.date = date
+        completion.status = status
+        
+        // MARK: TODO<nickholt> handle CoreDate failure
+        try! completionStore.persistToDisk()
+        
+        return completion
+    }
+    
+    private func deleteCompletion(for activity: Activity, on date: Date) {
+        
+        guard let completion = getCompletion(for: activity, on: date) else {
+            return
+        }
+        
+        try! completionStore.delete(entity: completion)
+    }
+    
+    
+    func deleteCompletionHistory(for activity: Activity) throws {
+        let completions = completionStore.getAllCompletions(for: activity)
+        
+        for completion in completions {
+            try completionStore.delete(entity: completion)
+        }
+    }
+    
     func getCompletion(for activity: Activity, on date: Date) -> Completion? {
         
         let completionsForDate = completionStore.getAllCompletions(for: date)
@@ -82,41 +118,6 @@ class CompletionHistory {
         os_log("No non-completions found. Streak: %d", log: log, type: .debug, streak)
 
         return streak
-    }
-    
-    @discardableResult
-    func registerCompletion(for activity: Activity, on date: Date, withStatus status: Completion.Status) -> Completion {
-        
-        deleteCompletion(for: activity, on: date)
-        
-        // MARK: TODO<nickholt> CoreData failure
-        let completion = completionStore.getEntity()
-        
-        completion.activity = activity
-        completion.date = date
-        completion.status = status
-        
-        // MARK: TODO<nickholt> handle CoreDate failure
-        try! completionStore.persistToDisk()
-        
-        return completion
-    }
-    
-    private func deleteCompletion(for activity: Activity, on date: Date) {
-        
-        guard let completion = getCompletion(for: activity, on: date) else {
-            return
-        }
-        
-        try! completionStore.delete(entity: completion)
-    }
-    
-    func deleteCompletionHistory(for activity: Activity) throws {
-        let completions = completionStore.getAllCompletions(for: activity)
-        
-        for completion in completions {
-            try completionStore.delete(entity: completion)
-        }
     }
     
     func scrubCompletions(for activity: Activity, startingFrom startDate: Date, endingOn endDate: Date) {

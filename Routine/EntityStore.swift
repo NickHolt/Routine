@@ -54,10 +54,10 @@ class EntityStore<T: NSManagedObject> {
     }
     
     func loadEntitiesFromDisk(sortedBy sortDescriptors: [NSSortDescriptor] = []) throws -> [T] {
-        let activityFetchRequest: NSFetchRequest<T> = T.fetchRequest() as! NSFetchRequest<T>
+        let fetchRequest: NSFetchRequest<T> = T.fetchRequest() as! NSFetchRequest<T>
         
-        activityFetchRequest.returnsObjectsAsFaults = false
-        activityFetchRequest.sortDescriptors = sortDescriptors
+        fetchRequest.returnsObjectsAsFaults = false
+        fetchRequest.sortDescriptors = sortDescriptors
         
         var entities: [T]!
         var fetchError: Swift.Error?
@@ -65,7 +65,7 @@ class EntityStore<T: NSManagedObject> {
         let context = persistentContainer.viewContext
         context.performAndWait {
             do {
-                entities = try context.fetch(activityFetchRequest)
+                entities = try context.fetch(fetchRequest)
             } catch let error {
                 fetchError = error
             }
@@ -79,7 +79,7 @@ class EntityStore<T: NSManagedObject> {
         return entities
     }
     
-    func getEntity() -> T {
+    func getNewEntity() -> T {
         var entity: T!
         
         let context = persistentContainer.viewContext
@@ -107,5 +107,9 @@ class EntityStore<T: NSManagedObject> {
             os_log("Failed to delete entity from CoreData: %@", log: entityStoreLog, type: .error, entity)
             throw Error.couldNotDeleteEntity(entity)
         }
+    }
+    
+    func getAllEntities() -> Set<T> {
+        return allEntities
     }
 }
