@@ -211,7 +211,7 @@ class CompletionHistoryTests: RoutineTestCase {
         streak = try! completionHistory.getCompletionStreak(for: activity, endingOn: today)
         XCTAssertEqual(streak, 2, "Streak for yesterday's Completion was not registered")
         
-        completionHistory.deleteCompletion(for: activity, on: today)
+        completionHistory.registerCompletion(for: activity, on: today, withStatus: .notCompleted)
         
         streak = try! completionHistory.getCompletionStreak(for: activity, endingOn: today)
         XCTAssertEqual(streak, 0, "Streak was not broken")
@@ -230,13 +230,33 @@ class CompletionHistoryTests: RoutineTestCase {
         streak = try! completionHistory.getCompletionStreak(for: activity, endingOn: today)
         XCTAssertEqual(streak, 2, "Streak for yesterday's Completion was not registered")
         
-        completionHistory.deleteCompletion(for: activity, on: today)
+        completionHistory.registerCompletion(for: activity, on: today, withStatus: .notCompleted)
         
         streak = try! completionHistory.getCompletionStreak(for: activity, endingOn: today, withPreviousFallback: true)
         XCTAssertEqual(streak,  1, "Could not fall back to previous day's streak")
     }
 
     func testCompletionStreakForSingleActivityWithExcused() {
+        let activity = activityStore.getNewEntity()
         
+        completionHistory.registerCompletion(for: activity, on: today, withStatus: .completed)
+        
+        var streak = try! completionHistory.getCompletionStreak(for: activity, endingOn: today)
+        XCTAssertEqual(streak, 1, "Streak for today's Completion was not registered")
+        
+        completionHistory.registerCompletion(for: activity, on: yesterday, withStatus: .completed)
+        
+        streak = try! completionHistory.getCompletionStreak(for: activity, endingOn: today)
+        XCTAssertEqual(streak, 2, "Streak for yesterday's Completion was not registered")
+        
+        completionHistory.registerCompletion(for: activity, on: today, withStatus: .excused)
+        
+        streak = try! completionHistory.getCompletionStreak(for: activity, endingOn: today)
+        XCTAssertEqual(streak,  1, "Excused Completion broke streak")
+        
+        completionHistory.registerCompletion(for: activity, on: tomorrow, withStatus: .completed)
+
+        streak = try! completionHistory.getCompletionStreak(for: activity, endingOn: tomorrow)
+        XCTAssertEqual(streak,  2, "Excused Completion broke streak")
     }
 }
