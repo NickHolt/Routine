@@ -212,7 +212,24 @@ class DailyActivitiesViewController: UITableViewController {
     
     @objc private func applicationWillEnterForeground() {
         os_log("Entered foreground", log: log, type: .debug)
-        load(for: displayedDate)
+        
+        if shouldRefreshToToday() {
+            load(for: Date())
+        } else {
+            load(for: displayedDate)
+        }
+    }
+    
+    func shouldRefreshToToday() -> Bool {
+        guard let lastTerminated = RoutineDefaults.getLastActive() else {
+            return true
+        }
+        
+        return !dateIsInSameDayAsToday(lastTerminated)
+    }
+    
+    func dateIsInSameDayAsToday(_ date: Date) -> Bool {
+        return Calendar.current.isDate(date, inSameDayAs: Date())
     }
     
     override func viewDidLoad() {
