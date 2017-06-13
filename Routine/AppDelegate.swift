@@ -22,9 +22,21 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var completionHistory: CompletionHistory!
     
     private func configureGlobals() {
+        configureActivityStore()
+        configureCompletionStore()
+        configureCompletionHistory()
+    }
+    
+    private func configureActivityStore() {
         activityStore = ActivityStore(with: persistentContainer)
+    }
+    
+    private func configureCompletionStore() {
         completionStore = CompletionStore(with: persistentContainer)
-        
+        try? completionStore.purgeDanglingCompletions()
+    }
+    
+    private func configureCompletionHistory() {
         completionHistory = CompletionHistory()
         completionHistory.activityStore = activityStore
         completionHistory.completionStore = completionStore
