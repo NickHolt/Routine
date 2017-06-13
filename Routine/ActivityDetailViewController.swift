@@ -39,13 +39,13 @@ class ActivityDetailViewController: UIViewController, UITextFieldDelegate {
     private func configureButtonMap() {
         buttonMap = [DayOfWeek:DayOfWeekButton]()
         
-        buttonMap[.Monday] = mondayButton
-        buttonMap[.Tuesday] = tuesdayButton
-        buttonMap[.Wednesday] = wednesdayButton
-        buttonMap[.Thursday] = thursdayButton
-        buttonMap[.Friday] = fridayButton
-        buttonMap[.Saturday] = saturdayButton
-        buttonMap[.Sunday] = sundayButton
+        buttonMap[.monday] = mondayButton
+        buttonMap[.tuesday] = tuesdayButton
+        buttonMap[.wednesday] = wednesdayButton
+        buttonMap[.thursday] = thursdayButton
+        buttonMap[.friday] = fridayButton
+        buttonMap[.saturday] = saturdayButton
+        buttonMap[.sunday] = sundayButton
     }
     
     private func configureInterfaceElements() {

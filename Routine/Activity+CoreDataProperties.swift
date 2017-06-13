@@ -37,7 +37,7 @@ extension Activity {
             // Generate days from bitfield
             var daysOfWeek: [DayOfWeek] = []
             
-            for i in DayOfWeek.Monday.rawValue...DayOfWeek.Sunday.rawValue {
+            for i in DayOfWeek.monday.rawValue...DayOfWeek.sunday.rawValue {
                 if bitField & (1 << i) != 0 {
                     daysOfWeek.append(DayOfWeek(rawValue: i)!)
                 }

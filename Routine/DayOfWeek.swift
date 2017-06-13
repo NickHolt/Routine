@@ -9,29 +9,29 @@
 import Foundation
 
 public enum DayOfWeek: Int, CustomStringConvertible {
-    case Monday
-    case Tuesday
-    case Wednesday
-    case Thursday
-    case Friday
-    case Saturday
-    case Sunday
+    case monday
+    case tuesday
+    case wednesday
+    case thursday
+    case friday
+    case saturday
+    case sunday
     
     public var description: String {
         switch self {
-        case .Monday:
+        case .monday:
             return "Mon"
-        case .Tuesday:
+        case .tuesday:
             return "Tue"
-        case .Wednesday:
+        case .wednesday:
             return "Wed"
-        case .Thursday:
+        case .thursday:
             return "Thu"
-        case .Friday:
+        case .friday:
             return "Fri"
-        case .Saturday:
+        case .saturday:
             return "Sat"
-        case .Sunday:
+        case .sunday:
             return "Sun"
         }
     }

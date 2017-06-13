@@ -255,7 +255,7 @@ class CompletionHistoryTests: RoutineTestCase {
 
         activity.startDate = Calendar.current.date(byAdding: .day, value: -7, to: today)!
         activity.daysOfWeek = [
-            .Monday,
+            .monday,
             .Wednesday,
             .Friday,
         ]
