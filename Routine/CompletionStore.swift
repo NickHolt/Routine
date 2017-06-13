@@ -32,4 +32,14 @@ class CompletionStore: EntityStore<Completion> {
             return completionActivity == activity
         })
     }
+    
+    func purgeDanglingCompletions() throws {
+        for completion in allEntities {
+            guard completion.activity == nil else {
+                continue
+            }
+            
+            try! delete(entity: completion)
+        }
+    }
 }
