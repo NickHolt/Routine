@@ -31,8 +31,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     private func populateMissingCompletionData() {
-        let defaults = UserDefaults.standard
-        if let lastTerminated = defaults.object(forKey: lastActiveDefaultsKey) as? Date {
+        if let lastTerminated = RoutineDefaults.getLastActive() {
             completionHistory.scrubCompletions(startingFrom: lastTerminated, endingOn: Date())
         }
     }
@@ -100,9 +99,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
         // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
         
-        // Record time of termination
-        let defaults = UserDefaults.standard
-        defaults.set(Date(), forKey: lastActiveDefaultsKey)
+        RoutineDefaults.recordLastActive()
     }
 
     func applicationWillEnterForeground(_ application: UIApplication) {
